@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!-- saved from url=(0057)http://www.icst.pku.edu.cn/struct/people/yangs/index.html -->
+<html class="csstransforms csstransforms3d csstransitions"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<title>Runmin Cong</title>
+		<link href="./files/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+		<link href="./files/style.css" rel="stylesheet" type="text/css" media="all">
+		<link href="./files/prettyPhoto.css" rel="stylesheet" type="text/css" media="all">		
+		<link href="./files/css" rel="stylesheet" type="text/css">	
+	</head>
+	<body>
+		<!---start-wrap--->
+		<!---start-header--->
+	<div class="header">
+		<div class="wrap">
+			<!---start-logo--->
+			<div class="logo">
+				<a href="./index.html">Runmin Cong</a>
+			</div>
+			<!---End-logo--->
+			<!---start-top-nav--->
+			<div class="top-nav">
+				<ul>
+					<li id="Home" onclick="func(&#39;Me&#39;)"><a href="./index.html" class="scroll">Home</a></li>
+					<li id="Profile" onclick="func(&#39;Profile&#39;)"><a href="./Profile.html" class="scroll">Profile</a></li>
+					<li id="Publications" onclick="func(&#39;Publications&#39;)"><a href="./Publication.html" class="scroll">Publications</a></li>
+                                        <li id="Projects" onclick="func(&#39;Projects&#39;)"><a href="./Project.html" class="scroll">Projects</a></li>
+					<!-- <li id="Art" onclick="func(&#39;Art&#39;)"><a href="http://www.icst.pku.edu.cn/struct/people/yangs/index.html#art" class="scroll">Art Gallery</a></li>	-->
+					<li id="Contact" onclick="func(&#39;Contact&#39;)"><a href="./Contact.html" class="scroll">Contact</a></li>
+				</ul>
+			</div>
+			<div class="clear"> </div>
+			<!---End-top-nav--->
+	     </div>
+	</div>
+	
+	<script> 
+	var lastname = 'Me';
+	function func(name){
+		var div = document.getElementById(name); 
+		div.className = 'active'; 
+		div = document.getElementById(lastname); 
+		div.className = ''; 
+		lastname = name;
+	}
+	function coming_soon()
+	{
+		alert("Coming soon.");
+	}
+	</script> 
+	
+		<!---End-wrap--->
+			
+		<div class="content">
+		<div class="grid3">
+		<div class="grid3-content">
+			<div style="text-align: justify; display: block; margin-right: auto;">	
+		<h3><b>HSCS: Hierarchical Sparsity Based Co-saliency Detection for RGBD Images</b></h3>
+		
+               
+<h4><b> Introduction:</b></h4>
+				<ul class="graid3-ul" style="list-style-type:none; ">
+			<div style="text-align: justify; display: block; margin-right: auto;">		
+				
+<li> 
+ <p>Co-saliency detection aims to discover common and salient objects in an image group containing more than two relevant images. 
+  Moreover, depth information has been demonstrated to be effective for many computer vision tasks. In this paper, we propose a 
+  novel co-saliency detection method for RGBD images based on hierarchical sparsity reconstruction and energy function refinement. 
+  With the assistance of the intra saliency map, the inter-image correspondence is formulated as a hierarchical sparsity reconstruction 
+  framework. The global sparsity reconstruction model with a ranking scheme focuses on capturing the global characteristics among the 
+  whole image group through a common foreground dictionary. The pairwise sparsity reconstruction model aims to explore the corresponding 
+  relationship between pairwise images through a set of pairwise dictionaries. In order to improve the intra-image smoothness and 
+  inter-image consistency, an energy function refinement model is proposed, which includes the unary data term, spatial smooth term, 
+  and holistic consistency term. Experiments on two RGBD co-saliency detection benchmarks demonstrate that the proposed method 
+  outperforms the state-of-the-art algorithms both qualitatively and quantitatively.</p>
+
+	<br>
+	<br
+	    >
+<div style="text-align: center; display: block; margin-right: auto;">
+<img src="sub_img/HSCS.png" border="0" width="1000"><br></div><br>
+
+</li>
+</ul>
+<hr />
+        
+<h4><b>Paper:</b></h4>
+					
+<ul class="graid3-ul" style="list-style-type:none; ">
+			<div style="text-align: justify; display: block; margin-right: auto;">		
+				
+<li> 
+<p>
+Runmin Cong, Jianjun Lei, Huazhu Fu, Qingming Huang, Xiaochun Cao, Nam Ling, 
+  <strong>HSCS: Hierarchical Sparsity Based Co-saliency Detection for RGBD Images</strong>, 
+  <em>IEEE Transactions on Multimedia</em>, 2018. DOI: 10.1109/TMM.2018.2884481. 
+  <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8556071&tag=1" target="_blank"><font color="#ff0000">[PDF]</font></a>
+</p>
+</li>
+</ul>
+<hr />
+			
+<h4><b>Codes and Results:</b></h4>
+	<ul class="graid3-ul" style="list-style-type:none; ">
+			<div style="text-align: justify; display: block; margin-right: auto;">		
+				
+<li> 
+<p>
+  The proposed co-saliency framework is evaluated on two RGBD co-saliency benchmarks: the RGBD Cosal150 dataset [1] and the RGBD Coseg183 
+  dataset [2]: RGBD Co-saliency Results <a href="https://github.com/rmcong/Results-for-2018TMM-HSCS"><font color="#ff0000">[Download Link]</font></a>
+</p>
+</li>
+</ul>
+<hr />
+    
+    <h4><b>References:</b></h4>
+	<ul class="graid3-ul" style="list-style-type:none; ">
+			<div style="text-align: justify; display: block; margin-right: auto;">		
+				
+<li> 
+<p>
+  [1] R. Cong, J. Lei, H. Fu, Q. Huang, X. Cao, and C. Hou, "Co-saliency detection for RGBD images based on multi-constraint
+  feature matching and cross label propagation," IEEE Transactions on Image Processing, vol. 27, no. 2, pp. 568-579, 2018. 
+  <a href="https://rmcong.github.io/proj_RGBD_cosal.html" target="_blank"><font color="#ff0000">[Project]</font></a><br/>
+  [2] H. Fu, D. Xu, S. Lin, and J. Liu, “Object-based RGBD image co-segmentation with mutex constraint,” in Proc. CVPR, 2015, 
+  pp. 4428-4436. 
+  <a href="http://hzfu.github.io/proj_rgbdseg.html" target="_blank"><font color="#ff0000">[Project]</font></a><br/>
+  [3] R. Cong, J. Lei, H. Fu, W. Lin, Q. Huang, X. Cao, and C. Hou, "An iterative co-saliency framework for RGBD 
+  images", IEEE Transactions on Cybernetics, vol. 49, no. 1, pp. 233-246, 2019. 
+  <a href="https://rmcong.github.io/proj_RGBD_cosal_tcyb.html"  target="_blank"><font color="#ff0000">[Project]</font></a>
+</p>
+</li>
+</ul>
+			
+                </div>
+
+			</div>			
+		</div>	
+
+	</div>
+	
+		<script type="text/javascript" src="./files/jquery.min.js.下载"></script>
+		<script type="text/javascript" src="./files/bootstrap.js.下载"></script>
+		<script type="text/javascript" src="./files/jquery.banner.js.下载"></script>
+		<script type="text/javascript" src="./files/jquery.prettyPhoto.js.下载"></script>		
+		<script type="text/javascript" src="./files/jquery.isotope.js.下载"></script>	
+		<script type="text/javascript" src="./files/main.js.下载"></script>				
+	
+
+
+</body></html>
