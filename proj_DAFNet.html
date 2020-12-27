@@ -199,7 +199,52 @@
       </div>
       <div class="section">
        <ol>
-        <p><b>The pipeline of our method</b>. (a) The framework of Zero-DCE. A DCE-Net is devised to estimate a set of best-fitting Light-Enhancement curves (LE-curves: LE(I(x);&#945)=I(x)+&#945I(x)(1-I(x))) to iteratively enhance a given input image. (b, c) LE-curves with different adjustment parameters <i>&#945</i> and numbers of iteration <i>n</i>. In (c), <i>&#945<sub>1</sub></i>, <i>&#945<sub>2</sub></i>, and <i>&#945<sub>3</sub></i> are equal to -1 while <i>n</i> is equal to 4. In each subfigure, the horizontal axis represents the input pixel values while the vertical axis represents the output pixel values.</p>
+        <p>The overall architecture of our proposed DAFNet, including the <b>Attention Fluid Guided Feature Encoding</b> and <b>Progressive Feature Decoding</b>. 
+          The feature encoder consists of: 1) an attention fluid where low-level attention maps flow into deeper layers to guide the generation of high-level attentions, 
+          and 2) a feature fluid that generates hierarchical feature representations with stronger discriminative ability by incorporating attention cues mined from the 
+          corresponding global context-aware attention modules. The feature decoder employs a progressive top-down feature fusion strategy to produce saliency predictions 
+          at different feature scales. Note that we do not use the top-most side outputs for deep supervision in that the feature resolution is very low and hinders the 
+          depiction of detailed object structures. The <b>FF</b> unit involves up-sampling the high-level feature map and performing channel alignment via 1X1 
+          convolutions, and then adding it to the low-level feature map. The <b>CB</b> unit is designed as a bottleneck convolution block with non-linearities to further 
+          integrate fusion feature information. The prediction layer consumes the decoded features to produce the corresponding saliency map.</p>
+       </ol>
+      </div>
+      <br/>
+
+      <!--=================Teasers==========================-->
+      <div id="img_intro_examples" class="img_container">
+          <h2>EORSSD Dataset</h2>
+      
+          <ol>
+        <center>
+          <div class="leftView">
+            <div class="mask" style="width:80px;height:80px"></div>
+            <img class="std" src="./project/DAFNet_files/dataset.png">
+          </div>
+        </center>
+         </ol>
+      </div>
+      <div class="section">
+       <ol>
+        <p>Visualization of the more challenging EORSSD dataset. The first row shows the optical RSI, and the second row exhibits the corresponding ground truth. 
+          (a) Challenge in the number of salient objects. (b) Challenge in small salient objects. (c) Challenge in new scenarios. (d) Challenge in interferences from imaging. 
+          (e) Challenge in specific circumstances.</p>
+       </ol>
+      </div>
+      <br/>
+      
+       <ol>
+        <center>
+          <div class="leftView">
+            <div class="mask" style="width:80px;height:80px"></div>
+            <img class="std" src="./project/DAFNet_files/dataset analysis.png">
+          </div>
+        </center>
+         </ol>
+      </div>
+      <div class="section">
+       <ol>
+        <p>Statistical analysis of EORSSD dataset. (a) Type analysis of salient object. (b) Number analysis of salient object. (c) Size analysis of salient object.</p>
        </ol>
       </div>
       <br/>
