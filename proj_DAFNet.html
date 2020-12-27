@@ -151,7 +151,7 @@
         </div>
 
         <div class="affiliations ">
-          <sup>1</sup> City University of Hong Kong, Hong Kong<br>
+          <sup>1</sup> City University of Hong Kong, Hong Kong SAR, China<br>
           <sup>2</sup> Beijing Jiaotong University, Beijing, China<br>
           <sup>3</sup> Nanyang Technological University, Singapore<br>
           <sup>4</sup> Nankai University, Tianjin, China <br>
@@ -177,13 +177,13 @@
         <p>
           <div style="text-align: justify; display: block; margin-right: auto;">
           <p>Despite the remarkable advances in visual saliency analysis for natural scene images (NSIs), salient object detection (SOD) for optical remote sensing images (RSIs) still remains an open and challenging problem. 
-            In this paper, we propose an end-to-end Dense Attention Fluid Network (DAFNet) for SOD in optical RSIs. A Global Context-aware Attention (GCA) module is proposed to adaptively capture long-range semantic context relationships, 
+            In this paper, we propose an end-to-end <b>Dense Attention Fluid Network (DAFNet)</b> for SOD in optical RSIs. A Global Context-aware Attention (GCA) module is proposed to adaptively capture long-range semantic context relationships, 
             and is further embedded in a Dense Attention Fluid (DAF) structure that enables shallow attention cues flow into deep layers to guide the generation of high-level feature attention maps. Specifically, the GCA module is composed of two key components, 
             where the global feature aggregation module achieves mutual reinforcement of salient feature embeddings from any two spatial locations, and the cascaded pyramid attention module tackles the scale variation issue by building up a cascaded pyramid framework to progressively refine the attention map in a coarse-to-fine manner. 
             In addition, we construct a new and challenging optical RSI dataset for SOD that contains 2,000 images with pixel-wise saliency annotations, which is currently the largest publicly available benchmark. Extensive experiments demonstrate that our proposed DAFNet significantly outperforms the existing state-of-the-art SOD competitors. </p>
         </p>
       </div>
-      
+      <br/>
       <!--=================Teasers==========================-->
       <div id="img_intro_examples" class="img_container">
           <h2>Pipeline</h2>
@@ -202,6 +202,7 @@
         <p><b>The pipeline of our method</b>. (a) The framework of Zero-DCE. A DCE-Net is devised to estimate a set of best-fitting Light-Enhancement curves (LE-curves: LE(I(x);&#945)=I(x)+&#945I(x)(1-I(x))) to iteratively enhance a given input image. (b, c) LE-curves with different adjustment parameters <i>&#945</i> and numbers of iteration <i>n</i>. In (c), <i>&#945<sub>1</sub></i>, <i>&#945<sub>2</sub></i>, and <i>&#945<sub>3</sub></i> are equal to -1 while <i>n</i> is equal to 4. In each subfigure, the horizontal axis represents the input pixel values while the vertical axis represents the output pixel values.</p>
          </ol>
       </div>
+      <br/>
       <!--=================Highlights==========================-->
       <div class="section abstract">
         <h2>Highlights</h2>
@@ -211,6 +212,7 @@
           <li><p>We show the potential of training a deep image enhancement model in the absence of reference images through task-specific non-reference loss functions that indirectly evaluate enhancement quality.  It is capable of processing images in real-time (<b>about 500 FPS for images of size 640*480*3 on GPU) and takes only 30 minutes for training</b>.</p></li>
         </ol>
       </div>
+      <br/>
       <!--=================Applications==========================-->
       <div class="section" ,="" id="results">
         <h2>Results</h2>
