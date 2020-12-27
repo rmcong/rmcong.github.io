@@ -11,7 +11,8 @@
   <!--=================js==========================-->
   <link href="./project/DAFNet_files/css.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="./project/DAFNet_files/project.css" media="screen">
-  <script type="text/javascript" async="" src="./project/DAFNet_files/analytics.js.download"></script><script src="./project/DAFNet_files/effect.js.download"></script>
+  <script type="text/javascript" async="" src="./project/DAFNet_files/analytics.js.download"></script>
+  <script src="./project/DAFNet_files/effect.js.download"></script>
   <!-- Latex -->
   <script type="text/x-mathjax-config;executed=true">
     MathJax.Hub.Config({
@@ -19,10 +20,10 @@
         TeX: { equationNumbers: { autoNumber: "AMS" } },
       });
       </script>
-  <script type="text/javascript" async="" src="./Zero-DCE_files/latest.js.download">
+  <script type="text/javascript" async="" src="./project/DAFNet_files/latest.js.download">
     </script>
   <!--=================Google Analytics==========================-->
-  <script async="" src="./Zero-DCE_files/js"></script>
+  <script async="" src="./project/DAFNet_files/js"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
 
@@ -33,7 +34,7 @@
 
     gtag('config', 'UA-129775907-1');
   </script>
-<script type="text/javascript" async="" src="./Zero-DCE_files/MathJax.js.download"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+<script type="text/javascript" async="" src="./project/DAFNet_files/MathJax.js.download"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
 .MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
 .MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
 .MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
@@ -135,25 +136,31 @@
     <div id="content-inner">
       <div class="section head">
         <h1>
-          <font color="LightSkyBlue">Zero</font>-Reference <font color="LightSkyBlue">D</font>eep <font color="LightSkyBlue">C</font>urve <font color="LightSkyBlue">E</font>stimation (<font color="LightSkyBlue">Zero-DCE</font>)
+        Attention Fluid Network for Salient Object Detection in Optical Remote Sensing Images
         </h1>
-        <h1>for Low-Light Image Enhancement</h1>
         <!--=================Authors==========================-->
         <div class="authors">
-          Chunle Guo <sup>1</sup> &nbsp;
-          <a href="https://li-chongyi.github.io/" target="_blank">Chongyi Li</a> <sup>2</sup> &nbsp;
-          Jichang Guo <sup>1</sup> &nbsp;
-          <a href="http://personal.ie.cuhk.edu.hk/~ccloy/index.html" target="_blank">Chen Change Loy</a> <sup>3</sup>&nbsp;
-          <a href="https://sites.google.com/site/junhuihoushomepage/" target="_blank">Junhui Hou</a> <sup>2</sup>&nbsp;
-          <a href="https://www.cs.cityu.edu.hk/~cssamk/research_group/index.html" target="_blank">Sam Kwong</a> <sup>2</sup>&nbsp;
-          <a href="https://rmcong.github.io/" target="_blank">Runmin Cong</a> <sup>4</sup>
+          Qijian Zhang <sup>1</sup> &nbsp;
+          <a href="https://rmcong.github.io/" target="_blank">Runmin Cong</a> <sup>2</sup>&nbsp;
+          <a href="https://li-chongyi.github.io/" target="_blank">Chongyi Li</a> <sup>3</sup> &nbsp;
+          <a href="https://mmcheng.net/" target="_blank">Ming-Ming Cheng</a> <sup>4</sup> &nbsp;
+          <a href="http://sim.jxufe.cn/JDMKL/ymfang.html" target="_blank">Yuming Fang</a> <sup>5</sup> &nbsp;<br/>
+          <a href="http://people.ucas.ac.cn/~caoxiaochun" target="_blank">Xiaochun Cao</a> <sup>6</sup> &nbsp;
+          <a href="http://mepro.bjtu.edu.cn/zhaoyao/c_index.htm" target="_blank">Yao Zhao</a> <sup>2</sup> &nbsp;
+          <a href="https://www.cs.cityu.edu.hk/~cssamk/research_group/index.html" target="_blank">Sam Kwong</a> <sup>1</sup>&nbsp;
+          
         </div>
 
         <div class="affiliations ">
-          <sup>1</sup> Tianjin University, Tianjin, China <br>
-          <sup>2</sup> City University of Hong Kong, Hong Kong<br>
+          <sup>1</sup> City University of Hong Kong, Hong Kong SAR, China<br>
+          <sup>2</sup> Beijing Jiaotong University, Beijing, China<br>
           <sup>3</sup> Nanyang Technological University, Singapore<br>
-          <sup>4</sup> Beijing Jiaotong University, Beijing, China
+          <sup>4</sup> Nankai University, Tianjin, China <br>
+          <sup>5</sup> Jiangxi University of Finance and Economics, Nanchang, China <br>
+          <sup>6</sup> Institute of Information Engineering, Chinese Academy of Sciences, Beijing, China <br>
+          
+          
+          
         </div>
         <!--=================Tabs==========================
         <ul id="tabs">
@@ -170,178 +177,146 @@
         <br>
         <p>
           <div style="text-align: justify; display: block; margin-right: auto;">
-          <p>The paper presents a novel method, <b>Zero-Reference Deep Curve Estimation (Zero-DCE)</b>, which formulates light enhancement as a task of image-specific curve estimation with a deep network.  Our method trains a lightweight deep network, DCE-Net, to estimate pixel-wise and high-order curves for dynamic range adjustment of a given image. The curve estimation is specially designed, considering pixel value range, monotonicity, and differentiability. Zero-DCE is appealing in its relaxed assumption on reference images, i.e., it does not require any paired or unpaired data during training. This is achieved through a set of carefully formulated non-reference loss functions, which implicitly measure the enhancement quality and drive the learning of the network. Our method is efficient as image enhancement can be achieved by an intuitive and simple nonlinear curve mapping. Despite its simplicity, we show that it generalizes well to diverse lighting conditions. Extensive experiments on various benchmarks demonstrate the advantages of our method over state-of-the-art methods qualitatively and quantitatively. Furthermore, the potential benefits of our Zero-DCE to face detection in the dark are discussed.</p>
+          <p>Despite the remarkable advances in visual saliency analysis for natural scene images (NSIs), salient object detection (SOD) for optical remote sensing images (RSIs) still remains an open and challenging problem. 
+            In this paper, we propose an end-to-end <b>Dense Attention Fluid Network (DAFNet)</b> for SOD in optical RSIs. A Global Context-aware Attention (GCA) module is proposed to adaptively capture long-range semantic context relationships, 
+            and is further embedded in a Dense Attention Fluid (DAF) structure that enables shallow attention cues flow into deep layers to guide the generation of high-level feature attention maps. Specifically, the GCA module is composed of two key components, 
+            where the global feature aggregation module achieves mutual reinforcement of salient feature embeddings from any two spatial locations, and the cascaded pyramid attention module tackles the scale variation issue by building up a cascaded pyramid framework to progressively refine the attention map in a coarse-to-fine manner. 
+            In addition, we construct a new and challenging optical RSI dataset for SOD that contains 2,000 images with pixel-wise saliency annotations, which is currently the largest publicly available benchmark. Extensive experiments demonstrate that our proposed DAFNet significantly outperforms the existing state-of-the-art SOD competitors. </p>
         </p>
       </div>
-      
+      <br/>
       <!--=================Teasers==========================-->
       <div id="img_intro_examples" class="img_container">
-       <ol>
           <h2>Pipeline</h2>
-        </ol>
+      
           <ol>
         <center>
           <div class="leftView">
             <div class="mask" style="width:80px;height:80px"></div>
-            <img class="std" src="./Zero-DCE_files/framework.png">
+            <img class="std" src="./project/DAFNet_files/framework.png">
           </div>
         </center>
          </ol>
       </div>
       <div class="section">
+        <div style="text-align: justify; display: block; margin-right: auto;">
        <ol>
-        <p><b>The pipeline of our method</b>. (a) The framework of Zero-DCE. A DCE-Net is devised to estimate a set of best-fitting Light-Enhancement curves (LE-curves: LE(I(x);&#945)=I(x)+&#945I(x)(1-I(x))) to iteratively enhance a given input image. (b, c) LE-curves with different adjustment parameters <i>&#945</i> and numbers of iteration <i>n</i>. In (c), <i>&#945<sub>1</sub></i>, <i>&#945<sub>2</sub></i>, and <i>&#945<sub>3</sub></i> are equal to -1 while <i>n</i> is equal to 4. In each subfigure, the horizontal axis represents the input pixel values while the vertical axis represents the output pixel values.</p>
+        <p>The overall architecture of our proposed DAFNet, including the <b>Attention Fluid Guided Feature Encoding</b> and <b>Progressive Feature Decoding</b>. 
+          The feature encoder consists of: 1) an attention fluid where low-level attention maps flow into deeper layers to guide the generation of high-level attentions, 
+          and 2) a feature fluid that generates hierarchical feature representations with stronger discriminative ability by incorporating attention cues mined from the 
+          corresponding global context-aware attention modules. The feature decoder employs a progressive top-down feature fusion strategy to produce saliency predictions 
+          at different feature scales. Note that we do not use the top-most side outputs for deep supervision in that the feature resolution is very low and hinders the 
+          depiction of detailed object structures. The <b>FF</b> unit involves up-sampling the high-level feature map and performing channel alignment via 1X1 
+          convolutions, and then adding it to the low-level feature map. The <b>CB</b> unit is designed as a bottleneck convolution block with non-linearities to further 
+          integrate fusion feature information. The prediction layer consumes the decoded features to produce the corresponding saliency map.</p>
+       </ol>
+      </div>
+        </div>
+      <br/>
+
+      <!--=================Teasers==========================-->
+      <div id="img_intro_examples" class="img_container">
+          <h2>EORSSD Dataset</h2>
+      <br>
+          <ol>
+        <center>
+          <div class="leftView">
+            <div class="mask" style="width:80px;height:80px"></div>
+            <img class="std" src="./project/DAFNet_files/dataset.png">
+          </div>
+        </center>
          </ol>
       </div>
+      <div class="section">
+        <div style="text-align: justify; display: block; margin-right: auto;">
+       <ol>
+        <p><b>Visualization of the more challenging EORSSD dataset.</b> The first row shows the optical RSI, and the second row exhibits the corresponding ground truth. 
+          (a) Challenge in the number of salient objects. (b) Challenge in small salient objects. (c) Challenge in new scenarios. (d) Challenge in interferences from imaging. 
+          (e) Challenge in specific circumstances.</p>
+       </ol>
+      </div>
+        </div>
+      <br/>
+      
       <!--=================Highlights==========================-->
-      <div class="section abstract">
+     
+      <div id="img_intro_examples" class="img_container">
         <h2>Highlights</h2>
+        <br>
+        <div style="text-align: justify; display: block; margin-right: auto;">
         <ol>
-          <li><p>We propose the first low-light enhancement network that is <b>independent of paired and unpaired training data</b>, thus avoiding the risk of overfitting. As a result, our method generalizes well to various lighting conditions.</p></li>
-          <li><p>We design an image-specific curve that is able to <b>approximate pixel-wise and higher-order curves by iteratively applying itself</b>. Such image-specific curve can effectively perform mapping within a wide dynamic range.</p></li>
-          <li><p>We show the potential of training a deep image enhancement model in the absence of reference images through task-specific non-reference loss functions that indirectly evaluate enhancement quality.  It is capable of processing images in real-time (<b>about 500 FPS for images of size 640*480*3 on GPU) and takes only 30 minutes for training</b>.</p></li>
+          <li><p>An end-to-end <b>Dense Attention Fluid Network (DAFNet)</b> is proposed to achieve SOD in optical RSIs, equipped with a <b>Dense Attention Fluid (DAF) structure</b> that is decoupled from the backbone feature extractor and the <b>Global Context-aware Attention (GCA) mechanism</b>.</p></li>
+          <li><p><b>The DAF structure is designed to combine multi-level attention cues</b>, where shallow-layer attention cues flow into the attention units of deeper layers so that low-level attention cues could be propagated as guidance information to enhance the high-level attention maps.</p></li>
+          <li><p>The GCA mechanism is proposed to <b>model the global-context semantic relationships</b> through a global feature aggregation module, and further <b>tackle the scale variation problem</b> under a cascaded pyramid attention framework.</p></li>
+          <li><p>A large-scale benchmark dataset, named <b>EORSSD dataset</b>, containing <b>2,000</b> image samples and the corresponding pixel-wise annotations is constructed for the SOD task in optical RSIs. The proposed DAFNet consistently outperforms 15 state-of-the-art competitors in the experiments.</p></li>
         </ol>
       </div>
-      <!--=================Applications==========================-->
-      <div class="section" ,="" id="results">
+      <br/>
+      <!--=================Applications==========================<div class="section" ,="" id="results">-->
+        <div id="img_intro_examples" class="img_container">
         <h2>Results</h2>
+        <br>
         <!--=================*******==========================-->
-        <h3>1. Visual Comparisons on Typical Low-light Images</h3>
         <div id="vid4" class="img_container">
           <center>
             <div class="leftView">
-              <div class="mask" style="width:100px;height:100px"></div>
-              <img class="std" src="./Zero-DCE_files/results.png">
+              <div class="mask" style="width:80px;height:80px"></div>
+              <img class="std" src="./project/DAFNet_files/visual.png">
             </div>
           </center>
         </div>
-        <br>
-        <!--=================*******==========================-->
-        <h3>2. Visual Face Detection Results Before and After Enanced by Zero-DCE</h3>
-        <div id="vimeo90k" class="img_container">
-          <center>
-            <div class="leftView">
-              <div class="mask" style="width:70px;height:70px"></div>
-              <img class="small" src="./Zero-DCE_files/face.png">
-            </div>
-          </center>
-        </div>
-        <br>
-        <!--=================*******==========================-->
-        <h3>3. Real Low-light Video with Variational Illumination Enanced by Zero-DCE</h3>
-          <div class="section demo">
-    <br> <center>
-      <iframe width="800" height="500" src="https://www.youtube.com/embed/NO7Evfra-Tk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> </center> <br>
-  </div>
-      <!--=================*******==========================-->
-        <h3>4. Self-training (taking first 100 frames as training data) for Low-light Video Enhancement</h3>
-          <div class="section demo">
-    <br> <center>
-      <iframe width="800" height="500" src=" https://www.youtube.com/embed/Z-cRayugi6g" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> </center> <br>
-  </div>
-      <!--=================Ablation studies==========================-->
-      <div class="section" ,="" id="ablations">
-        <h2>Ablation Studies</h2>
-        <h3>1. Contribution of Each Loss</h3>
-        <div id="vid4" class="img_container">
-          <center>
-            <div class="leftView">
-              <div class="mask" style="width:70px;height:70px"></div>
-              <img class="std" src="./Zero-DCE_files/loss.png">
-            </div>
-          </center>
-        </div>
-        <br>
-        <p>
-Ablation study of the contribution of each loss (spatial consistency loss <i>L<sub>spa</sub></i>, exposure control loss <i>L<sub>exp</sub></i>, color constancy loss <i>L<sub>col</sub></i>, illumination smoothness loss <i>L<sub>tv<sub>A</sub></sub></i>).
-        </p>
-        <!--=================*******==========================-->
-        <h3>2. Effect of Parameter Settings</h3>
-        <div id="vimeo90k" class="img_container">
-          <center>
-            <div class="leftView">
-              <div class="mask" style="width:10px;height:70px"></div>
-              <img class="std" src="./Zero-DCE_files/parameter.png">
-            </div>
-          </center>
-        </div>
-        <br>
-        <p>
-        Ablation study of the effect of parameter settings. <i>l-f-n</i> represents the proposed Zero-DCE with <i>l</i> convolutional layers, <i>f</i> feature maps of each layer (except the last layer), and <i>n</i> iterations.
-        </p>
-        <!--=================*******==========================-->
-        <h3>3. Impact of Training Data</h3>
-        <div id="vimeo90k" class="img_container">
-          <center>
-            <div class="leftView">
-              <div class="mask" style="width:10px;height:70px"></div>
-              <img class="std" src="./Zero-DCE_files/training.png">
-            </div>
-          </center>
-        </div>
-        <br>
-        <p>
-To test the impact of training data, we retrain the Zero-DCE on  different datasets: 1) only 900 low-light images out of 2,422 images in the original training set (Zero-DCE<i><sub>Low</sub></i>), 2) 9,000 unlabeled low-light images provided in the DARK FACE dataset (Zero-DCE<i><sub>LargeL</sub></i>), and 3) 4800 multi-exposure images from the data augmented combination of Part1 and Part2 subsets in the SICE dataset (Zero-DCE<i><sub>LargeLH</sub></i>).
-        </p>
-        <!--=================*******==========================-->
-        <h3>4. Advantage of Three-channel Adjustment</h3>
-        <div id="vimeo90k" class="img_container">
-          <center>
-            <div class="leftView">
-              <div class="mask" style="width:10px;height:70px"></div>
-              <img class="std" src="./Zero-DCE_files/channel.png">
-            </div>
-          </center>
-        </div>
-        <br>
-        <p>
-Ablation study of the advantage of three-channel adjustment (RGB, CIE Lab, YCbCr color spaces).
-        </p>
-  
-            <!--=================Materials==========================-->
-      <div class="section materials" ,="" id="materials">
+        <br/>
+        
+            <!--=================Materials==========================<div class="section materials" ,="" id="materials">-->
+      <div class="img_container" ,="" id="materials">
         <h2>Materials</h2>
+        <br>
         <table width="100%" align="center" border="none" cellspacing="0" cellpadding="30">
           <tbody><tr>
             <td width="20%">
               <center>
-                <a href="http://openaccess.thecvf.com/content_CVPR_2020/papers/Guo_Zero-Reference_Deep_Curve_Estimation_for_Low-Light_Image_Enhancement_CVPR_2020_paper.pdf" target="_blank" class="imageLink"><img src="./Zero-DCE_files/CVPR20_logo.png" ,="" width="80%"></a><br><br>
-                <a href="http://openaccess.thecvf.com/content_CVPR_2020/papers/Guo_Zero-Reference_Deep_Curve_Estimation_for_Low-Light_Image_Enhancement_CVPR_2020_paper.pdf" target="_blank">Paper</a>
+                <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9292434&tag=1" target="_blank" class="imageLink"><img src="./project/DAFNet_files/paper.png" ,="" width="40%"></a><br><br>
+                <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9292434&tag=1" target="_blank">Paper</a>
               </center>
             </td>
             <td width="20%">
               <center>
-                <a href="https://openaccess.thecvf.com/content_CVPR_2020/supplemental/Guo_Zero-Reference_Deep_Curve_CVPR_2020_supplemental.pdf" target="_blank" class="imageLink"><img src="./Zero-DCE_files/CVPR20_logo.png" ,="" width="80%"></a><br><br>
-                <a href="https://openaccess.thecvf.com/content_CVPR_2020/supplemental/Guo_Zero-Reference_Deep_Curve_CVPR_2020_supplemental.pdf" target="_blank">Supplementary Material</a>
+                <a href="https://github.com/rmcong/EORSSD-dataset" target="_blank" class="imageLink"><img src="./project/DAFNet_files/icon_github.png" ,="" width="40%"></a><br><br>
+                <a href="https://github.com/rmcong/EORSSD-dataset" target="_blank">EORSSD Dataset</a>
               </center>
             </td>
             <td width="20%">
               <center>
-                <a href="https://github.com/Li-Chongyi/Zero-DCE" target="_blank" class="imageLink"><img src="./Zero-DCE_files/icon_github.png" ,="" width="40%"></a><br><br>
-                <a href="https://github.com/Li-Chongyi/Zero-DCE" target="_blank">Code and Model</a>
+                <a href="https://github.com/rmcong/DAFNet_TIP20" target="_blank" class="imageLink"><img src="./project/DAFNet_files/icon_github.png" ,="" width="40%"></a><br><br>
+                <a href="https://github.com/rmcong/DAFNet_TIP20" target="_blank">Code and Model</a>
               </center>
             </td>
           </tr>
         </tbody></table>
       </div>
-      <!--=================Citation==========================-->
-      <div class="section citation" ,="" id="citation">
+          <br/>
+      <!--=================Citation==========================<div class="section citation" ,="" id="citation">-->
+      <div class="img_container" ,="" id="citation">
         <h2>Citation</h2>
         <div class="section bibtex">
-          <pre>@Article{Zero-DCE,
-          author = {Guo, Chunle and Li, Chongyi and Guo, Jichang and Loy, Chen Change and Hou, Junhui and Kwong, Sam and Cong Runmin},
-          title = {Zero-reference deep curve estimation for low-light image enhancement},
-          journal = {CVPR},
-          pape={1780-1789},
-          year = {2020}
-          }
+          <pre>@article{DAFNet,
+  title={Dense attention fluid network for salient object detection in optical remote sensing images},
+  author={Zhang, Qijian and Cong, Runmin and Li, Chongyi and Cheng, Ming-Ming and Fang, Yuming and Cao, Xiaochun and Zhao, Yao and Kwong, Sam},
+  journal={IEEE Transactions on Image Processing},
+  volume={30},
+  pages={1305-1317},
+  year={2021},
+  publisher={IEEE}
+}
           </pre>
         </div>
       </div>
-      <!--=================Contact==========================-->
-      <div class="section contact">
+          <br/>
+      <!--=================Contact==========================<div class="section contact">-->
+      <div id="img_intro_examples" class="img_container">
         <h2 id="contact">Contact</h2>
-        <p>If you have any questions, please contact Chongyi Li at <strong>lichongyi25@gmail.com</strong> or Chunle Guo at <strong>guochunle@tju.edu.cn</strong>.</p>
+        <br>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you have any questions, please contact Runmin Cong at <strong>rmcong@bjtu.edu.cn</strong>.</p> 
       </div>
 
 
