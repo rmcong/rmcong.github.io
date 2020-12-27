@@ -256,98 +256,16 @@
         <h2>Results</h2>
         <br>
         <!--=================*******==========================-->
-        <h3>1. Visual Comparisons on Typical Low-light Images</h3>
         <div id="vid4" class="img_container">
           <center>
             <div class="leftView">
-              <div class="mask" style="width:100px;height:100px"></div>
+              <div class="mask" style="width:80px;height:80px"></div>
               <img class="std" src="./project/DAFNet_files/visual.png">
             </div>
           </center>
         </div>
         <br>
-        <!--=================*******==========================-->
-        <h3>2. Visual Face Detection Results Before and After Enanced by Zero-DCE</h3>
-        <div id="vimeo90k" class="img_container">
-          <center>
-            <div class="leftView">
-              <div class="mask" style="width:70px;height:70px"></div>
-              <img class="small" src="./project/DAFNet_files/face.png">
-            </div>
-          </center>
-        </div>
-        <br>
-        <!--=================*******==========================-->
-        <h3>3. Real Low-light Video with Variational Illumination Enanced by Zero-DCE</h3>
-          <div class="section demo">
-    <br> <center>
-      <iframe width="800" height="500" src="https://www.youtube.com/embed/NO7Evfra-Tk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> </center> <br>
-  </div>
-      <!--=================*******==========================-->
-        <h3>4. Self-training (taking first 100 frames as training data) for Low-light Video Enhancement</h3>
-          <div class="section demo">
-    <br> <center>
-      <iframe width="800" height="500" src=" https://www.youtube.com/embed/Z-cRayugi6g" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> </center> <br>
-  </div>
-      <!--=================Ablation studies==========================-->
-      <div class="section" ,="" id="ablations">
-        <h2>Ablation Studies</h2>
-        <h3>1. Contribution of Each Loss</h3>
-        <div id="vid4" class="img_container">
-          <center>
-            <div class="leftView">
-              <div class="mask" style="width:70px;height:70px"></div>
-              <img class="std" src="./project/DAFNet_files/loss.png">
-            </div>
-          </center>
-        </div>
-        <br>
-        <p>
-Ablation study of the contribution of each loss (spatial consistency loss <i>L<sub>spa</sub></i>, exposure control loss <i>L<sub>exp</sub></i>, color constancy loss <i>L<sub>col</sub></i>, illumination smoothness loss <i>L<sub>tv<sub>A</sub></sub></i>).
-        </p>
-        <!--=================*******==========================-->
-        <h3>2. Effect of Parameter Settings</h3>
-        <div id="vimeo90k" class="img_container">
-          <center>
-            <div class="leftView">
-              <div class="mask" style="width:10px;height:70px"></div>
-              <img class="std" src="./project/DAFNet_files/parameter.png">
-            </div>
-          </center>
-        </div>
-        <br>
-        <p>
-        Ablation study of the effect of parameter settings. <i>l-f-n</i> represents the proposed Zero-DCE with <i>l</i> convolutional layers, <i>f</i> feature maps of each layer (except the last layer), and <i>n</i> iterations.
-        </p>
-        <!--=================*******==========================-->
-        <h3>3. Impact of Training Data</h3>
-        <div id="vimeo90k" class="img_container">
-          <center>
-            <div class="leftView">
-              <div class="mask" style="width:10px;height:70px"></div>
-              <img class="std" src="./project/DAFNet_files/training.png">
-            </div>
-          </center>
-        </div>
-        <br>
-        <p>
-To test the impact of training data, we retrain the Zero-DCE on  different datasets: 1) only 900 low-light images out of 2,422 images in the original training set (Zero-DCE<i><sub>Low</sub></i>), 2) 9,000 unlabeled low-light images provided in the DARK FACE dataset (Zero-DCE<i><sub>LargeL</sub></i>), and 3) 4800 multi-exposure images from the data augmented combination of Part1 and Part2 subsets in the SICE dataset (Zero-DCE<i><sub>LargeLH</sub></i>).
-        </p>
-        <!--=================*******==========================-->
-        <h3>4. Advantage of Three-channel Adjustment</h3>
-        <div id="vimeo90k" class="img_container">
-          <center>
-            <div class="leftView">
-              <div class="mask" style="width:10px;height:70px"></div>
-              <img class="std" src="./project/DAFNet_files/channel.png">
-            </div>
-          </center>
-        </div>
-        <br>
-        <p>
-Ablation study of the advantage of three-channel adjustment (RGB, CIE Lab, YCbCr color spaces).
-        </p>
-  
+        
             <!--=================Materials==========================-->
       <div class="section materials" ,="" id="materials">
         <h2>Materials</h2>
@@ -355,13 +273,13 @@ Ablation study of the advantage of three-channel adjustment (RGB, CIE Lab, YCbCr
           <tbody><tr>
             <td width="20%">
               <center>
-                <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9292434&tag=1" target="_blank" class="imageLink"><img src="./project/DAFNet_files/paper.png" ,="" width="80%"></a><br><br>
+                <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9292434&tag=1" target="_blank" class="imageLink"><img src="./project/DAFNet_files/paper.png" ,="" width="40%"></a><br><br>
                 <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9292434&tag=1" target="_blank">Paper</a>
               </center>
             </td>
             <td width="20%">
               <center>
-                <a href="https://github.com/rmcong/EORSSD-dataset" target="_blank" class="imageLink"><img src="./project/DAFNet_files/icon_github.png" ,="" width="80%"></a><br><br>
+                <a href="https://github.com/rmcong/EORSSD-dataset" target="_blank" class="imageLink"><img src="./project/DAFNet_files/icon_github.png" ,="" width="40%"></a><br><br>
                 <a href="https://github.com/rmcong/EORSSD-dataset" target="_blank">EORSSD Dataset</a>
               </center>
             </td>
