@@ -200,17 +200,17 @@
       <div class="section">
        <ol>
         <p><b>The pipeline of our method</b>. (a) The framework of Zero-DCE. A DCE-Net is devised to estimate a set of best-fitting Light-Enhancement curves (LE-curves: LE(I(x);&#945)=I(x)+&#945I(x)(1-I(x))) to iteratively enhance a given input image. (b, c) LE-curves with different adjustment parameters <i>&#945</i> and numbers of iteration <i>n</i>. In (c), <i>&#945<sub>1</sub></i>, <i>&#945<sub>2</sub></i>, and <i>&#945<sub>3</sub></i> are equal to -1 while <i>n</i> is equal to 4. In each subfigure, the horizontal axis represents the input pixel values while the vertical axis represents the output pixel values.</p>
-         </ol>
+       </ol>
       </div>
       <br/>
       <!--=================Highlights==========================-->
       <div class="section abstract">
         <h2>Highlights</h2>
-        <ol>
+        
           <li><p>We propose the first low-light enhancement network that is <b>independent of paired and unpaired training data</b>, thus avoiding the risk of overfitting. As a result, our method generalizes well to various lighting conditions.</p></li>
           <li><p>We design an image-specific curve that is able to <b>approximate pixel-wise and higher-order curves by iteratively applying itself</b>. Such image-specific curve can effectively perform mapping within a wide dynamic range.</p></li>
           <li><p>We show the potential of training a deep image enhancement model in the absence of reference images through task-specific non-reference loss functions that indirectly evaluate enhancement quality.  It is capable of processing images in real-time (<b>about 500 FPS for images of size 640*480*3 on GPU) and takes only 30 minutes for training</b>.</p></li>
-        </ol>
+        
       </div>
       <br/>
       <!--=================Applications==========================-->
