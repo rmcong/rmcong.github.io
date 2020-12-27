@@ -208,16 +208,17 @@
       <div id="img_intro_examples" class="img_container">
         <h2>Highlights</h2>
         <br>
+        <div style="text-align: justify; display: block; margin-right: auto;">
         <ol>
-          <li><p>We propose the first low-light enhancement network that is <b>independent of paired and unpaired training data</b>, thus avoiding the risk of overfitting. As a result, our method generalizes well to various lighting conditions.</p></li>
-          <li><p>We design an image-specific curve that is able to <b>approximate pixel-wise and higher-order curves by iteratively applying itself</b>. Such image-specific curve can effectively perform mapping within a wide dynamic range.</p></li>
-          <li><p>We show the potential of training a deep image enhancement model in the absence of reference images through task-specific non-reference loss functions that indirectly evaluate enhancement quality.  It is capable of processing images in real-time (<b>about 500 FPS for images of size 640*480*3 on GPU) and takes only 30 minutes for training</b>.</p></li>
+          <li><p>An end-to-end <b>Dense Attention Fluid Network (DAFNet)</b> is proposed to achieve SOD in optical RSIs, equipped with a <b>Dense Attention Fluid (DAF) structure</b> that is decoupled from the backbone feature extractor and the <b>Global Context-aware Attention (GCA) mechanism</b>.</p></li>
+          <li><p>The DAF structure is designed to combine multi-level attention cues, where shallow-layer attention cues flow into the attention units of deeper layers so that low-level attention cues could be propagated as guidance information to enhance the high-level attention maps.</p></li>
+          <li><p>The GCA mechanism is proposed to model the global-context semantic relationships through a global feature aggregation module, and further tackle the scale variation problem under a cascaded pyramid attention framework.</p></li>
+          <li><p>A large-scale benchmark dataset, named <b>EORSSD dataset</b>, containing <b>2,000</b> image samples and the corresponding pixel-wise annotations is constructed for the SOD task in optical RSIs. The proposed DAFNet consistently outperforms $15$ state-of-the-art competitors in the experiments.</p></li>
         </ol>
       </div>
       <br/>
-      <!--=================Applications==========================-->
-      <br>
-      <div class="section" ,="" id="results">
+      <!--=================Applications==========================<div class="section" ,="" id="results">-->
+        <div id="img_intro_examples" class="img_container">
         <h2>Results</h2>
         <br>
         <!--=================*******==========================-->
