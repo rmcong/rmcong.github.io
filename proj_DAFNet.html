@@ -188,7 +188,29 @@
       <!--=================Teasers==========================-->
       <div id="img_intro_examples" class="img_container">
           <h2>Pipeline</h2>
-      
+      <br>
+      <center>
+            <div class="leftView">
+              <div class="mask" style="width:80px;height:80px"></div>
+              <img class="std" src="./project/DAFNet_files/framework.png">
+            </div>
+          </center>
+        </div>
+           <div class="section">
+        <div style="text-align: justify; display: block; margin-right: auto;">
+        <p>The overall architecture of our proposed DAFNet, including the <b>Attention Fluid Guided Feature Encoding</b> and <b>Progressive Feature Decoding</b>. 
+          The feature encoder consists of: 1) an attention fluid where low-level attention maps flow into deeper layers to guide the generation of high-level attentions, 
+          and 2) a feature fluid that generates hierarchical feature representations with stronger discriminative ability by incorporating attention cues mined from the 
+          corresponding global context-aware attention modules. The feature decoder employs a progressive top-down feature fusion strategy to produce saliency predictions 
+          at different feature scales. Note that we do not use the top-most side outputs for deep supervision in that the feature resolution is very low and hinders the 
+          depiction of detailed object structures. The <b>FF</b> unit involves up-sampling the high-level feature map and performing channel alignment via 1X1 
+          convolutions, and then adding it to the low-level feature map. The <b>CB</b> unit is designed as a bottleneck convolution block with non-linearities to further 
+          integrate fusion feature information. The prediction layer consumes the decoded features to produce the corresponding saliency map.</p>
+      </div>
+        </div>
+        <br/>  
+        
+      <!--  
           <ol>
         <center>
           <div class="leftView">
@@ -212,7 +234,7 @@
        </ol>
       </div>
         </div>
-      <br/>
+      <br/>-->
 
       <!--=================Teasers==========================-->
       <div id="img_intro_examples" class="img_container">
