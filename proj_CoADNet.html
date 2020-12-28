@@ -188,6 +188,27 @@
       <!--=================Teasers==========================-->
       <div id="img_intro_examples" class="img_container">
           <h2>Pipeline</h2>
+      <br>
+      <center>
+            <div class="leftView">
+              <div class="mask" style="width:80px;height:80px"></div>
+              <img class="std" src="./project/CoADNet_files/framework.png">
+            </div>
+          </center>
+        </div>
+           <div class="section">
+        <div style="text-align: justify; display: block; margin-right: auto;">
+        <p>The flowchart of the proposed CoADNet</b>. Given a query image group, we first obtain the deep features with a shared backbone feature extractor (BFE)
+		and integrate learnable saliency priors with an OIaSG structure. The generated intra-saliency features are aggregated into group semantics
+		through the group-attentional semantic aggregation (GASA) module, then they are further adaptively distributed to different individuals via
+		the gated group distribution (GGD) module to learn co-saliency features. In the end, a group consistency-preserving decoder (GCPD) followed
+		by a co-saliency head (CoSH) is used to predict consistent and full-resolution co-saliency maps.</p>
+      </div>
+        </div>
+        <br/>  
+	    
+	<!--<div id="img_intro_examples" class="img_container">
+          <h2>Pipeline</h2>
       
           <ol>
         <center>
@@ -247,8 +268,22 @@
         <div id="img_intro_examples" class="img_container">
         <h2>Quantitative Evaluation</h2>
         <br>
-        <!--=================*******==========================-->
-        <ol>
+        <center>
+            <div class="leftView">
+              <div class="mask" style="width:80px;height:80px"></div>
+              <img class="std" src="./project/CoADNet_files/performance.png">
+            </div>
+          </center>
+        </div>
+           <div class="section">
+        <div style="text-align: justify; display: block; margin-right: auto;">
+        <p>Quantitative comparisons over four benchmark datasets. The bold numbers indicate the best performance on the corresponding dataset.
+		'-V', '-R' and '-DR' mean the VGG16, ResNet-50, and Dilated ResNet-50 backbones, respectively.</p>
+      </div>
+        </div>
+        <br/>  
+		
+        <!--<ol>
         <center>
           <div class="leftView">
             <div class="mask" style="width:80px;height:80px"></div>
@@ -267,7 +302,7 @@
         </div>
       <br/>
         
-            <!--=================Materials==========================<div class="section materials" ,="" id="materials">-->
+      <!--=================Materials==========================<div class="section materials" ,="" id="materials">-->
       <div class="img_container" ,="" id="materials">
         <h2>Materials</h2>
         <br>
