@@ -218,6 +218,21 @@
       <div id="img_intro_examples" class="img_container">
           <h2>EORSSD Dataset</h2>
       <br>
+        <p>
+          <div style="text-align: justify; display: block; margin-right: auto;">
+          <p>In literature \cite{LVNet}, an optical remote sensing saliency detection (ORSSD) dataset\footnote{ \url{https://li-chongyi.github.io/proj_optical_saliency.html}} 
+            with pixel-wise ground truth is built, including $600$ training images and $200$ testing images. This is the first publicly available dataset for the RSI SOD task,
+            which bridges the gap between theory and practice in SOD for optical RSIs, but the amount of data is still slightly insufficient to train a deep learning based model.
+            To enlarge the size and enrich the variety of the dataset, we extend our ORSSD dataset to a larger one named Extended ORSSD (EORSSD) dataset with $2,000$ images and
+            the corresponding pixel-wise ground truth, which includes many semantically meaningful but challenging images. Based on the ORSSD dataset, we collect additional
+            1,200 optical remote sensing images from the free Google Earth software, covering more complicated scene types, more challenging object attributes, and more
+            comprehensive real-world circumstances. During the dataset construction, we follow the previous labeling protocol as proposed in \cite{Response_R5}. Specifically,
+            for labeling the ground truth saliency masks, in our project, we invited 9 researchers with relevant professional backgrounds as our annotators and asked them to
+            independently indicate which parts of the image they thought were visually-attractive. Based on the records of all annotators' decisions, we picked out as salient
+            the commonly-agreed regions and objects that are voted by at least half of the annotators. After that, we carefully generate pixel-wise saliency masks for these
+            selected regions using Photoshop. For clarity, the EORSSD dataset is divided into two parts, i.e., 1,400 images for training and $600$ images for testing.</p>
+        </p>
+      <br/>
           <ol>
         <center>
           <div class="leftView">
