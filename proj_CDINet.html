@@ -193,9 +193,16 @@
         </div>
            <div class="section">
         <div style="text-align: justify; display: block; margin-right: auto;">
-        <p>Mode (a) is a unidirectional interaction which regards the depth stream as auxiliary information; Mode (b) represents an undifferentiated bidirectional interaction,
-          and it treats two modalities as equal; Mode (c) is the proposed mode which conducts discrepant cross-modality guidance.
-In (d), ATSA, ASIF and Ours correspond to method of modes (a), (b) and (c) in a difficult scene, respectively.</p>
+        <p>Previous studies have confirmed the positive effect of RGB and depth information interaction in SOD tasks. 
+          In this paper, we seriously reconsider the status of RGB modality and depth modality in RGB-D SOD task. 
+          Different from the previous unidirectional interaction shown in Figure (a) and undifferentiated bidirectional interaction shown in Figure (b),
+          we believe that the interaction of the two modalities information should be carried out in a separate and discrepant manner.
+          The low-level RGB features can help the depth features to distinguish different object instances at the same depth level,
+          while the high-level depth features can further enrich the RGB semantics and suppress background interference.
+          Therefore, a perfect RGB-D SOD model should give full play to the advantages of each modality, and simultaneously utilize another modality to make up
+          for itself to avoid causing interference. To this end, we propose a cross-modality discrepant interaction network to explicitly model the dependence
+          of two modalities in the encoder stage according to the feature representations of different layers, which selectively utilizes RGB features to supplement
+          the details for depth branch, and transfers the depth features to RGB modality to enrich the semantic representations.</p>
       </div>
         </div>
         <br/> 
