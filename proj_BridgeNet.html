@@ -233,10 +233,9 @@
         <br>
         <div style="text-align: justify; display: block; margin-right: auto;">
         <ol>
-          <li><p><b>For the first time, we address the unreliable depth map in the RGB-D SOD network in an end-to-end formulation</b>, and propose the DPANet by incorporating the depth potentiality perception into the cross-modality integration pipeline.</p></li>
-          <li><p>Without increasing the training label (i.e., depth quality label), we <b>model a task-orientated depth potentiality perception module</b> that can adaptively perceive the potentiality of the input depth map, and further weaken the contamination from unreliable depth information.</p></li>
-          <li><p>We propose a <b>GMA module to effectively aggregate the cross-modal complementarity of the RGB and depth images</b>, where the spatial attention mechanism aims at reducing the information redundancy, and the gate function controller focuses on regulating the fusion rate of the cross-modal information.</p></li>
-          <li><p>Without any pre-processing (e.g., HHA) or post-processing (e.g., CRF) techniques, the proposed network <b>outperforms 16 state-of-the-art methods on 8 RGB-D SOD datasets</b> in quantitative and qualitative evaluations.</p></li>
+          <li><p><b>This work attempts to associate the depth map super-resolution and monocular depth estimation in a joint learning framework to boost the performance of depth map super-resolution</b>, including a depth super-resolution network (DSRNet), a monocular depth estimation network (MDENet), and two joint learning bridges. Our entire network architecture is highly portable and can provide a paradigm for associating the DSR and MDE tasks. Moreover, different from other multi-task learning, no additional labels are required.</p></li>
+          <li><p>The <b>high-frequency attention bridge (HABdg)</b> in the feature encoding stage transfers the RGB high-frequency information learned from MDENet to DSRNet, which can provide color guidance information closer to the depth modality. Following the principle of simple task guiding difficult task, we switch the guiding roles of the two tasks in the feature decoding stage, and propose the <b>content guidance bridge (CGBdg)</b> to provide the content guidance learned from DSRNet for MDENet.</p></li>
+          <li><p><b>Without the introduction of additional supervision labels</b>, our method achieves competitive performance on benchmark datasets.</p></li>
         </ol>
       </div>
       <br/>
