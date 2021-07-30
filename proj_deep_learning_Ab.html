@@ -1,1 +1,424 @@
+<!DOCTYPE html>
+<!-- saved from url=(0037)https://rmcong.github.io/Profile.html -->
+<html class="csstransforms csstransforms3d csstransitions">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>MVP Lab</title>
+		<link href="./files/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+		<link href="./files/style.css" rel="stylesheet" type="text/css" media="all">
+		<link href="./files/prettyPhoto.css" rel="stylesheet" type="text/css" media="all">		
+		<link href="./files/css" rel="stylesheet" type="text/css">	
+		<script charset="utf-8" src="chrome-extension://jgphnjokjhjlcnnajmfjlacjnjkhleah/js/btype.js"></script>
+		<script type="text/javascript" charset="utf-8" src="chrome-extension://jgphnjokjhjlcnnajmfjlacjnjkhleah/js/chrome.js"></script>
+		<script type="text/javascript" src="chrome-extension://aadgmnobpdmgmigaicncghmmoeflnamj/ng-inspector.js"></script>
+		<style>
+			.people-photo {
+				border-radius: 50%;
+				height:200px!important;
+				width:200px!important;
+				box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+				margin-bottom: 20px;
+			}
+			.thumbnail-mvp{
+				padding: 4px;
+				margin-bottom: 20px;
+				line-height: 1.42857143;
+				text-align: center
+			}
+			.thumbnail-people{
+				padding: 4px;
+				margin-bottom: 20px;
+				height: 340px;
+				line-height: 1.42857143;
+				text-align: center
+			}
+			.container{
+				font-family: Palatino Linotype, Helvetica Neue, Helvetica, Arial, sans-serif;
+			}
+
+			.academicegree{
+				font-size: 2.28rem;
+				/* line-height: 110%; */
+				margin: 1.14rem 0 0.912rem 0;
+			}
+			.row:nth-child(2n){
+				background:whitesmoke;
+			}
+			.row {
+				margin-bottom: 50px;
+			}
+			.people-topic {
+				font-style: italic;
+				color: #1a237e;
+			}
+		</style>
+		<script> 
+			var lastname = 'Me';
+			function func(name){
+				var div = document.getElementById(name); 
+				div.className = 'active'; 
+				div = document.getElementById(lastname); 
+				div.className = ''; 
+				lastname = name;
+			}
+			function coming_soon()
+			{
+				alert("Coming soon.");
+			}
+			
+		</script> 
+	
+	</head>
+	<body>
+	<!---start-wrap--->
+		<!---start-header--->
+		<div class="header">
+			<div class="wrap">
+				<!---start-logo--->
+				<div class="logo">
+					<a href="https://rmcong.github.io/index.html">Runmin Cong</a>
+				</div>
+				<!---End-logo--->
+				<!---start-top-nav--->
+				<div class="top-nav">
+					<ul>
+						<li id="Home" onclick="func(&#39;Me&#39;)"><a href="https://rmcong.github.io/index.html" class="scroll">Home</a></li>
+						<li id="Profile" onclick="func(&#39;Profile&#39;)"><a href="https://rmcong.github.io/Profile.html" class="scroll">Profile</a></li>
+						<li id="Publications" onclick="func(&#39;Publications&#39;)"><a href="https://rmcong.github.io/Publication.html" class="scroll">Publications</a></li>
+						<!---<li id="Profile-chinese" onclick="func(&#39;Honors Awards&#39;)"><a href="https://rmcong.github.io/Honors%20Awards.html" class="scroll">Honors &amp; Awards</a></li>--->
+						<li id="MVPLab" onclick="func(&#39;MVP Lab&#39;)"><a href="https://rmcong.github.io/MVPLab.html" class="scroll">MVP Lab</a></li>
+											<!--<li id="Projects" onclick="func(&#39;Projects&#39;)"><a href="./Project.html" class="scroll">Projects</a></li>-->
+						<!-- <li id="Art" onclick="func(&#39;Art&#39;)"><a href="http://www.icst.pku.edu.cn/struct/people/yangs/index.html#art" class="scroll">Art Gallery</a></li>	-->
+						<li id="Profile-chinese" onclick="func(&#39;Profile-chinese&#39;)"><a href="https://rmcong.github.io/Profile-chinese.html" class="scroll">中文简介</a></li>
+						<li id="Contact" onclick="func(&#39;Contact&#39;)"><a href="https://rmcong.github.io/Contact.html" class="scroll">Contact</a></li>
+					</ul>
+				</div>
+				<div class="clear"> </div>
+				<!---End-top-nav--->
+			 </div>
+		</div>
+		<div class="container" style="margin-top: 150px;">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="thumbnail-mvp">
+						<a href="#">
+							<img src="./MVPLab/mvp.png">
+						</a>
+						</br>
+					</br>
+						<div class="caption">
+							<!---<h4><b>INTRODUCTION</b></h4>--->
+							<p style="margin-top:10px">
+							The <strong>M</strong>ultimedia and <strong>V</strong>ision <strong>P</strong>rocessing Laboratory (MVP Lab) was established in July 2019, which is affiliated to the Center of Digital Media Information Processing (MePro) at Beijing Jiaotong University, and the director is Dr. Runmin Cong. There are more than 20 graduate students and undergraduate interns, mainly engaged in multimedia understanding, vision processing and other related research fields.
+							</p>
+						</div>
+					</div>
+				</div>
+		    </div>
+			<div class="row">
+				<div class="col-md-12 academicegree">
+					<h4 class="text-center  black-text">Faculty</h4>
+				</div>
+				<div class="col-md-12">
+					<div class="thumbnail-people">
+						<a href="#">
+							<img src="./MVPLab/crm.jpg" class="people-photo">
+						</a>
+						<div class="caption">
+							<h3><b>Runming Cong</b> (丛润民)</h3>
+							<p>Associate Professor, Director</p>
+							<p class="people-topic">Computer Vision, Multimedia Computing</p>
+						</div>
+					</div>
+				</div>
+		    </div>
+			<div class="row">
+				<div class="col-md-12 academicegree">
+					<h4 class="text-center  black-text">PhD Students</h4>
+				</div>
+				<div class="col-md-12">
+					<div class="thumbnail-people">
+						<a href="#">
+							<img src="./MVPLab/hlz.jpg" class="people-photo">
+						</a>
+						<div class="caption">
+							<h3><b>Lingzhi He</b> (何凌志)</h3>
+							<p>co-supervised by Prof. Yao Zhao</p>	
+							<p>PhD, 2019 - present</p>
+							<p class="people-topic">Visual Content Enhancement</p>
+						</div>
+					</div>
+				</div>
+		    </div>
+		    <div class="row">
+				<div class="col-md-12 academicegree">
+					<h4 class="text-center  black-text">MS Students</h4>
+				</div>
+				<div class="col-md-3">
+					<div class="thumbnail-people">
+						<a href="#">
+							<img src="./MVPLab/yn.jpg" class="people-photo">
+						</a>
+						<div class="caption">
+							<h3><b>Ning Yang</b> (杨宁)</h3>
+							<p>MS, 2020 - present</p>
+							<p class="people-topic">Co-salient Object Detection</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="thumbnail-people">
+						<img src="./MVPLab/zym.jpg" class="people-photo">
+						<div class="caption">
+							<h3><b>Yumo Zhang</b> (张禹墨)</h3>
+							<p>MS, 2020 - present</p>
+							<p class="people-topic">Remote Sensing Image Processing</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="thumbnail-people">
+						<img src="./MVPLab/zc.jpg" class="people-photo">
+						<div class="caption">
+							<h3><b>Chen Zhang</b> (张晨)</h3>
+							<p>MS, 2020 - present</p>
+							<p class="people-topic">RGB-D Salient Object Detection</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="thumbnail-people">
+						<img src="./MVPLab/yhw.jpg" class="people-photo">
+						<div class="caption">
+							<h3><b>Haowei Yang</b> (杨浩巍)</h3>
+							<p>MS, 2020 - present</p>
+							<p class="people-topic">Medical Image Segmentation</p>
+						</div>
+					</div>
+				</div>
+			    <div class="col-md-3">
+					<div class="thumbnail-people">
+						<img src="./MVPLab/xwl.jpg" class="people-photo">
+						<div class="caption">
+							<h3><b>Wenlong Xu</b> (徐文龙)</h3>
+							<p>co-supervised by Prof. Yao Zhao</p>
+							<p>MS, 2020 - present</p>
+							<p class="people-topic">Natural Language Processing</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="thumbnail-people">
+						<a href="#">
+							<img src="./MVPLab/qq.jpg" class="people-photo">
+						</a>
+						<div class="caption">
+							<h3><b>Qi Qin</b> (秦萁)</h3>
+							<p>MS, 2021 - present</p>
+							<p class="people-topic">Weakly Supervised Salient Object Detection</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="thumbnail-people">
+						<img src="./MVPLab/srh.jpg" class="people-photo">
+						<div class="caption">
+							<h3><b>Ronghui Sheng</b> (盛荣晖)</h3>
+							<p>MS, 2021 - present</p>
+							<p class="people-topic">Depth Map Super-resolution</p>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="thumbnail-people">
+						<img src="./MVPLab/swy2.jpg" class="people-photo">
+						<div class="caption">
+							<h3><b>Weiyu Song</b> (宋玮煜)</h3>
+							<p>MS, 2021 - present</p>
+							<p class="people-topic">Video Salient Object Detection</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="thumbnail-people">
+						<img src="./MVPLab/ywy.jpg" class="people-photo">
+						<div class="caption">
+							<h3><b>Wenyu Yang</b> (杨文玉)</h3>
+							<p>MS, 2021 - present</p>
+							<p class="people-topic">Underwater Image Enhancement</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="thumbnail-people">
+						<img src="./MVPLab/tq.jpg" class="people-photo">
+						<div class="caption">
+							<h3><b>Qi Tang</b> (唐麒)</h3>
+							<p>co-supervised by Prof. Yao Zhao</p>
+							<p>MS, 2021 - present</p>
+							<p class="people-topic">Depth Map Processing</p>
+						</div>
+					</div>
+				</div>
+		   </div>
+			<div class="row">
+				<div class="col-md-12 academicegree">
+					<h4 class="text-center  black-text">Visiting Students</h4>
+				</div>
+				<div class="col-md-6">
+					<div class="thumbnail-people">
+						<a href="#">
+							<img src="./MVPLab/hhy.jpg" class="people-photo">
+						</a>
+						<div class="caption">
+							<h3><b>Heyu Huang</b> (黄和宇)</h3>
+							<p>VS, 2021/03 - present</p>
+							<p>Tiangong University</p>
+							<p class="people-topic">Medical Image Prcessing</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="thumbnail-people">
+						<a href="#">
+							<img src="./MVPLab/xld.jpg" class="people-photo">
+						</a>
+						<div class="caption">
+							<h3><b>Lidong Xie</b> (谢礼冬)</h3>
+							<p>VS, 2020/11 - present</p>
+							<p>Beijing Normal University</p>
+							<p class="people-topic">Low-light Image Enhancement</p>
+						</div>
+					</div>
+				</div>
+		    </div>
+		    <div class="row">
+				<div class="col-md-12 academicegree">
+					<h4 class="text-center  black-text">Undergraduate Interns</h4>
+				</div>
+				<div class="col-md-3">
+					<div class="thumbnail-people">
+						<a href="#">
+							<img src="./MVPLab/hk.jpg" class="people-photo">
+						</a>
+						<div class="caption">
+							<h3><b>Ke Huang</b> (黄可)</h3>
+							<p>UI, 2020/06 - present</p>
+							<p class="people-topic">Salient Object Detection in 360◦ Omnidirectional Images</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="thumbnail-people">
+						<img src="./MVPLab/zcy.jpg" class="people-photo">
+						<div class="caption">
+							<h3><b>Chongyang Zhao</b> (赵重阳)</h3>
+							<p>UI, 2020/04 - present</p>
+							<p class="people-topic">Referring Expression Comprehension & Segmentation</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="thumbnail-people">
+						<img src="./MVPLab/wzx.jpg" class="people-photo">
+						<div class="caption">
+							<h3><b>Zixuan Wang</b> (王子轩)</h3>
+							<p>UI, 2021/04 - present</p>
+							<p class="people-topic">RGB-T Salient Object Detection</p>
+						</div>
+					</div>
+				</div>
+			    <div class="col-md-3">
+					<div class="thumbnail-people">
+						<img src="./MVPLab/lqm.jpg" class="people-photo">
+						<div class="caption">
+							<h3><b>Qingming Liu</b> (刘青明)</h3>
+							<p>UI, 2021/04 - present</p>
+							<p class="people-topic">Glass Detection</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="thumbnail-people">
+						<img src="./MVPLab/lhy.jpg" class="people-photo">
+						<div class="caption">
+							<h3><b>Hongyu Liu</b> (刘鸿羽)</h3>
+							<p>UI, 2021/06 - present</p>
+							<p class="people-topic">High-resolution Salient Object Detection</p>
+						</div>
+					</div>
+				</div>	
+			    <div class="col-md-3">
+					<div class="thumbnail-people">
+						<img src="./MVPLab/xh.jpg" class="people-photo">
+						<div class="caption">
+							<h3><b>Hang Xiong</b> (熊航)</h3>
+							<p>UI, 2021/06 - present</p>
+							<p class="people-topic"></p>
+						</div>
+					</div>
+				</div>
+			    <div class="col-md-3">
+					<div class="thumbnail-people">
+						<img src="./MVPLab/lyp.jpg" class="people-photo">
+						<div class="caption">
+							<h3><b>Yupeng Luo</b> (罗宇鹏)</h3>
+							<p>UI, 2021/06 - present</p>
+							<p class="people-topic"></p>
+						</div>
+					</div>
+				</div>
+			    <div class="col-md-3">
+					<div class="thumbnail-people">
+						<img src="./MVPLab/syx.jpg" class="people-photo">
+						<div class="caption">
+							<h3><b>Yuxiao Sun</b> (孙宇霄)</h3>
+							<p>UI, 2021/06 - present</p>
+							<p class="people-topic">Shadow Detection and Removal</p>
+						</div>
+					</div>
+				</div>
+			    </div>
+			
+			<div class="row">
+				<div class="col-md-12 academicegree">
+					<h4 class="text-center  black-text">Alumni</h4>
+				</div>
+				<div class="col-md-6">
+					<div class="thumbnail-people">
+						<a href="#">
+							<img src="./MVPLab/zqh.jpg" class="people-photo">
+						</a>
+						<div class="caption">
+							<h3><b>Qihang Zhong</b> (钟启航)</h3>
+							<p>UI, 2019/10 - 2020/10</p>
+							<p>Now: Chengdu</p>
+							<p class="people-topic">Underwater Image Quality Assessment</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="thumbnail-people">
+						<a href="#">
+							<img src="./MVPLab/zqj.jpg" class="people-photo">
+						</a>
+						<div class="caption">
+							<h3><b>Qijian Zhang</b> (张琦坚)</h3>
+							<p>UI, 2020/01 - 2020/12</p>
+							<p>Now: PhD in City University of Hong Kong</p>
+							<p class="people-topic">Co-salient Object Detection</p>
+						</div>
+					</div>
+				</div>
+		    </div>
+		</div>
+		<script type="text/javascript" src="./files/jquery.min.js.下载"></script>
+		<script type="text/javascript" src="./files/bootstrap.js.下载"></script>
+		<script type="text/javascript" src="./files/jquery.banner.js.下载"></script>
+		<script type="text/javascript" src="./files/jquery.prettyPhoto.js.下载"></script>		
+		<script type="text/javascript" src="./files/jquery.isotope.js.下载"></script>	
+		<script type="text/javascript" src="./files/main.js.下载"></script>		
+ </body>
+</html>
 
