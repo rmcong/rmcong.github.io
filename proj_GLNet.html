@@ -5,8 +5,8 @@
   <title>DPANet: Depth Potentiality-Aware Gated Attention Network for RGB-D Salient Object Detection</title>
   <!--=================Meta tags==========================-->
   <meta name="robots" content="index,follow">
-  <meta name="description" content="RRNet: Relational Reasoning Network with Parallel Multi-scale Attention for Salient Object Detection in Optical Remote Sensing Images.">
-  <meta name="keywords" content="RRNet">
+  <meta name="description" content="Global-and-Local Collaborative Learning for Co-Salient Object Detection.">
+  <meta name="keywords" content="GLNet">
   <link rel="author" href="https://rmcong.github.io">
   <!--=================js==========================-->
   <link href="./project/css.css" rel="stylesheet" type="text/css">
@@ -136,24 +136,26 @@
     <div id="content-inner">
       <div class="section head">
         <h1>
-        RRNet: Relational Reasoning Network with Parallel Multi-scale Attention for Salient Object Detection in Optical Remote Sensing Images
+        Global-and-Local Collaborative Learning for Co-Salient Object Detection
         </h1>
         <!--=================Authors==========================-->
         <div class="authors">
           <a href="https://rmcong.github.io/" target="_blank">Runmin Cong</a> <sup>1</sup>&nbsp;
-          Yumo Zhang<sup>1</sup>&nbsp;
-          <a href="https://sites.google.com/site/leyuanfang/home" target="_blank">Leyuan Fang</a> <sup>2</sup> &nbsp;
-          <a href="http://gp.sysu.edu.cn/zh-hans/teacher/173" target="_blank">Jun Li</a> <sup>3</sup> &nbsp;
+          Ning Yang<sup>1</sup>&nbsp;
+          <a href="https://li-chongyi.github.io/" target="_blank">Chongyi Li</a> <sup>2</sup> &nbsp;
+          <a href="https://hzfu.github.io/" target="_blank">Huazhu Fu</a> <sup>3</sup> &nbsp;
           <a href="http://faculty.bjtu.edu.cn/5900/" target="_blank">Yao Zhao</a> <sup>1</sup> &nbsp;
-          <a href="https://www.cs.cityu.edu.hk/~cssamk/research_group/" target="_blank">Sam Kwong</a> <sup>4</sup> &nbsp;
+          <a href="https://people.ucas.ac.cn/~qmhuang" target="_blank">Qingming Huang</a> <sup>4</sup> &nbsp;
+          <a href="https://www.cs.cityu.edu.hk/~cssamk/research_group/" target="_blank">Sam Kwong</a> <sup>5</sup> &nbsp;
           
         </div>
 
         <div class="affiliations ">
           <sup>1</sup> Beijing Jiaotong University, Beijing, China<br>
-          <sup>2</sup> Hunan University, Changsha, China<br>
-          <sup>3</sup> Sun Yat-sen University, Guangzhou, China<br>
-          <sup>4</sup> City University of Hong Kong, China<br>
+          <sup>2</sup> Nanyang Technological University, Singapore<br>
+          <sup>3</sup> A*STAR, Singapore<br>
+          <sup>4</sup> University of Chinese Academy of Sciences, Beijing, China<br>
+          <sup>5</sup> City University of Hong Kong, China<br>
 
           
           
@@ -174,13 +176,17 @@
         <br>
         <p>
           <div style="text-align: justify; display: block; margin-right: auto;">
-          <p>Salient object detection (SOD) for optical remote sensing images (RSIs) aims at locating and extracting visually distinctive objects/regions from the optical RSIs.
-            Despite some saliency models were proposed to solve the intrinsic problem of optical RSIs (such as complex background and scale-variant objects), 
-            the accuracy and completeness are still unsatisfactory. To this end, <b>we propose a relational reasoning network with parallel multi-scale attention for SOD
-            in optical RSIs</b> in this paper. The relational reasoning module that integrates the spatial and the channel dimensions is designed to infer the semantic relationship
-            by utilizing high-level encoder features, thereby promoting the generation of more complete detection results. The parallel multi-scale attention module is proposed
-            to effectively restore the detail information and address the scale variation of salient objects by using the low-level features refined by multi-scale attention.
-            Extensive experiments on two datasets demonstrate that our proposed RRNet outperforms the existing state-of-the-art SOD competitors both qualitatively and quantitatively. 
+          <p>The goal of co-salient object detection (CoSOD) is to discover salient objects that commonly appear in a query group containing two or more relevant
+            images. Therefore, how to effectively extract inter-image correspondence is crucial for the CoSOD task. In this paper, we propose a global-and-local
+            collaborative learning architecture, which includes a global correspondence modeling (GCM) and a local correspondence modeling (LCM) to capture
+            comprehensive inter-image corresponding relationship among different images from the global and local perspectives. Firstly, we treat different images
+            as different time slices and use 3D convolution to integrate all intra features intuitively, which can more fully extract the global group semantics.
+            Secondly, we design a pairwise correlation transformation (PCT) to explore similarity correspondence between pairwise images and combine the multiple
+            local pairwise correspondences to generate the local inter-image relationship. Thirdly, the inter-image relationships of the GCM and LCM are integrated
+            through a global-and-local correspondence aggregation (GLA) module to explore more comprehensive inter-image collaboration cues. Finally, the intra- and
+            inter-features are adaptively integrated by an intra-and-inter weighting fusion (AEWF) module to learn co-saliency features and predict the co-saliency
+            map. The proposed GLNet is evaluated on three prevailing CoSOD benchmark datasets, demonstrating that our model trained on a small dataset (about 3k
+            images) still outperforms eleven state-of-the-art competitors trained on some large datasets (about 8k~200k images).
             </p>
         </p>
       </div>
