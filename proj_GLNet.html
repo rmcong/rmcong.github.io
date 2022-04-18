@@ -2,7 +2,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   
-  <title>DPANet: Depth Potentiality-Aware Gated Attention Network for RGB-D Salient Object Detection</title>
+  <title>Global-and-Local Collaborative Learning for Co-Salient Object Detection</title>
   <!--=================Meta tags==========================-->
   <meta name="robots" content="index,follow">
   <meta name="description" content="Global-and-Local Collaborative Learning for Co-Salient Object Detection.">
@@ -198,17 +198,18 @@
       <center>
             <div class="leftView">
               <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/RRNet_files/framework.jpg">
+              <img class="std" src="./project/GLNet_files/framework.png">
             </div>
           </center>
         </div>
            <div class="section">
         <div style="text-align: justify; display: block; margin-right: auto;">
-        <p><b>Architecture of RRNet</b>, consisting of a relational reasoning encoder and a multi-scale attention decoder. 
-          The encoder generates hierarchical features, i.e., low-level features from the first two stages and high-level features from the last three stages.
-          Relational reasoning in two dimensions following each high-level stage are successively employed to refine features by reasoning semantic relationship.
-          Low-level features obtained by encoder are fed into parallel multi-scale attention module, generating attention maps with valuable information to restore lost details.
-          The top right portion is the computation procedures of feature fusion between passed-up deep features and shallow features.</p>
+        <p><b>Architecture of GLNet</b>. 
+          Given a query image group, we first obtain the deep intra features with a shared backbone feature extractor. A global correspondence modeling (GCM) module
+          is applied to capture the global interactive information among multiple images, while a local correspondence modeling (LCM) module further collects the 
+          local interactive information between pairwise images. The global and local features are generated into inter features through a global-and-local 
+          correspondence aggregation (GLA) module. Then, the intra and inter features are further adaptively aggregated through an intra-and-inter weighting 
+          fusion (AEWF) module to learn co-saliency features. In the end, a multi-layer deconvolution is used to predict the full-resolution co-saliency maps M.</p>
       </div>
         </div>
         <br/> 
@@ -222,10 +223,9 @@
         <br>
         <div style="text-align: justify; display: block; margin-right: auto;">
         <ol>
-          <li><p>We propose <b>a novel end-to-end relational reasoning network with parallel multi-scale attention (RRNet)</b> for SOD in optical RSIs, which consists of a relational reasoning encoder and a multi-scale attention decoder.</p></li>
-          <li><p>We design a <b>relational reasoning module in the high-level layers of the encoder stage</b> to model the sematic relations and force the generation of complete salient objects. <b>This is the first attempt to introduce relational reasoning in the SOD framework for optical RSIs.</b> Moreover, we innovatively employ relational reasoning along the spatial and channel dimensions jointly to obtain more comprehensive semantic relations.</p></li>
-          <li><p>We propose a <b>parallel multi-scale attention scheme in the low-level layers of the decoder stage</b> to recover the detail information in a multi-scale and attention manner. This mechanism can deal with the object scale variation issue through the multi-scale design, while effectively recovering the detail information with the help of shallower features selected by the parallel attention.</p></li>
-          <li><p>We compare the proposed methods with thirteen state-of-the-art approaches on two challenging optical RSI datasets. Without bells and whistles, our method achieves the best performance under three evaluation metrics. Besides, the model has a real-time inference speed of <b>109 FPS</b>.</p></li>
+          <li><p>We propose an end-to-end network for co-salient object detection, the core of which is to capture a more comprehensive inter-image relationship through the global-and-local collaborative learning. The global correspondence modeling module directly extracts the interactive information of multiple images intuitively, and the local correspondence modeling module defines the inter-image relationship through the form of multiple pairwise images.</p></li>
+          <li><p>For the global correspondence modeling, different images are regarded as different time dimensions, and thus 3D convolution is used instead of the usual 2D convolution to capture global group semantics.</p></li>
+          <li><p>For the local correspondence modeling, we design a pairwise correlation transformation to explore similarity correspondence between pairwise images. The two modules work together to learn more in-depth and comprehensive inter-image relationships.</p></li>
         </ol>
       </div>
       <br/>
@@ -238,13 +238,13 @@
        <center>
             <div class="leftView">
               <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/RRNet_files/visual.jpg">
+              <img class="std" src="./project/GLNet_files/visual.png">
             </div>
           </center>
         </div>
            <div class="section">
         <div style="text-align: justify; display: block; margin-right: auto;">
-        <p><b>Visual comparisons of our proposed method and SOTA methods on EORSSD dataset</b>. The deep learning based methods are trained/re-trained on the EORSSD dataset.</p>
+        <p><b>Visual comparisons of different methods. </b> The first image group is axe, the second one is the pineapple, and the last one is white goose.</p>
       </div>
         </div>
         <br/> 
@@ -277,7 +277,7 @@
           <center>
             <div class="leftView">
               <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/RRNet_files/performance.png">
+              <img class="std" src="./project/GLNet_files/performance.png">
             </div>
           </center>
         </div>
@@ -291,14 +291,14 @@
           <tbody><tr>
             <td width="20%">
               <center>
-                <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9592773" target="_blank" class="imageLink"><img src="./project/txt.png" ,="" width="40%"></a><br><br>
-                <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9592773" target="_blank">Paper</a>
+                <a href="https://rmcong.github.io/Publication.html" target="_blank" class="imageLink"><img src="./project/txt.png" ,="" width="40%"></a><br><br>
+                <a href="https://rmcong.github.io/Publication.html" target="_blank">Paper</a>
               </center>
             </td>
             <td width="20%">
               <center>
-                <a href="https://github.com/rmcong/RRNet_TGRS2021" target="_blank" class="imageLink"><img src="./project/icon_github.png" ,="" width="40%"></a><br><br>
-                <a href="https://github.com/rmcong/RRNet_TGRS2021" target="_blank">Code and Model</a>
+                <a href="https://github.com/rmcong/GLNet_TCYB2022" target="_blank" class="imageLink"><img src="./project/icon_github.png" ,="" width="40%"></a><br><br>
+                <a href="https://github.com/rmcong/GLNet_TCYB2022" target="_blank">Code and Model</a>
               </center>
             </td>
           </tr>
@@ -312,9 +312,7 @@
         <br>
         <div style="text-align: justify; display: block; margin-right: auto;">
         <ol>
-          <li><p>Qijian Zhang, Runmin Cong, Chongyi Li, Ming-Ming Cheng, Yuming Fang, Xiaochun Cao, Yao Zhao, and Sam Kwong, Dense attention fluid network for salient object detection in optical remote sensing images, IEEE Transactions on Image Processing, vol. 30, pp. 1305-1317, 2021. <a href="https://rmcong.github.io/proj_DPANet.html"  target="_blank"><font color="#FF5151">[Project Page]</font></a></p></li>
-          <li><p>Chongyi Li, Runmin Cong, Junhui Hou, Sanyi Zhang, Yue Qian, and Sam Kwong, Nested network with two-stream pyramid for salient object detection in optical remote sensing images, IEEE Transactions on Geoscience and Remote Sensing, vol. 57, no. 11, pp. 9156-9166, 2019. <a href="https://li-chongyi.github.io/proj_optical_saliency.html"  target="_blank"><font color="#FF5151">[Project Page]</font></a></p></li>
-        <li><p>Chongyi Li, Runmin Cong, Chunle Guo, Hua Li, Chunjie Zhang, Feng Zheng, and Yao Zhao, A parallel down-up fusion network for salient object detection in optical remote sensing images, Neurocomputing, vol. 415, pp. 411-420, 2020.</p></li>
+          <li><p>Qijian Zhang, Runmin Cong#, Junhui Hou, Chongyi Li, and Yao Zhao, CoADNet: Collaborative aggregation-and-distribution networks for co-salient object detection, Thirty-fourth Conference on Neural Information Processing Systems (NeurIPS), pp. 6959-6970, 2020. <a href="https://rmcong.github.io/proj_CoADNet.html"  target="_blank"><font color="#FF5151">[Project Page]</font></a></p></li>
           </ol>
       </div>
       <br/>
