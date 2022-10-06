@@ -199,7 +199,10 @@
         </div>
            <div class="section">
         <div style="text-align: justify; display: block; margin-right: auto;">
-        <p>The overview of the proposed CIR-Net.</p>
+        <p>The overview of the proposed CIR-Net. The extracted RGB and depth features from the backbone. In the feature encoder, we also use the PAI unit to generate the cross-modality RGB-D encoder features.
+          Then, the top-layer RGB, depth, and RGB-D features are embedded into the refinement middleware consisting of a smAR unit and a cmWR unit to progressively refine the multi-modality encoder features in a self- and cross-modality manner.
+          Finally, the decoder features of the RGB branch and depth branch flow into the corresponding RGB-D stream to learn more comprehensive interaction features through an IGF unit in the feature decoder stage.
+          Note that all three branches output a corresponding saliency prediction map, and we use the output of the RGB-D branch as the final result.</p>
       </div>
         </div>
       <br/> 
