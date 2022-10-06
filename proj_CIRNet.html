@@ -176,7 +176,7 @@
         <p>
           <div style="text-align: justify; display: block; margin-right: auto;">
           <p>Focusing on the issue of how to effectively capture and utilize cross-modality information in RGB-D salient object detection (SOD) task, 
-            we present a convolutional neural network (CNN) model, named CIR-Net, based on the novel cross-modality interaction and refinement. 
+            <b>we present a convolutional neural network (CNN) model, named CIR-Net, based on the novel cross-modality interaction and refinement</b>. 
             For the cross-modality interaction, 1) a progressive attention guided integration unit is proposed to sufficiently integrate RGB-D feature representations
             in the encoder stage, and 2) a convergence aggregation structure is proposed, which flows the RGB and depth decoding features into the corresponding 
             RGB-D decoding streams via an importance gated fusion unit  in the decoder stage. For the cross-modality refinement, we insert a refinement middleware
@@ -199,11 +199,7 @@
         </div>
            <div class="section">
         <div style="text-align: justify; display: block; margin-right: auto;">
-        <p>(a) A simple solution for training the SOD model with coarse and real labels. 
-          (b) The proposed alternate learning framework for weakly-supervised SOD task under the hybrid label, consisting of a Refine Network (R-Net) and a Saliency
-          Network (S-Net). These two networks cooperate with each other and train alternately. During training, both networks employ a group-wise incremental
-          mechanism to address the imbalance between real-labeled data and pseudo-labeled data, and use a credibility verification mechanism to ensure that the two
-          networks can provide credible labels. (c) Training strategy for group update based on real labels and pseudo labels.</p>
+        <p>The overview of the proposed CIR-Net.</p>
       </div>
         </div>
       <br/> 
@@ -220,7 +216,7 @@
         </div>
            <div class="section">
         <div style="text-align: justify; display: block; margin-right: auto;">
-        <p> The overall framework of the proposed Refine Network (R-Net).</p>
+        <p> Illustration of the self-modality attention refinement (smAR) unit and the cross-modality weighting refinement (cmWR) unit in the refinement middleware structure, and the importance gated fusion (IGF) unit.</p>
       </div>
         </div>
         <br/> 
@@ -233,9 +229,10 @@
         <br>
         <div style="text-align: justify; display: block; margin-right: auto;">
         <ol>
-          <li><p><b>For the first time, we launch a new weakly-supervised SOD task based on hybrid labels, with a large number of coarse labels and a small number of real labels as supervision. </b> To this end, we decouple this task into two sub-tasks of coarse label refinement and salient object detection, and design the corresponding R-Net and S-Net. Moreover, our method achieves competitive performance on five widely used benchmark datasets using only one-tenth of the real labels in fully-supervised setting.</p></li>
-          <li><p><b>We design a BGA in the R-Net to achieve two-stage feature decoding</b>, where the guidance stage is used to introduce the guidance information from the RGB-image guidance branch to guarantee a relatively robust performance baseline, and the aggregation stage is to dynamically integrate different levels of features according to their modification or supplementation roles.</p></li>
-          <li><p>In order to guarantee the effectiveness and efficiency of network training, from the perspective of quantity allocation, training method and reliability judgment, <b>we design the alternate iteration mechanism, group-wise incremental mechanism, and credibility verification mechanism</b>. </p></li>
+          <li><p>We propose an end-to-end <b>cross-modality interaction and refinement network (CIR-Net)</b> for RGB-D SOD by fully capturing and utilizing the cross-modality information in an interaction and refinement manner.</p></li>
+          <li><p>The <b>progressive attention guided integration unit</b> and the <b>importance gated fusion unit</b> are proposed to achieve comprehensive cross-modality interaction in the encoder and decoder stages respectively.</p></li>
+          <li><p>The <b>refinement middleware structure</b> including the self-modality attention refinement unit and cross-modality weighting refinement unit is designed to refine the multi-modality encoder features by encoding the self-modality 3D attention tensor and the cross-modality contextual dependencies.</p></li>
+          <li><p>Without any pre-processing (e.g., HHA) or post-processing (e.g., CRF) techniques, our network achieves <b>competitive performance</b> against the state-of-the-art methods on six RGB-D SOD datasets.</p></li>
         </ol>
       </div>
       <br/>
@@ -254,7 +251,7 @@
         </div>
            <div class="section">
         <div style="text-align: justify; display: block; margin-right: auto;">
-        <p>Visual comparisons with other state-of-the-art methods in various representative scenes.</p>
+        <p>Visual examples of different methods. (a) RGB image. (b) Depth map. (c) GT. (d) Ours. (e) A2dele. (f) DANet. (g) S2MA. (h) PGAR. (i) FRDT. (j) JL-DCF. (k) D3Net. (l) BiANet. (m) DMRA.  Our method outperforms other SOTA algorithms in various scenes, including common scenarios (line 1 and 2), unreliable or confusing depth maps (line 3 and 4), multiple objects (line 5 and 6), low contrast (line 7 and 8), and small objects (line 9 and 10).</p>
       </div>
         </div>
         <br/> 
@@ -292,10 +289,8 @@
         </div>
           <div class="section">
         <div style="text-align: justify; display: block; margin-right: auto;">
-        <p>Quantitative results of different methods on five SOD benchmark datasets, &uarr; and &darr; respectively indicate that the larger and smaller
-          the score, the better. ‘F’ means fully supervision, ‘I’ means image-level weakly supervision, and ‘S’ means scribble-level weakly supervision, 'Sub' means
-          subitizing supervision, ‘M’ means multi-source weakly supervision, ‘Un’ is for unsupervision, and ‘H’ denotes hybird supervision. The best performance
-          is marked in <b>BOLD</b>, and the second best performance is marked in <u>UNDERLINE</u>.</p>
+        <p>Quantitative comparison resutls in terms of S-measure, maximum F-measure, and MAE on six  RGB-D benchmark datasets. The bold indicates the best result
+          under each case. The type indicates whether the method is single-stream, two-stream, or three-stream. V16, V19 and R50 denote VGG16, VGG19 and ResNet50, respectively.</p>
       </div>
         </div>
         <br/>
@@ -308,14 +303,14 @@
           <tbody><tr>
             <td width="20%">
               <center>
-                <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9881551" target="_blank" class="imageLink"><img src="./project/txt.png" ,="" width="40%"></a><br><br>
-                <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9881551" target="_blank">Paper</a>
+                <a href="https://rmcong.github.io/Publication.html" target="_blank" class="imageLink"><img src="./project/txt.png" ,="" width="40%"></a><br><br>
+                <a href="https://rmcong.github.io/Publication.html" target="_blank">Paper</a>
               </center>
             </td>
             <td width="20%">
               <center>
-                <a href="https://github.com/rmcong/Hybrid-Label-SOD_TCSVT2022" target="_blank" class="imageLink"><img src="./project/icon_github.png" ,="" width="40%"></a><br><br>
-                <a href="https://github.com/rmcong/Hybrid-Label-SOD_TCSVT2022" target="_blank">Code and Model</a>
+                <a href="https://github.com/rmcong/CIRNet_TIP2022" target="_blank" class="imageLink"><img src="./project/icon_github.png" ,="" width="40%"></a><br><br>
+                <a href="https://github.com/rmcong/CIRNet_TIP2022" target="_blank">Code and Model</a>
               </center>
             </td>
             </tr>
@@ -326,10 +321,10 @@
       <div class="img_container" ,="" id="citation">
         <h2>Citation</h2>
         <div class="section bibtex">
-          <pre>@article{HybridSOD,
-  title={A weakly supervised learning framework for salient object detection via hybrid labels},
-  author={Cong, Runmin and Qin, Qi and Zhang, Chen and Jiang, Qiuping and Wang, Shiqi and Zhao, Yao and Kwong, Sam },
-  journal={IEEE Transactions on Circuits and Systems for Video Technology},
+          <pre>@article{CIRNet,
+  title={{CIR-Net}: Cross-modality interaction and refinement for {RGB-D} salient object detection},
+  author={Cong, Runmin and Lin, Qinwei and Zhang, Chen and Li, chongyi and Cao, Xiaochun and Huang, Qingming and Zhao, Yao },
+  journal={IEEE Transactions on Image Processing},
   year={2022},
   publisher={IEEE}
 }
