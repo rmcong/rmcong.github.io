@@ -144,8 +144,8 @@
           Kepu Zhang<sup>1</sup>&nbsp;
           Chen Zhang<sup>1</sup>&nbsp;
           <a href="https://faculty.sustech.edu.cn/fengzheng/en/" target="_blank">Feng Zheng</a> <sup>2</sup> &nbsp;
-          <a href="https://qmhuang-ucas.github.io/" target="_blank">Qingming Huang</a> <sup>3</sup> &nbsp;
           <a href="http://faculty.bjtu.edu.cn/5900/" target="_blank">Yao Zhao</a> <sup>1</sup> &nbsp;
+          <a href="https://qmhuang-ucas.github.io/" target="_blank">Qingming Huang</a> <sup>3</sup> &nbsp; 
           <a href="https://www.cs.cityu.edu.hk/~cssamk/research_group/" target="_blank">Sam Kwong</a> <sup>4</sup> &nbsp;
           
         </div>
@@ -175,14 +175,16 @@
         <br>
         <p>
           <div style="text-align: justify; display: block; margin-right: auto;">
-          <p>Focusing on the issue of how to effectively capture and utilize cross-modality information in RGB-D salient object detection (SOD) task, 
-            <b>we present a convolutional neural network (CNN) model, named CIR-Net, based on the novel cross-modality interaction and refinement</b>. 
-            For the cross-modality interaction, 1) a progressive attention guided integration unit is proposed to sufficiently integrate RGB-D feature representations
-            in the encoder stage, and 2) a convergence aggregation structure is proposed, which flows the RGB and depth decoding features into the corresponding 
-            RGB-D decoding streams via an importance gated fusion unit  in the decoder stage. For the cross-modality refinement, we insert a refinement middleware
-            structure between the encoder and the decoder, in which the RGB, depth, and RGB-D encoder features are further refined by successively using a self-modality
-            attention refinement unit and a cross-modality weighting refinement unit. At last, with the gradually refined features, we predict the saliency map in the
-            decoder stage. Extensive experiments on six popular RGB-D SOD benchmarks demonstrate that our network outperforms the state-of-the-art saliency detectors both qualitatively and quantitatively.  </p>
+          <p>In recent years, RGB-T salient object detection (SOD) has attracted continuous attention, which makes it possible to identify salient objects in 
+            environments such as low light by introducing thermal image. However, most of the existing RGB-T SOD models focus on how to perform cross-modality
+            feature fusion, ignoring whether thermal image is really always matter in SOD task. <b>Starting from the definition and nature of this task, this paper
+            rethinks the connotation of thermal modality, and proposes a network named TNet to solve the RGB-T SOD task.</b> In this paper, we introduce a global
+            illumination estimation module to predict the global illuminance score of the image, so as to regulate the role played by the two modalities.
+            In addition, considering the role of thermal modality, we set up different cross-modality interaction mechanisms in the encoding phase and the decoding
+            phase. On the one hand, we introduce a semantic constraint provider to enrich the semantics of thermal images in the encoding phase, which makes thermal
+            modality more suitable for the SOD task. On the other hand, we introduce a two-stage localization and complementation module in the decoding phase to
+            transfer object localization cue and internal integrity cue in thermal features to the RGB modality. Extensive experiments on three datasets show that
+            the proposed TNet achieves competitive performance compared with 20 state-of-the-art methods.  </p>
         </p>
       </div>
       <br/>
@@ -193,36 +195,20 @@
       <center>
             <div class="leftView">
               <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/CIRNet/framework.png">
+              <img class="std" src="./project/TNet/framework.png">
             </div>
           </center>
         </div>
            <div class="section">
         <div style="text-align: justify; display: block; margin-right: auto;">
-        <p>The overview of the proposed CIR-Net. The extracted RGB and depth features from the backbone. In the feature encoder, we also use the PAI unit to generate the cross-modality RGB-D encoder features.
-          Then, the top-layer RGB, depth, and RGB-D features are embedded into the refinement middleware consisting of a smAR unit and a cmWR unit to progressively refine the multi-modality encoder features in a self- and cross-modality manner.
-          Finally, the decoder features of the RGB branch and depth branch flow into the corresponding RGB-D stream to learn more comprehensive interaction features through an IGF unit in the feature decoder stage.
-          Note that all three branches output a corresponding saliency prediction map, and we use the output of the RGB-D branch as the final result.</p>
+        <p>The overview architecture of the proposed TNet, which follows an encoder-decoder structure. The upper right corner is the global illumination estimation (GIE) module,
+          predicting a global illuminance score to control the role of the two modalities. In the dual-stream encoding, the semantic constraint provider (SCP) module is
+          introduced to enrich the thermal features with the help of high-level RGB semantics, making it more suitable for SOD tasks. Finally, the single-stream decoding with
+          the RGB modality as the dominant and the thermal modality as the auxiliary implements layer-by-layer decoding under the action of the localization and complementation
+          (LC) module, thereby obtaining the final saliency prediction.</p>
       </div>
         </div>
       <br/> 
-
-      <div id="img_intro_examples" class="img_container">
-          <h2>Model Details</h2>
-      <br>
-      <center>
-            <div class="leftView">
-              <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/CIRNet/module.png">
-            </div>
-          </center>
-        </div>
-           <div class="section">
-        <div style="text-align: justify; display: block; margin-right: auto;">
-        <p> Illustration of the self-modality attention refinement (smAR) unit and the cross-modality weighting refinement (cmWR) unit in the refinement middleware structure, and the importance gated fusion (IGF) unit.</p>
-      </div>
-        </div>
-        <br/> 
 
       
       <!--=================Highlights==========================-->
@@ -232,10 +218,10 @@
         <br>
         <div style="text-align: justify; display: block; margin-right: auto;">
         <ol>
-          <li><p>We propose an end-to-end <b>cross-modality interaction and refinement network (CIR-Net)</b> for RGB-D SOD by fully capturing and utilizing the cross-modality information in an interaction and refinement manner.</p></li>
-          <li><p>The <b>progressive attention guided integration unit</b> and the <b>importance gated fusion unit</b> are proposed to achieve comprehensive cross-modality interaction in the encoder and decoder stages respectively.</p></li>
-          <li><p>The <b>refinement middleware structure</b> including the self-modality attention refinement unit and cross-modality weighting refinement unit is designed to refine the multi-modality encoder features by encoding the self-modality 3D attention tensor and the cross-modality contextual dependencies.</p></li>
-          <li><p>Without any pre-processing (e.g., HHA) or post-processing (e.g., CRF) techniques, our network achieves <b>competitive performance</b> against the state-of-the-art methods on six RGB-D SOD datasets.</p></li>
+          <li><p>We <b>rethink the value and role of thermal images in SOD task</b>, and propose a global illumination estimation module to control and regulate the interaction between the RGB image and the thermal image, thereby better adapting to challenging scenes such as low light.</p></li>
+          <li><p>In the encoding stage, a <b>semantic constraint provider</b> is designed to supplement the semantic content for each layer of the thermal image branch, which makes the thermal features more suitable for the SOD task.</p></li>
+          <li><p>In the decoding stage, a <b>localization and complementation module</b> is developed, which uses thermal features to provide effective object localization and integrity information for RGB decoding features. </p></li>
+          <li><p>The proposed network achieves <b>superior performance</b> compared to 20 state-of-the-art methods on three public benchmark datasets.</p></li>
         </ol>
       </div>
       <br/>
@@ -248,13 +234,13 @@
        <center>
             <div class="leftView">
               <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/CIRNet/visual.png">
+              <img class="std" src="./project/TNet/visual.png">
             </div>
           </center>
         </div>
            <div class="section">
         <div style="text-align: justify; display: block; margin-right: auto;">
-        <p>Visual examples of different methods. (a) RGB image. (b) Depth map. (c) GT. (d) Ours. (e) A2dele. (f) DANet. (g) S2MA. (h) PGAR. (i) FRDT. (j) JL-DCF. (k) D3Net. (l) BiANet. (m) DMRA.  Our method outperforms other SOTA algorithms in various scenes, including common scenarios (line 1 and 2), unreliable or confusing depth maps (line 3 and 4), multiple objects (line 5 and 6), low contrast (line 7 and 8), and small objects (line 9 and 10).</p>
+        <p>Qualitative visual comparison of different methods, including nine state-of-the-art RGB-T SOD methods marked in red dotted box, two RGB-D SOD methods marked in green dotted box, and two RGB SOD methods marked in blue dotted box.</p>
       </div>
         </div>
         <br/> 
@@ -263,7 +249,7 @@
         <center>
           <div class="leftView">
             <div class="mask" style="width:80px;height:80px"></div>
-            <img class="std" src="./project/CIRNet/visual.png">
+            <img class="std" src="./project/TNet/visual.png">
           </div>
         </center>
          </ol>
@@ -286,14 +272,13 @@
           <center>
             <div class="leftView">
               <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/CIRNet/evaluation.png">
+              <img class="std" src="./project/TNet/performance.png">
             </div>
           </center>
         </div>
           <div class="section">
         <div style="text-align: justify; display: block; margin-right: auto;">
-        <p>Quantitative comparison resutls in terms of S-measure, maximum F-measure, and MAE on six  RGB-D benchmark datasets. The bold indicates the best result
-          under each case. The type indicates whether the method is single-stream, two-stream, or three-stream. V16, V19 and R50 denote VGG16, VGG19 and ResNet50, respectively.</p>
+        <p>Quantitative comparison results of different models. &uarr;/&darr;  for a metric denotes that a larger/smaller value is better. The best results are in bold and the second best results are highlighted in underline.</p>
       </div>
         </div>
         <br/>
@@ -312,8 +297,8 @@
             </td>
             <td width="20%">
               <center>
-                <a href="https://github.com/rmcong/CIRNet_TIP2022" target="_blank" class="imageLink"><img src="./project/icon_github.png" ,="" width="40%"></a><br><br>
-                <a href="https://github.com/rmcong/CIRNet_TIP2022" target="_blank">Code and Model</a>
+                <a href="https://github.com/rmcong/TNet_TMM2022" target="_blank" class="imageLink"><img src="./project/icon_github.png" ,="" width="40%"></a><br><br>
+                <a href="https://github.com/rmcong/TNet_TMM2022" target="_blank">Code and Model</a>
               </center>
             </td>
             </tr>
@@ -324,10 +309,10 @@
       <div class="img_container" ,="" id="citation">
         <h2>Citation</h2>
         <div class="section bibtex">
-          <pre>@article{CIRNet,
-  title={{CIR-Net}: Cross-modality interaction and refinement for {RGB-D} salient object detection},
-  author={Cong, Runmin and Lin, Qinwei and Zhang, Chen and Li, chongyi and Cao, Xiaochun and Huang, Qingming and Zhao, Yao },
-  journal={IEEE Transactions on Image Processing},
+          <pre>@article{TNet,
+  title={Does Thermal Really Always Matter for {RGB-T} Salient Object Detection?},
+  author={Cong, Runmin and Zhang, Kepu and Zhang, Chen and Zheng, Feng and Zhao, Yao and Huang, Qingming and Kwong, Sam },
+  journal={IEEE Transactions on Multimedia},
   year={2022},
   publisher={IEEE}
 }
