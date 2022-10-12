@@ -2,11 +2,11 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   
-  <title>Does Thermal Really Always Matter for RGB-T Salient Object Detection?</title>
+  <title>PSNet: Parallel Symmetric Network for Video Salient Object Detection</title>
   <!--=================Meta tags==========================-->
   <meta name="robots" content="index,follow">
-  <meta name="description" content="Does Thermal Really Always Matter for RGB-T Salient Object Detection?">
-  <meta name="keywords" content="TNet">
+  <meta name="description" content="PSNet: Parallel Symmetric Network for Video Salient Object Detection">
+  <meta name="keywords" content="PSNet">
   <link rel="author" href="https://rmcong.github.io">
   <!--=================js==========================-->
   <link href="./project/css.css" rel="stylesheet" type="text/css">
@@ -136,24 +136,23 @@
     <div id="content-inner">
       <div class="section head">
         <h1>
-        Does Thermal Really Always Matter for RGB-T Salient Object Detection?
+        PSNet: Parallel Symmetric Network for Video Salient Object Detection
         </h1>
         <!--=================Authors==========================-->
         <div class="authors">
           <a href="https://rmcong.github.io/" target="_blank">Runmin Cong</a> <sup>1</sup>&nbsp;
-          Kepu Zhang<sup>1</sup>&nbsp;
-          Chen Zhang<sup>1</sup>&nbsp;
-          <a href="https://faculty.sustech.edu.cn/fengzheng/en/" target="_blank">Feng Zheng</a> <sup>2</sup> &nbsp;
-          <a href="http://faculty.bjtu.edu.cn/5900/" target="_blank">Yao Zhao</a> <sup>1</sup> &nbsp;<br>
-          <a href="https://qmhuang-ucas.github.io/" target="_blank">Qingming Huang</a> <sup>3</sup> &nbsp; 
+          Weiyu Song<sup>1</sup>&nbsp;
+          Jianjun Lei<sup>2</sup> &nbsp;
+          <a href="http://116.13.96.81/20201/0519/78.html" target="_blank">Guanghui Yue</a> <sup>3</sup> &nbsp;
+          <a href="http://faculty.bjtu.edu.cn/5900/" target="_blank">Yao Zhao</a> <sup>1</sup> &nbsp;<br>           
           <a href="https://www.cs.cityu.edu.hk/~cssamk/research_group/" target="_blank">Sam Kwong</a> <sup>4</sup> &nbsp;
           
         </div>
 
         <div class="affiliations ">
           <sup>1</sup> Beijing Jiaotong University, Beijing, China<br>
-          <sup>2</sup> Southern University of Science and Technology, Shenzhen, China<br>
-          <sup>3</sup> University of Chinese Academy of Sciences, Beijing, China<br>
+          <sup>2</sup> Tianjin University, Tianjin, China<br>
+          <sup>3</sup> Shenzhen University, Beijing, China<br>
           <sup>4</sup> City University of Hong Kong, China<br>
 
           
@@ -175,16 +174,16 @@
         <br>
         <p>
           <div style="text-align: justify; display: block; margin-right: auto;">
-          <p>In recent years, RGB-T salient object detection (SOD) has attracted continuous attention, which makes it possible to identify salient objects in 
-            environments such as low light by introducing thermal image. However, most of the existing RGB-T SOD models focus on how to perform cross-modality
-            feature fusion, ignoring whether thermal image is really always matter in SOD task. <b>Starting from the definition and nature of this task, this paper
-            rethinks the connotation of thermal modality, and proposes a network named TNet to solve the RGB-T SOD task.</b> In this paper, we introduce a global
-            illumination estimation module to predict the global illuminance score of the image, so as to regulate the role played by the two modalities.
-            In addition, considering the role of thermal modality, we set up different cross-modality interaction mechanisms in the encoding phase and the decoding
-            phase. On the one hand, we introduce a semantic constraint provider to enrich the semantics of thermal images in the encoding phase, which makes thermal
-            modality more suitable for the SOD task. On the other hand, we introduce a two-stage localization and complementation module in the decoding phase to
-            transfer object localization cue and internal integrity cue in thermal features to the RGB modality. Extensive experiments on three datasets show that
-            the proposed TNet achieves competitive performance compared with 20 state-of-the-art methods.  </p>
+          <p>For the video salient object detection (VSOD) task, how to excavate the information from the appearance modality and the motion modality has always
+            been a topic of great concern. The two-stream structure, including an RGB appearance stream and an optical flow motion stream, has been widely used as
+            a typical pipeline for VSOD tasks, but the existing methods usually only use motion features to unidirectionally guide appearance features or adaptively
+            but blindly fuse two modality features. However, these methods underperform in diverse scenarios due to the uncomprehensive and unspecific learning schemes.
+            <b>In this paper, following a more secure modeling philosophy, we deeply investigate the importance of appearance modality and motion modality in a more
+            comprehensive way and propose a VSOD network with up and down parallel symmetry, named PSNet.</b> Two parallel branches with different dominant modalities
+            are set to achieve complete video saliency decoding with the cooperation of the Gather Diffusion Reinforcement (GDR) module and Cross-modality Refinement
+            and Complement (CRC) module. Finally, we use the Importance Perception Fusion (IPF) module to fuse the features from two parallel branches according to
+            their different importance in different scenarios. Experiments on four dataset benchmarks demonstrate that our method achieves desirable and competitive
+            performance.  </p>
         </p>
       </div>
       <br/>
@@ -195,17 +194,18 @@
       <center>
             <div class="leftView">
               <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/TNet/framework.png">
+              <img class="std" src="./project/PSNet/framework.png">
             </div>
           </center>
         </div>
            <div class="section">
         <div style="text-align: justify; display: block; margin-right: auto;">
-        <p>The overview architecture of the proposed TNet, which follows an encoder-decoder structure. The upper right corner is the global illumination estimation (GIE) module,
-          predicting a global illuminance score to control the role of the two modalities. In the dual-stream encoding, the semantic constraint provider (SCP) module is
-          introduced to enrich the thermal features with the help of high-level RGB semantics, making it more suitable for SOD tasks. Finally, the single-stream decoding with
-          the RGB modality as the dominant and the thermal modality as the auxiliary implements layer-by-layer decoding under the action of the localization and complementation
-          (LC) module, thereby obtaining the final saliency prediction.</p>
+        <p>The flowchart of the proposed Parallel Symmetric Network (PSNet) for video salient object detection. We first extract the multi-level features from RGB images
+          and optical flow maps via spatial encoder and temporal encoder respectively. 
+          Then, the appearance-dominated branch (top branch) and motion-dominated branch (bottom branch) are used to feature decoding. For each decoding, we use Gather
+          Diffusion Reinforcement (GDR) module to perform cross-scale feature enhancement, and then use the Cross-modality Refinement and Complement
+          (CRC) module to achieve cross-modality interaction with an explicit primary and secondary modality relationship. 
+          Finally, the Importance Perception Fusion (IPF) module is used to integrate the upper and lower branches by considering their different importance in different scenarios.</p>
       </div>
         </div>
       <br/> 
@@ -218,10 +218,9 @@
         <br>
         <div style="text-align: justify; display: block; margin-right: auto;">
         <ol>
-          <li><p>We <b>rethink the value and role of thermal images in SOD task</b>, and propose a global illumination estimation module to control and regulate the interaction between the RGB image and the thermal image, thereby better adapting to challenging scenes such as low light.</p></li>
-          <li><p>In the encoding stage, a <b>semantic constraint provider</b> is designed to supplement the semantic content for each layer of the thermal image branch, which makes the thermal features more suitable for the SOD task.</p></li>
-          <li><p>In the decoding stage, a <b>localization and complementation module</b> is developed, which uses thermal features to provide effective object localization and integrity information for RGB decoding features. </p></li>
-          <li><p>The proposed network achieves <b>superior performance</b> compared to 20 state-of-the-art methods on three public benchmark datasets.</p></li>
+          <li><p>Considering the adaptability of the network to different scenarios and the uncertainty of the role of different modalities, <b>we propose a parallel symmetric network (PSNet) for VSOD that simultaneously models the importance of two modality features in an explicit way</b>.</p></li>
+          <li><p>We propose a <b>GDR module</b> in each branch to perform multi-scale content enhancement for dominant features and design a <b>CRC module</b> to achieve cross-modality interaction, where the auxiliary features are applied to refine and supplement dominant features.</p></li>
+          <li><p>Experimental results on four mainstream datasets demonstrate that our PSNet <b>outperforms 25 state-of-the-art methods</b> both quantitatively and qualitatively.</p></li>
         </ol>
       </div>
       <br/>
@@ -234,13 +233,13 @@
        <center>
             <div class="leftView">
               <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/TNet/visual.png">
+              <img class="std" src="./project/PSNet/visual.png">
             </div>
           </center>
         </div>
            <div class="section">
         <div style="text-align: justify; display: block; margin-right: auto;">
-        <p>Qualitative visual comparison of different methods, including nine state-of-the-art RGB-T SOD methods marked in red dotted box, two RGB-D SOD methods marked in green dotted box, and two RGB SOD methods marked in blue dotted box.</p>
+        <p>The visualization results of different video salient object detection methods.</p>
       </div>
         </div>
         <br/> 
@@ -272,13 +271,13 @@
           <center>
             <div class="leftView">
               <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/TNet/performance.png">
+              <img class="std" src="./project/PSNet/performance.png">
             </div>
           </center>
         </div>
           <div class="section">
         <div style="text-align: justify; display: block; margin-right: auto;">
-        <p>Quantitative comparison results of different models. &uarr;/&darr;  for a metric denotes that a larger/smaller value is better. The best results are in bold and the second best results are highlighted in underline.</p>
+        <p>Quantitative results on the DAVIS, SegV2, DAVSOD, and ViSal datasets. The top two score was marked in <b>bold</b> and <u>underline</u>, respectively.</p>
       </div>
         </div>
         <br/>
@@ -297,8 +296,8 @@
             </td>
             <td width="20%">
               <center>
-                <a href="https://github.com/rmcong/TNet_TMM2022" target="_blank" class="imageLink"><img src="./project/icon_github.png" ,="" width="40%"></a><br><br>
-                <a href="https://github.com/rmcong/TNet_TMM2022" target="_blank">Code and Model</a>
+                <a href="https://github.com/rmcong/PSNet_TETCI2022" target="_blank" class="imageLink"><img src="./project/icon_github.png" ,="" width="40%"></a><br><br>
+                <a href="https://github.com/rmcong/PSNet_TETCI2022" target="_blank">Code and Model</a>
               </center>
             </td>
             </tr>
@@ -309,10 +308,10 @@
       <div class="img_container" ,="" id="citation">
         <h2>Citation</h2>
         <div class="section bibtex">
-          <pre>@article{TNet,
-  title={Does Thermal Really Always Matter for {RGB-T} Salient Object Detection?},
-  author={Cong, Runmin and Zhang, Kepu and Zhang, Chen and Zheng, Feng and Zhao, Yao and Huang, Qingming and Kwong, Sam },
-  journal={IEEE Transactions on Multimedia},
+          <pre>@article{PSNet,
+  title={{PSNet}: Parallel Symmetric Network for Video Salient Object Detection},
+  author={Cong, Runmin and Song, Weiyu and Lei, Jianjun and Yue, Guanghui and Zhao, Yao and Kwong, Sam },
+  journal={IEEE Transactions on Emerging Topics in Computational Intelligence},
   year={2022},
   publisher={IEEE}
 }
