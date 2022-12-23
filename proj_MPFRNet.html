@@ -195,37 +195,19 @@
       <center>
             <div class="leftView">
               <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/HybridSOD/framework2.png">
+              <img class="std" src="./project/360SOD/framework.png">
             </div>
           </center>
         </div>
            <div class="section">
         <div style="text-align: justify; display: block; margin-right: auto;">
-        <p>(a) A simple solution for training the SOD model with coarse and real labels. 
-          (b) The proposed alternate learning framework for weakly-supervised SOD task under the hybrid label, consisting of a Refine Network (R-Net) and a Saliency
-          Network (S-Net). These two networks cooperate with each other and train alternately. During training, both networks employ a group-wise incremental
-          mechanism to address the imbalance between real-labeled data and pseudo-labeled data, and use a credibility verification mechanism to ensure that the two
-          networks can provide credible labels. (c) Training strategy for group update based on real labels and pseudo labels.</p>
+        <p>The overall pipeline of the proposed MPFR-Net. Equirectangular image and four cube-unfolding images are used as the inputs of the encoder-decoder network.
+          The encoder is a weight-shared ResNet-50 composed of five convolutional blocks. In the feature decoding process, the equirectangular features and
+          cube-unfolding features are firstly fused by the DWF module in a dynamic weighing manner. Then, in each level of decoding, the redundant information
+          in features is filtered and refined by the FR module.</p>
       </div>
         </div>
       <br/> 
-
-      <div id="img_intro_examples" class="img_container">
-          <h2>Model Details</h2>
-      <br>
-      <center>
-            <div class="leftView">
-              <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/HybridSOD/R-Net.png">
-            </div>
-          </center>
-        </div>
-           <div class="section">
-        <div style="text-align: justify; display: block; margin-right: auto;">
-        <p> The overall framework of the proposed Refine Network (R-Net).</p>
-      </div>
-        </div>
-        <br/> 
 
       
       <!--=================Highlights==========================-->
@@ -235,9 +217,9 @@
         <br>
         <div style="text-align: justify; display: block; margin-right: auto;">
         <ol>
-          <li><p><b>For the first time, we launch a new weakly-supervised SOD task based on hybrid labels, with a large number of coarse labels and a small number of real labels as supervision. </b> To this end, we decouple this task into two sub-tasks of coarse label refinement and salient object detection, and design the corresponding R-Net and S-Net. Moreover, our method achieves competitive performance on five widely used benchmark datasets using only one-tenth of the real labels in fully-supervised setting.</p></li>
-          <li><p><b>We design a BGA in the R-Net to achieve two-stage feature decoding</b>, where the guidance stage is used to introduce the guidance information from the RGB-image guidance branch to guarantee a relatively robust performance baseline, and the aggregation stage is to dynamically integrate different levels of features according to their modification or supplementation roles.</p></li>
-          <li><p>In order to guarantee the effectiveness and efficiency of network training, from the perspective of quantity allocation, training method and reliability judgment, <b>we design the alternate iteration mechanism, group-wise incremental mechanism, and credibility verification mechanism</b>. </p></li>
+          <li><p>A <b>Multi-Projection Fusion and Refinement Network (MPFR-Net)</b> is proposed to achieve salient object detection in 360° omnidirectional images, which introduces four cube-unfolding images through cube-map projection to supplement the corresponding equirectangular image.</p></li>
+          <li><p>A <b>Dynamic Weighting Fusion (DWF) module</b> is designed to adaptively integrate the multi-projection features from the perspective of inter and intra features in a complementary and dynamic manner.</p></li>
+          <li><p>A <b>Filtration and Refinement (FR) module</b> is presented to update the encoder and decoder features through the filtration scheme, and to suppress the redundant information in the fusion process through the refinement scheme.</p></li>
         </ol>
       </div>
       <br/>
@@ -250,13 +232,14 @@
        <center>
             <div class="leftView">
               <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/HybridSOD/visual.png">
+              <img class="std" src="./project/360SOD/visual.png">
             </div>
           </center>
         </div>
            <div class="section">
         <div style="text-align: justify; display: block; margin-right: auto;">
-        <p>Visual comparisons with other state-of-the-art methods in various representative scenes.</p>
+        <p>Visual comparisons with other state-of-the-art methods in various representative scenes. (a) Equirectangular images. (b) Ground truth. 
+          (c) Result of our proposed method (marked in red box). (d)-(n) Saliency maps generated by FANet, DDS, GCPANet, ITSD, F3Net, MINet, HVPNet, SAMNet, CPDNet, BPFINet, CTDNet.</p>
       </div>
         </div>
         <br/> 
@@ -288,16 +271,14 @@
           <center>
             <div class="leftView">
               <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/HybridSOD/performance.png">
+              <img class="std" src="./project/360SOD/performance.png">
             </div>
           </center>
         </div>
           <div class="section">
         <div style="text-align: justify; display: block; margin-right: auto;">
-        <p>Quantitative results of different methods on five SOD benchmark datasets, &uarr; and &darr; respectively indicate that the larger and smaller
-          the score, the better. ‘F’ means fully supervision, ‘I’ means image-level weakly supervision, and ‘S’ means scribble-level weakly supervision, 'Sub' means
-          subitizing supervision, ‘M’ means multi-source weakly supervision, ‘Un’ is for unsupervision, and ‘H’ denotes hybird supervision. The best performance
-          is marked in <b>BOLD</b>, and the second best performance is marked in <u>UNDERLINE</u>.</p>
+        <p>Quantitative comparison on two public datasets. From top to bottom: SOD methods on 2D images, SOD methods on 360° omnidirectional images and our method.
+          &uarr; and &darr; denote larger and smaller is better. The top three results are marked in red, green and blue.</p>
       </div>
         </div>
         <br/>
@@ -310,14 +291,14 @@
           <tbody><tr>
             <td width="20%">
               <center>
-                <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9881551" target="_blank" class="imageLink"><img src="./project/txt.png" ,="" width="40%"></a><br><br>
-                <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9881551" target="_blank">Paper</a>
+                <a href="https://rmcong.github.io/Publication.html" target="_blank" class="imageLink"><img src="./project/txt.png" ,="" width="40%"></a><br><br>
+                <a href="https://rmcong.github.io/Publication.html" target="_blank">Paper</a>
               </center>
             </td>
             <td width="20%">
               <center>
-                <a href="https://github.com/rmcong/Hybrid-Label-SOD_TCSVT2022" target="_blank" class="imageLink"><img src="./project/icon_github.png" ,="" width="40%"></a><br><br>
-                <a href="https://github.com/rmcong/Hybrid-Label-SOD_TCSVT2022" target="_blank">Code and Model</a>
+                <a href="https://github.com/rmcong/MPFRNet_TNNLS2022" target="_blank" class="imageLink"><img src="./project/icon_github.png" ,="" width="40%"></a><br><br>
+                <a href="https://github.com/rmcong/MPFRNet_TNNLS2022" target="_blank">Code and Model</a>
               </center>
             </td>
             </tr>
@@ -328,10 +309,10 @@
       <div class="img_container" ,="" id="citation">
         <h2>Citation</h2>
         <div class="section bibtex">
-          <pre>@article{HybridSOD,
-  title={A weakly supervised learning framework for salient object detection via hybrid labels},
-  author={Cong, Runmin and Qin, Qi and Zhang, Chen and Jiang, Qiuping and Wang, Shiqi and Zhao, Yao and Kwong, Sam },
-  journal={IEEE Transactions on Circuits and Systems for Video Technology},
+          <pre>@article{360SOD,
+  title={Multi-projection fusion and refinement network for salient object detection in 360$^{\circ}$ omnidirectional image},
+  author={Cong, Runmin and Huang, Ke and Lei, Jianjun and Zhao, Yao and Huang, Qingming and Kwong, Sam },
+  journal={IEEE Transactions on Neural Networks and Learning Systems},
   year={2022},
   publisher={IEEE}
 }
