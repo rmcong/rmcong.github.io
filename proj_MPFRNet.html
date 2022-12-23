@@ -1,0 +1,350 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>A Weakly Supervised Learning Framework for Salient Object Detection via Hybrid Labels</title>
+  <!--=================Meta tags==========================-->
+  <meta name="robots" content="index,follow">
+  <meta name="description" content="A Weakly Supervised Learning Framework for Salient Object Detection via Hybrid Labels.">
+  <meta name="keywords" content="Hybrid Label SOD">
+  <link rel="author" href="https://rmcong.github.io">
+  <!--=================js==========================-->
+  <link href="./project/css.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="./project/project.css" media="screen">
+  <script type="text/javascript" async="" src="./project/analytics.js.download"></script>
+  <script src="./project/effect.js.download"></script>
+  <!-- Latex -->
+  <script type="text/x-mathjax-config;executed=true">
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+        TeX: { equationNumbers: { autoNumber: "AMS" } },
+      });
+      </script>
+  <script type="text/javascript" async="" src="./project/latest.js.download">
+    </script>
+  <!--=================Google Analytics==========================-->
+  <script async="" src="./project/js"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-129775907-1');
+  </script>
+<script type="text/javascript" async="" src="./project/MathJax.js.download"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover, .MJXp-munder {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > *, .MJXp-munder > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+
+<body><div id="MathJax_Message" style="display: none;"></div>
+  <div id="content">
+    <div id="content-inner">
+      <div class="section head">
+        <h1>
+        A Weakly Supervised Learning Framework for Salient Object Detection via Hybrid Labels
+        </h1>
+        <!--=================Authors==========================-->
+        <div class="authors">
+          <a href="https://rmcong.github.io/" target="_blank">Runmin Cong</a> <sup>1</sup>&nbsp;
+          Qi Qin<sup>1</sup>&nbsp;
+          Chen Zhang<sup>1</sup>&nbsp;
+            <a href="http://jiangqiuping.com/" target="_blank">Qiuping Jiang</a> <sup>2</sup> &nbsp;
+          <a href="https://www.cs.cityu.edu.hk/~shiqwang/index.html" target="_blank">Shiqi Wang</a> <sup>3</sup> &nbsp;
+          <a href="http://faculty.bjtu.edu.cn/5900/" target="_blank">Yao Zhao</a> <sup>1</sup> &nbsp;
+          <a href="https://www.cs.cityu.edu.hk/~cssamk/research_group/" target="_blank">Sam Kwong</a> <sup>3</sup> &nbsp;
+          
+        </div>
+
+        <div class="affiliations ">
+          <sup>1</sup> Beijing Jiaotong University, Beijing, China<br>
+          <sup>2</sup> Ningbo University, Ningbo, China<br>
+          <sup>3</sup> City University of Hong Kong, China<br>
+
+          
+          
+          
+        </div>
+        <!--=================Tabs==========================
+        <ul id="tabs">
+          <li><a href="https://li-chongyi.github.io/Zero.html#materials" name="#tab1">Materials</a></li>
+          <li><a href="https://li-chongyi.github.io/Zero.html#pcd_tsa" name="#tab2">PCD &amp; TSA</a></li>
+          <li><a href="https://li-chongyi.github.io/Zero.html#ablations" name="#tab3">Ablations</a></li>
+          <li><a href="https://li-chongyi.github.io/Zero.html#results" name="#tab4">Results</a></li>
+          <li><a href="https://li-chongyi.github.io/Zero.html#citation" name="#tab5">Citation</a></li>
+      </ul>-->
+      </div>
+      <br>
+      <div class="section abstract">
+        <h2>Abstract</h2>
+        <br>
+        <p>
+          <div style="text-align: justify; display: block; margin-right: auto;">
+          <p>Fully-supervised salient object detection (SOD) methods have made great progress, but such methods often rely on a large number of pixel-level annotations,
+            which are time-consuming and labour-intensive. <b>In this paper, we focus on a new weakly-supervised SOD task under hybrid labels, where the supervision labels
+            include a large number of coarse labels generated by the traditional unsupervised method and a small number of real labels.</b> To address the issues of label
+            noise and quantity imbalance in this task, we design a new pipeline framework with three sophisticated training strategies. In terms of model framework,
+            we decouple the task into label refinement sub-task and salient object detection sub-task, which cooperate with each other and train alternately.
+            Specifically, the R-Net is designed as a two-stream encoder-decoder model equipped with Blender with Guidance and Aggregation Mechanisms (BGA), aiming to
+            rectify the coarse labels for more reliable pseudo-labels, while the S-Net is a replaceable SOD network supervised by the pseudo labels generated by the
+            current R-Net. Note that, we only need to use the trained S-Net for testing. Moreover, in order to guarantee the effectiveness and efficiency of network
+            training, we design three training strategies, including alternate iteration mechanism, group-wise incremental mechanism, and credibility verification
+            mechanism. Experiments on five SOD benchmarks show that our method achieves competitive performance against weakly-supervised/unsupervised methods both
+            qualitatively and quantitatively. </p>
+        </p>
+      </div>
+      <br/>
+      <!--=================Teasers==========================-->
+      <div id="img_intro_examples" class="img_container">
+          <h2>Pipeline</h2>
+      <br>
+      <center>
+            <div class="leftView">
+              <div class="mask" style="width:80px;height:80px"></div>
+              <img class="std" src="./project/HybridSOD/framework2.png">
+            </div>
+          </center>
+        </div>
+           <div class="section">
+        <div style="text-align: justify; display: block; margin-right: auto;">
+        <p>(a) A simple solution for training the SOD model with coarse and real labels. 
+          (b) The proposed alternate learning framework for weakly-supervised SOD task under the hybrid label, consisting of a Refine Network (R-Net) and a Saliency
+          Network (S-Net). These two networks cooperate with each other and train alternately. During training, both networks employ a group-wise incremental
+          mechanism to address the imbalance between real-labeled data and pseudo-labeled data, and use a credibility verification mechanism to ensure that the two
+          networks can provide credible labels. (c) Training strategy for group update based on real labels and pseudo labels.</p>
+      </div>
+        </div>
+      <br/> 
+
+      <div id="img_intro_examples" class="img_container">
+          <h2>Model Details</h2>
+      <br>
+      <center>
+            <div class="leftView">
+              <div class="mask" style="width:80px;height:80px"></div>
+              <img class="std" src="./project/HybridSOD/R-Net.png">
+            </div>
+          </center>
+        </div>
+           <div class="section">
+        <div style="text-align: justify; display: block; margin-right: auto;">
+        <p> The overall framework of the proposed Refine Network (R-Net).</p>
+      </div>
+        </div>
+        <br/> 
+
+      
+      <!--=================Highlights==========================-->
+     
+      <div id="img_intro_examples" class="img_container">
+        <h2>Highlights</h2>
+        <br>
+        <div style="text-align: justify; display: block; margin-right: auto;">
+        <ol>
+          <li><p><b>For the first time, we launch a new weakly-supervised SOD task based on hybrid labels, with a large number of coarse labels and a small number of real labels as supervision. </b> To this end, we decouple this task into two sub-tasks of coarse label refinement and salient object detection, and design the corresponding R-Net and S-Net. Moreover, our method achieves competitive performance on five widely used benchmark datasets using only one-tenth of the real labels in fully-supervised setting.</p></li>
+          <li><p><b>We design a BGA in the R-Net to achieve two-stage feature decoding</b>, where the guidance stage is used to introduce the guidance information from the RGB-image guidance branch to guarantee a relatively robust performance baseline, and the aggregation stage is to dynamically integrate different levels of features according to their modification or supplementation roles.</p></li>
+          <li><p>In order to guarantee the effectiveness and efficiency of network training, from the perspective of quantity allocation, training method and reliability judgment, <b>we design the alternate iteration mechanism, group-wise incremental mechanism, and credibility verification mechanism</b>. </p></li>
+        </ol>
+      </div>
+      <br/>
+        
+        
+        <!--=================Teasers==========================-->
+      <div id="img_intro_examples" class="img_container">
+          <h2>Qualitative Evaluation</h2>
+      <br>
+       <center>
+            <div class="leftView">
+              <div class="mask" style="width:80px;height:80px"></div>
+              <img class="std" src="./project/HybridSOD/visual.png">
+            </div>
+          </center>
+        </div>
+           <div class="section">
+        <div style="text-align: justify; display: block; margin-right: auto;">
+        <p>Visual comparisons with other state-of-the-art methods in various representative scenes.</p>
+      </div>
+        </div>
+        <br/> 
+
+         <!--<ol>
+        <center>
+          <div class="leftView">
+            <div class="mask" style="width:80px;height:80px"></div>
+            <img class="std" src="./project/HybridSOD/visual.png">
+          </div>
+        </center>
+         </ol>
+      </div>
+      <div class="section">
+        <div style="text-align: justify; display: block; margin-right: auto;">
+       <ol>
+        <p>Visual comparisons with other state-of-the-art methods in various representative scenes.</p>
+       </ol>
+      </div>
+        </div>
+      <br/>
+      
+      <!--=================Applications==========================<div class="section" ,="" id="results">-->
+        <div id="img_intro_examples" class="img_container">
+        <h2>Quantitative Evaluation</h2>
+        <br>
+        <!--=================*******==========================-->
+        <div id="vid4" class="img_container">
+          <center>
+            <div class="leftView">
+              <div class="mask" style="width:80px;height:80px"></div>
+              <img class="std" src="./project/HybridSOD/performance.png">
+            </div>
+          </center>
+        </div>
+          <div class="section">
+        <div style="text-align: justify; display: block; margin-right: auto;">
+        <p>Quantitative results of different methods on five SOD benchmark datasets, &uarr; and &darr; respectively indicate that the larger and smaller
+          the score, the better. ‘F’ means fully supervision, ‘I’ means image-level weakly supervision, and ‘S’ means scribble-level weakly supervision, 'Sub' means
+          subitizing supervision, ‘M’ means multi-source weakly supervision, ‘Un’ is for unsupervision, and ‘H’ denotes hybird supervision. The best performance
+          is marked in <b>BOLD</b>, and the second best performance is marked in <u>UNDERLINE</u>.</p>
+      </div>
+        </div>
+        <br/>
+        
+            <!--=================Materials==========================<div class="section materials" ,="" id="materials">-->
+      <div class="img_container" ,="" id="materials">
+        <h2>Materials</h2>
+        <br>
+        <table width="100%" align="center" border="none" cellspacing="0" cellpadding="30">
+          <tbody><tr>
+            <td width="20%">
+              <center>
+                <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9881551" target="_blank" class="imageLink"><img src="./project/txt.png" ,="" width="40%"></a><br><br>
+                <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9881551" target="_blank">Paper</a>
+              </center>
+            </td>
+            <td width="20%">
+              <center>
+                <a href="https://github.com/rmcong/Hybrid-Label-SOD_TCSVT2022" target="_blank" class="imageLink"><img src="./project/icon_github.png" ,="" width="40%"></a><br><br>
+                <a href="https://github.com/rmcong/Hybrid-Label-SOD_TCSVT2022" target="_blank">Code and Model</a>
+              </center>
+            </td>
+            </tr>
+        </tbody></table>
+      </div>
+          <br/>
+      <!--=================Citation==========================<div class="section citation" ,="" id="citation">-->
+      <div class="img_container" ,="" id="citation">
+        <h2>Citation</h2>
+        <div class="section bibtex">
+          <pre>@article{HybridSOD,
+  title={A weakly supervised learning framework for salient object detection via hybrid labels},
+  author={Cong, Runmin and Qin, Qi and Zhang, Chen and Jiang, Qiuping and Wang, Shiqi and Zhao, Yao and Kwong, Sam },
+  journal={IEEE Transactions on Circuits and Systems for Video Technology},
+  year={2022},
+  publisher={IEEE}
+}
+         </pre>
+        </div>
+      </div>
+          <br/>
+      <!--=================Contact==========================<div class="section contact">-->
+      <div id="img_intro_examples" class="img_container">
+        <h2 id="contact">Contact</h2>
+        <br>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you have any questions, please contact Runmin Cong at <strong>rmcong@bjtu.edu.cn</strong>.</p> 
+      </div>
+
+
+</div></div></body></html>
