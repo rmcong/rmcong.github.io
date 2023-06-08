@@ -2,7 +2,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   
-  <title>Cross-modality Discrepant Interaction Network for RGB-D Salient Object Detection</title>
+  <title>PUGAN: Physical Model-Guided Underwater Image Enhancement Using GAN with Dual-Discriminators</title>
   <!--=================Meta tags==========================-->
   <meta name="robots" content="index,follow">
   <meta name="description" content="PUGAN: Physical Model-Guided Underwater Image Enhancement Using GAN with Dual-Discriminators.">
@@ -197,19 +197,16 @@
       <center>
             <div class="leftView">
               <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/CDINet_files/framework.png">
+              <img class="std" src="./project/PUGAN_files/framework.png">
             </div>
           </center>
         </div>
            <div class="section">
         <div style="text-align: justify; display: block; margin-right: auto;">
-        <p><b>The overall pipeline of the proposed CDINet.</b> Our CDINet follows an encoder-decoder architecture, which realizes the discrepant interaction and guidance
-          of cross-modality information in the encoding stage. The framework mainly consists of three parts: 1) RGB-induced detail enhancement module.
-          It achieves depth feature enhancement by transmitting the detailed supplementary information of the RGB modality to the depth modality.
-          2) Depth-induced semantic enhancement module. Depth features provide better positioning and internal consistency to enrich the semantic information of RGB features.
-          3) Dense decoding reconstruction structure. It densely encodes the encoder features of different layers to generate more valuable skip connection information,
-          which is shown in the top right box marked B of this figure. The backbone of our network in this figure is VGG16, and the overall network can be trained efficiently
-          as an end-to-end system.</p>
+        <p><b>Overview of the proposed PUGAN for UIE task, including a Phy-G and a Dual-D under the GAN architecture. </b> 
+          In the Phy-G, the Par-subnet is used to estimate the physical parameters (e.g., transmission map and attenuation coefficient) required for restoring a color-enhanced image J'. 
+          The TSIE-subnet aims to achieve the CNN-based end-to-end enhancement, where a degradation quantization (DQ) module is used to quantify the distortion degree of the scene, thereby guiding and generating the final enhanced
+          underwater image E. The objective function consists of four parts, including global similarity loss, perceptual loss, style adversarial loss, and content adversarial loss.</p>
       </div>
         </div>
         <br/> 
@@ -247,9 +244,9 @@
         <br>
         <div style="text-align: justify; display: block; margin-right: auto;">
         <ol>
-          <li><p>We propose <b>an end-to-end Cross-modality Discrepant Interaction Network (CDINet)</b>, which differentially models the dependence of two modalities according to the feature representations of different layers. Our network achieves competitive performance against <b>15 state-of-the-art methods</b> on 5 RGB-D SOD datasets. Moreover, the inference speed for an image reaches <b>42 FPS</b>.</p></li>
-          <li><p>We design an <b>RGB-induced Detail Enhancement (RDE) module</b> to transfer detail supplement information from RGB modality to depth modality in low-level encoder stage, and a <b>Depth-induced Semantic Enhancement (DSE) module</b> to assist RGB branch in capturing clearer and fine-grained semantic attributes by utilizing the advantage of positioning accuracy and internal consistency of high-level depth features.</p></li>
-          <li><p>We design a <b>Dense Decoding Reconstruction (DDR) structure</b>, which generates a semantic block by leveraging multiple high-level encoder features to upgrade the skip connection in the feature decoding.</p></li>
+          <li><p>Considering the respective advantages of the physical model and the GAN model for the UIE task, we propose a <b>Physical Model-Guided framework using GAN with Dual-Discriminators (PUGAN)</b>, consisting of a Phy-G and a Dual-D. Extensive experiments on three benchmark datasets demonstrate that our PUGAN outperforms state-of-the-art methods in both qualitative and quantitative metrics.</p></li>
+          <li><p>We design two subnetworks in the Phy-G, including the <b>Par-subnet and the TSIE-subnet</b>, for the parameter estimation of physical model and the physical model-guided CNN-based enhancement, respectively. On the one hand, we introduce an intermediate variable in the Par-subnet, i.e., depth, to enable effective estimation of the transmission map. On the other hand, we propose a DQ module in TSIE-subnet to quantify the distortion degrees and achieve targeted encoder feature reinforcing.</p></li>
+          <li><p>In addition to the pixel-level global similarly loss and perceptual loss, we design the <b>style-content adversarial loss</b> in the Dual-D to constrain the style and content of the enhanced underwater image to be realistic.</p></li>
         </ol>
       </div>
       <br/>
@@ -262,30 +259,12 @@
        <center>
             <div class="leftView">
               <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/CDINet_files/visual.png">
+              <img class="std" src="./project/PUGAN_files/visual.png">
             </div>
           </center>
         </div>
         <br/> 
 
-         <!--<ol>
-        <center>
-          <div class="leftView">
-            <div class="mask" style="width:80px;height:80px"></div>
-            <img class="std" src="./project/DPANet_files/visual.png">
-          </div>
-        </center>
-         </ol>
-      </div>
-      <div class="section">
-        <div style="text-align: justify; display: block; margin-right: auto;">
-       <ol>
-        <p>Qualitative comparison of the proposed approach with some state-of-the-art RGB and RGB-D SOD methods, in which our results are highlighted by a red box. 
-          (a) RGB image. (b) Depth map. (c) GT. (d) DPANet. (e) PiCAR. (f) PoolNet. (g) BASNet. (h) EGNet. (i) CPFP. (j) PDNet. (k) DMRA. (l) AF-Net.</p>
-       </ol>
-      </div>
-        </div>
-      <br/>
       
       <!--=================Applications==========================<div class="section" ,="" id="results">-->
         <div id="img_intro_examples" class="img_container">
@@ -296,7 +275,7 @@
           <center>
             <div class="leftView">
               <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/CDINet_files/result.png">
+              <img class="std" src="./project/PUGAN_files/result.png">
             </div>
           </center>
         </div>
@@ -310,14 +289,14 @@
           <tbody><tr>
             <td width="20%">
               <center>
-                <a href="https://arxiv.org/pdf/2108.01971.pdf" target="_blank" class="imageLink"><img src="./project/txt.png" ,="" width="40%"></a><br><br>
-                <a href="https://arxiv.org/pdf/2108.01971.pdf" target="_blank">Paper</a>
+                <a href="https://rmcong.github.io/Publication.html" target="_blank" class="imageLink"><img src="./project/txt.png" ,="" width="40%"></a><br><br>
+                <a href="https://rmcong.github.io/Publication.html" target="_blank">Paper</a>
               </center>
             </td>
             <td width="20%">
               <center>
-                <a href="https://github.com/1437539743/CDINet-ACM-MM21" target="_blank" class="imageLink"><img src="./project/icon_github.png" ,="" width="40%"></a><br><br>
-                <a href="https://github.com/1437539743/CDINet-ACM-MM21" target="_blank">Code and Model</a>
+                <a href="https://github.com/1437539743/PUGAN_TIP2023" target="_blank" class="imageLink"><img src="./project/icon_github.png" ,="" width="40%"></a><br><br>
+                <a href="https://github.com/1437539743/PUGAN_TIP2023" target="_blank">Code and Model</a>
               </center>
             </td>
             <!--<td width="20%">
@@ -335,12 +314,12 @@
         <h2>Citation</h2>
         <div class="section bibtex">
           <pre>@inproceedings{CDINet,
-  title={Cross-modality Discrepant Interaction Network for {RGB-D} Salient Object Detection},
-  author={Zhang, Chen and Cong, Runmin and Lin, Qinwei and Ma, Lin and Li, Feng and Zhao, Yao and Kwong, Sam},
-  booktitle={Proc. ACM MM}, 
-  pages={2094-2102},
-  year={2021}
-}
+                author={Cong, Runmin and Yang, Wenyu and Zhang, Wei and Li, chongyi and Guo, Chun-Le and Huang, Qingming and Kwong, Sam },
+                journal={IEEE Transactions on Image Processing},
+                volume={31},
+                pages={1-14},
+                year={2023}
+                }
          </pre>
         </div>
       </div>
