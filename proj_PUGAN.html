@@ -5,8 +5,8 @@
   <title>Cross-modality Discrepant Interaction Network for RGB-D Salient Object Detection</title>
   <!--=================Meta tags==========================-->
   <meta name="robots" content="index,follow">
-  <meta name="description" content="Cross-modality Discrepant Interaction Network for RGB-D Salient Object Detection.">
-  <meta name="keywords" content="CDINet">
+  <meta name="description" content="PUGAN: Physical Model-Guided Underwater Image Enhancement Using GAN with Dual-Discriminators.">
+  <meta name="keywords" content="PUGAN">
   <link rel="author" href="https://rmcong.github.io">
   <!--=================js==========================-->
   <link href="./project/css.css" rel="stylesheet" type="text/css">
@@ -136,24 +136,26 @@
     <div id="content-inner">
       <div class="section head">
         <h1>
-        Cross-modality Discrepant Interaction Network<br> for RGB-D Salient Object Detection
+        PUGAN: Physical Model-Guided Underwater Image Enhancement Using GAN with Dual-Discriminators
         </h1>
         <!--=================Authors==========================-->
         <div class="authors">
-          Chen Zhang <sup>1</sup> &nbsp;
           <a href="https://rmcong.github.io/" target="_blank">Runmin Cong</a> <sup>1</sup>&nbsp;
-          Qinwei Lin <sup>1</sup> &nbsp;
-          Lin Ma <sup>2</sup> &nbsp;
-          Feng Li <sup>1</sup> &nbsp;
-          <a href="http://faculty.bjtu.edu.cn/5900/" target="_blank">Yao Zhao</a> <sup>1</sup> &nbsp;
-          <a href="https://www.cs.cityu.edu.hk/~cssamk/research_group/" target="_blank">Sam Kwong</a> <sup>3</sup> &nbsp;
+          Wenyu Yang <sup>2</sup> &nbsp;
+          Wei Zhang <sup>1</sup> &nbsp;
+          Chongyi Li <sup>3</sup> &nbsp;
+          Chun-Le Guo<sup>3</sup> &nbsp;
+          <a href="https://qmhuang-ucas.github.io/" target="_blank">Qingming Huang</a> <sup>4</sup> &nbsp; 
+          <a href="https://www.cs.cityu.edu.hk/~cssamk/research_group/" target="_blank">Sam Kwong</a> <sup>5</sup> &nbsp;
           
         </div>
 
         <div class="affiliations ">
-          <sup>1</sup> Beijing Jiaotong University, Beijing, China<br>
-          <sup>2</sup> Meituan, Beijing, China<br>
-          <sup>3</sup> City University of Hong Kong, China<br>
+          <sup>1</sup> Shandong University, Jinan, China<br>
+          <sup>2</sup> Beijing Jiaotong University, Beijing, China<br>
+          <sup>3</sup> Nankai University, Tianjin, China<br>
+          <sup>4</sup> University of Chinese Academy of Sciences, Beijing, China<br>
+          <sup>5</sup> City University of Hong Kong, China<br>
 
           
           
@@ -174,38 +176,18 @@
         <br>
         <p>
           <div style="text-align: justify; display: block; margin-right: auto;">
-          <p>The popularity and promotion of depth maps have brought new vigor and vitality into salient object detection (SOD), and a mass of RGB-D SOD algorithms have been proposed, mainly concentrating on how to better integrate cross-modality features from RGB image and depth map. For the cross-modality interaction in feature encoder, existing methods either indiscriminately treat RGB and depth modalities, or only habitually utilize depth cues as auxiliary information of the RGB branch. Different from them, we reconsider the status of two modalities and propose a novel Cross-modality Discrepant Interaction Network (CDINet) for RGB-D SOD, which differentially models the dependence of two modalities according to the feature representations of different layers. To this end, two components are designed to implement the effective cross-modality interaction: 1) the RGB-induced Detail Enhancement (RDE) module leverages RGB modality to enhance the details of the depth features in low-level encoder stage. 2) the Depth-induced Semantic Enhancement (DSE) module transfers the object positioning and internal consistency of depth features to the RGB branch in high-level encoder stage. Furthermore, we also design a Dense Decoding Reconstruction (DDR) structure, which constructs a semantic block by combining multi-level encoder features to upgrade the skip connection in the feature decoding. Extensive experiments on five benchmark datasets demonstrate that our network outperforms 15 state-of-the-art methods both quantitatively and qualitatively. </p>
-        </p>
+          <p>Due to the light absorption and scattering induced by the water medium, underwater images usually suffer from some degradation problems, such as low contrast, color distortion, and blurring details, 
+            which aggravate the difficulty of downstream underwater understanding tasks. Therefore, how to obtain clear and visually pleasant images has become a common concern of people, and the task of underwater image enhancement (UIE)
+            has also emerged as the times require. Among existing UIE methods, Generative Adversarial Networks (GANs) based methods perform well in visual aesthetics, while the physical model-based methods have better scene adaptability.
+            Inheriting the advantages of the above two types of models, we propose a physical model-guided GAN model for UIE in this paper, referred to as PUGAN. The entire network is under the GAN architecture. On the one hand, we design
+            a Parameters Estimation subnetwork (Par-subnet) to learn the parameters for physical model inversion, and use the generated color enhancement image as auxiliary information for the Two-Stream Interaction Enhancement sub-network
+            (TSIE-subnet). Meanwhile, we design a Degradation Quantization (DQ) module in TSIE-subnet to quantize scene degradation, thereby achieving reinforcing enhancement of key regions. On the other hand, we design the 
+            Dual-Discriminators for the style-content adversarial constraint, promoting the authenticity and visual aesthetics of the results. Extensive experiments on three benchmark datasets demonstrate that our PUGAN outperforms
+            state-of-the-art methods in both qualitative and quantitative metrics.
+            </p>
       </div>
       <br/>
-      
-      
-      <!--=================Teasers==========================-->
-      <div id="img_intro_examples" class="img_container">
-          <h2>Movations</h2>
-      <br>
-      <center>
-            <div class="leftView">
-              <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/CDINet_files/motivation.png">
-            </div>
-          </center>
-        </div>
-           <div class="section">
-        <div style="text-align: justify; display: block; margin-right: auto;">
-        <p>Previous studies have confirmed the positive effect of RGB and depth information interaction in SOD tasks. 
-          In this paper, we seriously reconsider the status of RGB modality and depth modality in RGB-D SOD task. 
-          Different from the previous unidirectional interaction shown in Figure (a) and undifferentiated bidirectional interaction shown in Figure (b),
-          we believe that the interaction of the two modalities information should be carried out in a separate and discrepant manner.
-          The low-level RGB features can help the depth features to distinguish different object instances at the same depth level,
-          while the high-level depth features can further enrich the RGB semantics and suppress background interference.
-          <b>Therefore, a perfect RGB-D SOD model should give full play to the advantages of each modality, and simultaneously utilize another modality to make up
-          for itself to avoid causing interference.</b> To this end, we propose a cross-modality discrepant interaction network to explicitly model the dependence
-          of two modalities in the encoder stage according to the feature representations of different layers, which selectively utilizes RGB features to supplement
-          the details for depth branch, and transfers the depth features to RGB modality to enrich the semantic representations.</p>
-      </div>
-        </div>
-        <br/> 
+     
       
       
       <!--=================Teasers==========================-->
