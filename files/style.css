@@ -130,7 +130,7 @@ img{max-width:100%;}
 .grid1 img{
 	background:#465653;
 	padding:3px;
-	border-radius: 50%;
+	<!--border-radius: 50%;-->
 }
 .grid1 p a,.grid1 p{
 	font-family: 'Arial';
