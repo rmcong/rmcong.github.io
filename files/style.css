@@ -118,7 +118,7 @@ img{max-width:100%;}
 /*---End-header---*/
 /*---content----*/
 .grid1{
-	background:#b3d9ff;
+	background: #F5F5F5;
 	text-align:center;
 	padding: 50px 0px;
 }
@@ -128,9 +128,10 @@ img{max-width:100%;}
 	font-size: 2.2em;
 }
 .grid1 img{
-	background:#465653;
-	padding:3px;
-	<!--border-radius: 50%;-->
+	/* background:#465653; */
+	/* padding: 1px; */
+	<!--border-radius: 50%;
+	-->
 }
 .grid1 p a,.grid1 p{
 	font-family: 'Arial';
