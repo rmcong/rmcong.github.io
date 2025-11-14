@@ -51,6 +51,170 @@
 				font-style: italic;
 				color: #1a237e;
 			}
+			/* Alumni Scroll Styles */
+			.alumni-scroll-container {
+				width: 100%;
+				overflow: hidden;
+				background: #f5f5f5;
+				padding: 30px 0;
+				margin: 20px 0;
+			}
+			/* 修改滚动速度：scroll-left xxxs linear infinite */
+			.alumni-scroll-wrapper {
+				display: flex;
+				animation: scroll-left 60s linear infinite;
+				width: fit-content;
+			}
+			
+			.alumni-scroll-wrapper:hover {
+				animation-play-state: paused;
+			}
+			/* 滚动图片间距 */
+			.alumni-item {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				min-width: 150px;
+				margin: 0 20px;
+				text-align: center;
+				cursor: pointer;
+				transition: transform 0.3s ease;
+			}
+			
+			.alumni-item:hover {
+				transform: scale(1.1);
+			}
+			/* 滚动图片大小 */
+			.alumni-item img {
+				width: 150px;
+				height: 150px;
+				border-radius: 50%;
+				object-fit: fill;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+				margin-bottom: 10px;
+			}
+			
+			.alumni-item-name {
+				font-size: 14px;
+				font-weight: bold;
+				color: #333;
+				margin-bottom: 5px;
+			}
+			
+			.alumni-item-info {
+				font-size: 12px;
+				color: #666;
+			}
+			
+			@keyframes scroll-left {
+				0% {
+					transform: translateX(0);
+				}
+				100% {
+					transform: translateX(-50%);
+				}
+			}
+			/* Activities Scroll Styles */
+			.activities-scroll-container {
+				width: 100%;
+				overflow: hidden;
+				background: #f5f5f5;
+				padding: 30px 0;
+				margin: 20px 0;
+			}
+			
+			.activities-scroll-wrapper {
+				display: flex;
+				animation: scroll-left 40s linear infinite;
+				width: fit-content;
+			}
+			
+			.activities-scroll-wrapper:hover {
+				animation-play-state: paused;
+			}
+			
+			.activities-item {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				min-width: 300px;
+				margin: 0 20px;
+				text-align: center;
+				cursor: pointer;
+				transition: transform 0.3s ease;
+			}
+			
+			.activities-item:hover {
+				transform: scale(1.05);
+			}
+			
+			.activities-item img {
+				width: 300px;
+				height: 225px;
+				border-radius: 8px;
+				object-fit: cover;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+				margin-bottom: 10px;
+			}
+			
+			.activities-item-title {
+				font-size: 14px;
+				font-weight: bold;
+				color: #333;
+			}
+			/* Photos Scroll Styles */
+			.photos-scroll-container {
+				width: 100%;
+				overflow: hidden;
+				background: #f5f5f5;
+				padding: 30px 0;
+				margin: 20px 0;
+			}
+			
+			.photos-scroll-wrapper {
+				display: flex;
+				animation: scroll-left 40s linear infinite;
+				width: fit-content;
+				margin-left: 50px;
+				margin-right: 50px;
+			}
+			
+			.photos-scroll-wrapper:hover {
+				animation-play-state: paused;
+			}
+			
+			.photos-item {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				min-width: 300px;
+				margin: 0 20px;
+				text-align: center;
+				cursor: pointer;
+				transition: transform 0.3s ease;
+			}
+			
+			.photos-item:hover {
+				transform: scale(1.05);
+			}
+			
+			.photos-item img {
+				width: 300px;
+				height: 225px;
+				border-radius: 8px;
+				object-fit: cover;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+				margin-bottom: 10px;
+			}
+			
+			.photos-item-title {
+				font-size: 14px;
+				font-weight: bold;
+				color: #333;
+			}
 		</style>
 		<script> 
 			var lastname = 'Me';
@@ -65,8 +229,9 @@
 			{
 				alert("Coming soon.");
 			}
-			
-		</script> 
+		</script>
+		<!-- Auto Scroll Speed Manager -->
+		<script src="./javascripts/auto-scroll-speed.js"></script> 
 	
 	</head>
 	<body>
@@ -110,7 +275,7 @@
 							<!---<h4><b>INTRODUCTION</b></h4>--->
 							<p style="margin-top:10px">
 							The <strong>M</strong>ultimedia and <strong>V</strong>ision <strong>P</strong>rocessing Group (MVP Group) was established in July 2019, 
-								and the director is Prof. Runmin Cong. There are more than 50 graduate students and undergraduate interns, mainly engaged in multimedia
+								and the director is Prof. Runmin Cong. There are more than 20 graduate students and undergraduate interns, mainly engaged in multimedia
 								understanding, vision processing and other related research fields.
 							</p>
 						</div>
@@ -279,9 +444,7 @@
 				<div class="col-md-12 academicegree">
 					<h4 class="text-center  black-text">MS Students</h4>
 				</div>
-				
-			    
-			
+
 			    <div class="col-md-3">
 					<div class="thumbnail-people">
 						<img src="./MVPLab/shy.jpeg" class="people-photo">
@@ -292,8 +455,7 @@
 						</div>
 					</div>
 				</div>
-			    
-			    
+
 			    <div class="col-md-3">
 					<div class="thumbnail-people">
 						<img src="./MVPLab/czy2.png" class="people-photo">
@@ -326,7 +488,7 @@
 				</div>
               	<div class="col-md-3">
 					<div class="thumbnail-people">
-						<img src="./MVPLab/wap.jpeg" class="people-photo">
+						<img src="./MVPLab/wap1.jpg" class="people-photo">
 						<div class="caption">
 							<h3><b>Anpeng Wang</b> (王安鹏)</h3>
 							<p>MS@SDU, 2026 - present</p>
@@ -355,8 +517,6 @@
 					</div>
 				</div>
 
-
-				
 		   </div>
 
 	<!-- ------------------本科实习生--------------------- -->
@@ -377,7 +537,7 @@
 				</div>
 				<div class="col-md-3">
 					<div class="thumbnail-people">
-						<img src="./MVPLab/wxp3.png" class="people-photo">
+						<img src="./MVPLab/wxp.jpg" class="people-photo">
 						<div class="caption">
 							<h3><b>Xipeng Wang</b> (王熙彭)</h3>
 							<p>UI@SDU, 2025/10 - present</p>
@@ -439,17 +599,204 @@
 					</div>
 				</div>
 
-			    
+
 			    </div>
-	<!-- ------------------毕业学生--------------------- -->		
+	<!-- ------------------毕业学生--------------------- -->
 			<div class="row">
 				<div class="col-md-12 academicegree">
 					<h4 class="text-center  black-text">Alumni</h4>
 				</div>
 
+				<!-- Alumni Scroll Section -->
+				<div class="col-md-12">
+					<div class="alumni-scroll-container">
+						<div class="alumni-scroll-wrapper">
+							<!-- Alumni items - all graduates -->
+						<!-- ------------------博士研究生--------------------- -->
+							<div class="alumni-item">
+								<img src="./MVPLab/cjp.jpg" alt="Jinpeng Chen">
+								<div class="alumni-item-name">陈锦芃</div>
+								<div class="alumni-item-info">PhD 2021-2025</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/lyx.jpg" alt="Yuxuan Luo">
+								<div class="alumni-item-name">罗宇轩</div>
+								<div class="alumni-item-info">PhD 2021-2025</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/hlz.jpg" alt="Lingzhi He">
+								<div class="alumni-item-name">何凌志</div>
+								<div class="alumni-item-info">PhD 2019-2023</div>
+							</div>
+						<!-- ------------------硕士研究生--------------------- -->
+							<div class="alumni-item">
+								<img src="./MVPLab/zc.jpg" alt="Chen Zhang">
+								<div class="alumni-item-name">张晨</div>
+								<div class="alumni-item-info">MS 2020-2022</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/yhw.jpg" alt="Haowei Yang">
+								<div class="alumni-item-name">杨浩巍</div>
+								<div class="alumni-item-info">MS 2020-2022</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/yn.jpg" alt="Ning Yang">
+								<div class="alumni-item-name">杨宁</div>
+								<div class="alumni-item-info">MS 2020-2023</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/zym.jpg" alt="Yumo Zhang">
+								<div class="alumni-item-name">张禹墨</div>
+								<div class="alumni-item-info">MS 2020-2023</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/swy2.jpg" alt="Weiyu Song">
+								<div class="alumni-item-name">宋玮煜</div>
+								<div class="alumni-item-info">MS 2021-2023</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/qq.jpg" alt="Qi Qin">
+								<div class="alumni-item-name">秦萁</div>
+								<div class="alumni-item-info">MS 2021-2024</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/srh.jpg" alt="Ronghui Sheng">
+								<div class="alumni-item-name">盛荣晖</div>
+								<div class="alumni-item-info">MS 2021-2024</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/ywy.jpg" alt="Wenyu Yang">
+								<div class="alumni-item-name">杨文玉</div>
+								<div class="alumni-item-info">MS 2021-2024</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/wcl2.jpg" alt="Chunlei Wu">
+								<div class="alumni-item-name">吴春雷</div>
+								<div class="alumni-item-info">MS 2022-2024</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/lhy.jpg" alt="Hongyu Liu">
+								<div class="alumni-item-name">刘鸿羽</div>
+								<div class="alumni-item-info">MS 2022-2025</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/xh.jpg" alt="Hang Xiong">
+								<div class="alumni-item-name">熊航</div>
+								<div class="alumni-item-info">MS 2022-2025</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/czy.jpg" alt="Zuyao Chen">
+								<div class="alumni-item-name">陈祖耀</div>
+								<div class="alumni-item-info">MS 2019-2020</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/hhy.jpg" alt="Heyu Huang">
+								<div class="alumni-item-name">黄和宇</div>
+								<div class="alumni-item-info">MS 2021-2022</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/xld.jpg" alt="Lidong Xie">
+								<div class="alumni-item-name">谢礼冬</div>
+								<div class="alumni-item-info">MS 2022-2023</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/ffx.jpeg" alt="Fuxiang Feng">
+								<div class="alumni-item-name">冯富祥</div>
+								<div class="alumni-item-info">MS 2023-2024</div>
+							</div>
+						<!-- ------------------本科实习生--------------------- -->
+							<div class="alumni-item">
+								<img src="./MVPLab/zqh.jpg" alt="Qihang Zhong">
+								<div class="alumni-item-name">钟启航</div>
+								<div class="alumni-item-info">UI 2019-2020</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/zqj.jpg" alt="Qijian Zhang">
+								<div class="alumni-item-name">张琦坚</div>
+								<div class="alumni-item-info">UI 2020</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/zcy.jpg" alt="Chongyang Zhao">
+								<div class="alumni-item-name">赵重阳</div>
+								<div class="alumni-item-info">UI 2020-2021</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/hk.jpg" alt="Ke Huang">
+								<div class="alumni-item-name">黄可</div>
+								<div class="alumni-item-info">UI 2020-2022</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/czw.jpg" alt="Zewen Chen">
+								<div class="alumni-item-name">陈泽文</div>
+								<div class="alumni-item-info">UI 2020-2021</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/lqw.jpg" alt="Qinwei Lin">
+								<div class="alumni-item-name">林秦伟</div>
+								<div class="alumni-item-info">UI 2020-2021</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/lx.jpg" alt="Xuan Liu">
+								<div class="alumni-item-name">刘璇</div>
+								<div class="alumni-item-info">UI 2020-2021</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/lqm.jpg" alt="Qingming Liu">
+								<div class="alumni-item-name">刘青明</div>
+								<div class="alumni-item-info">UI 2021-2022</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/wzx.jpg" alt="Zixuan Wang">
+								<div class="alumni-item-name">王子轩</div>
+								<div class="alumni-item-info">UI 2021-2022</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/gyc.jpg" alt="Yuchen Guan">
+								<div class="alumni-item-name">关雨晨</div>
+								<div class="alumni-item-info">UI 2021-2023</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/zkp.jpg" alt="Kepu Zhang">
+								<div class="alumni-item-name">张珂镨</div>
+								<div class="alumni-item-info">UI 2022</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/smy.jpg" alt="Mengyao Sun">
+								<div class="alumni-item-name">孙梦瑶</div>
+								<div class="alumni-item-info">UI 2022-2023</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/zrh2.jpeg" alt="Runhua Zhang">
+								<div class="alumni-item-name">张润华</div>
+								<div class="alumni-item-info">UI 2023-2024</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/zss.jpeg" alt="Shenshen Zhang">
+								<div class="alumni-item-name">张申申</div>
+								<div class="alumni-item-info">UI 2023</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/zzt.jpeg" alt="Shoutai Zhu">
+								<div class="alumni-item-name">赵子同</div>
+								<div class="alumni-item-info">UI 2023-2024</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/yzj.jpeg" alt="Zongjie Yu">
+								<div class="alumni-item-name">于宗吉</div>
+								<div class="alumni-item-info">UI 2024-2025</div>
+							</div>
+							<div class="alumni-item">
+								<img src="./MVPLab/wap1.jpg" alt="Anpeng Wang">
+								<div class="alumni-item-name">王安鹏</div>
+								<div class="alumni-item-info">UI 2024-2025</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
 <ul class="graid3-ul" style="list-style-type:disc; ">
-<div style="text-align: justify; display: block; margin-right: auto;">	
-	
+<div style="text-align: justify; display: block; margin-right: auto;">
+
 <li>2021/09 - 2025/06，<b>陈锦芃</b>，联合指导博士（香港城市大学），研究方向：连续学习 (<font color="#CE0000">1TPAMI，1ICML，1NeurIPS，1ECCV，1TCyb</font>)</li>					
 <li>2021/09 - 2025/07，<b>罗宇轩</b>，联合指导博士（香港城市大学），研究方向：连续学习、小样本学习 (<font color="#CE0000">1TMM，1TCSVT，1PR</font>)</li>					
 <li>2019/09 - 2023/12，<b>何凌志</b>，联合指导博士（北京交通大学），研究方向：图像去反射 (<font color="#CE0000">1CVPR，2TMM</font>)</li>
@@ -486,7 +833,89 @@
 <li>2024/05 - 2025/10，<b>于宗吉</b>，本科实习生，研究方向：水下实例分割 (<font color="#CE0000">1ACM MM</font>)，去向：上海交通大学博士</li>
 <li>2024/05 - 2025/10，<b>王安鹏</b>，本科实习生，研究方向：小样本分割 (<font color="#CE0000">1AAAI oral</font>)，去向：山东大学硕士</li>
 </ul>
+			</div>
+			<!-- ------------------照片--------------------- -->
+		<div class="row">
+			<div class="col-md-12 academicegree">
+				<h4 class="text-center black-text">Photos</h4>
+			</div>
+			<!-- Photos Scroll Section -->
+			<div class="col-md-12">
+				<div class="photos-scroll-container">
+					<div class="photos-scroll-wrapper">
+						<!-- Photos items - auto-cloned for seamless loop -->
+						<div class="photos-item">
+							<img src="./photos/photo1.jpg" alt="Photo 1">
+							<div class="photos-item-title">2024年亚洲人工智能技术大会</div>
+						</div>
+						<div class="photos-item">
+							<img src="./photos/photo2.jpg" alt="Photo 2">
+							<div class="photos-item-title">2024年SAM院士访问山东大学</div>
+						</div>
+						<div class="photos-item">
+							<img src="./photos/photo3.jpg" alt="Photo 3">
+							<div class="photos-item-title">中国人工智能学会教学成果一等奖颁奖典礼</div>
+						</div>
+						<div class="photos-item">
+							<img src="./photos/photo4.jpg" alt="Photo 4">
+							<div class="photos-item-title">2024年实验室在意大利参加ECCV会议</div>
+						</div>
+						<div class="photos-item">
+							<img src="./photos/photo6.jpg" alt="Photo 6">
+							<div class="photos-item-title">《人工智能通识教材》发布</div>
+						</div>
+						<div class="photos-item">
+							<img src="./photos/photo7.jpg" alt="Photo 7">
+							<div class="photos-item-title">2024年SAM院士访问山东大学</div>
+						</div>
+						<div class="photos-item">
+							<img src="./photos/photo8.jpg" alt="Photo 8">
+							<div class="photos-item-title">丛润民教授访问香港浸会大学</div>
+						</div>
+						<div class="photos-item">
+							<img src="./photos/photo9.jpg" alt="Photo 9">
+							<div class="photos-item-title">2024年本科实习生毕业合影</div>
+						</div>
+						<div class="photos-item">
+							<img src="./photos/photo10.png" alt="Photo 10">
+							<div class="photos-item-title">2025年教师节合影</div>
+						</div>
+						<div class="photos-item">
+							<img src="./photos/photo11.png" alt="Photo 11">
+							<div class="photos-item-title">2025年硕士研究生毕业合影</div>
+						</div>
+						<div class="photos-item">
+							<img src="./photos/photo12.jpg" alt="Photo 12">
+							<div class="photos-item-title">联合培养博士陈锦芃答辩留念</div>
+						</div>
+						<div class="photos-item">
+							<img src="./photos/photo13.jpg" alt="Photo 13">
+							<div class="photos-item-title">2024年教师节合影</div>
+						</div>
+						<div class="photos-item">
+							<img src="./photos/photo14.jpg" alt="Photo 14">
+							<div class="photos-item-title">2025年山东计算机学会自然科学一等奖颁奖典礼</div>
+						</div>
+						<div class="photos-item">
+							<img src="./photos/photo15.png" alt="Photo 15">
+							<div class="photos-item-title">《人工智能通识教材》发布</div>
+						</div>
+						<div class="photos-item">
+							<img src="./photos/photo16.jpg" alt="Photo 16">
+							<div class="photos-item-title">方豪在意大利ECCV会议上作竞赛冠军方案分享</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	
+
+			
+		</div>
 		
+		<!-- Commented section below -->
+		<div style="display:none;">
 				
 				<!--<div class="col-md-3">
 					<div class="thumbnail-people">
@@ -858,11 +1287,12 @@
 							<p class="people-topic">Few-shot Learning</p>
 						</div>
 					</div>
-				</div>-->	
-				
+				</div>	
 		    </div>
 		</div>
-		<script type="text/javascript" src="./files/jquery.min.js.下载"></script>
+		</div>
+	</div>
+	<script type="text/javascript" src="./files/jquery.min.js.下载"></script>
 		<script type="text/javascript" src="./files/bootstrap.js.下载"></script>
 		<script type="text/javascript" src="./files/jquery.banner.js.下载"></script>
 		<script type="text/javascript" src="./files/jquery.prettyPhoto.js.下载"></script>		
