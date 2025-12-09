@@ -175,7 +175,7 @@
           To bridge this gap, we launch a new task, <b> Condition-Constrained Salient Object Detection (CSOD)</b>, aimed at robustly and accurately locating salient objects in constrained environments.
           On the one hand, to compensate for the lack of datasets, we construct the first large-scale condition-constrained salient object detection dataset CSOD10K, comprising 10,000 pixel-level annotated images and over 100 categories of salient objects. 
           This dataset is oriented towards the real environment and includes 8 real-world constrained scenes under 3 main constraint types, making it extremely challenging.
-          On the other hand, we abandon the paradigm of ``restoration before detection" and instead introduce a unified <b>end-to-end framework CSSAM </b>that fully explores scene attributes, eliminating the need for additional ground-truth restored images and reducing computational overhead.
+          On the other hand, we abandon the paradigm of "restoration before detection" and instead introduce a unified <b>end-to-end framework CSSAM </b>that fully explores scene attributes, eliminating the need for additional ground-truth restored images and reducing computational overhead.
           Specifically, we design a Scene Prior-Guided Adapter (SPGA), which injects scene priors to enable the foundation model to better adapt to downstream constrained scenes.
           To automatically decode salient objects, we propose a Hybrid Prompt Decoding Strategy (HPDS), which can effectively integrate multiple types of prompts to achieve adaptation to the SOD task.
           Extensive experiments show that our model significantly outperforms state-of-the-art methods on both the CSOD10K dataset and existing standard SOD benchmarks.
