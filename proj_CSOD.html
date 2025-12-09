@@ -170,121 +170,76 @@
         <br>
         <p>
           <div style="text-align: justify; display: block; margin-right: auto;">
-          <p>Despite the remarkable advances in visual saliency analysis for natural scene images (NSIs), salient object detection (SOD) for optical remote sensing images (RSIs) still remains an open and challenging problem. 
-            In this paper, we propose an end-to-end <b>Dense Attention Fluid Network (DAFNet)</b> for SOD in optical RSIs. A Global Context-aware Attention (GCA) module is proposed to adaptively capture long-range semantic context relationships, 
-            and is further embedded in a Dense Attention Fluid (DAF) structure that enables shallow attention cues flow into deep layers to guide the generation of high-level feature attention maps. Specifically, the GCA module is composed of two key components, 
-            where the global feature aggregation module achieves mutual reinforcement of salient feature embeddings from any two spatial locations, and the cascaded pyramid attention module tackles the scale variation issue by building up a cascaded pyramid framework to progressively refine the attention map in a coarse-to-fine manner. 
-            In addition, we construct a new and challenging optical RSI dataset for SOD that contains 2,000 images with pixel-wise saliency annotations, which is currently the largest publicly available benchmark. Extensive experiments demonstrate that our proposed DAFNet significantly outperforms the existing state-of-the-art SOD competitors. </p>
+          <p>Salient Object Detection (SOD) aims to identify and segment the most prominent objects in an image. In real open environments, intelligent systems often encounter complex and challenging scenes, such as low-light, rain, snow, \etc, which we call constrained conditions. 
+          These real situations pose more severe challenges to existing SOD models. However, there is no comprehensive and in-depth exploration of this field at both the data and model levels, and most of them focus on ideal situations or a single condition.
+          To bridge this gap, we launch a new task, <b> Condition-Constrained Salient Object Detection (CSOD)</b>, aimed at robustly and accurately locating salient objects in constrained environments.
+          On the one hand, to compensate for the lack of datasets, we construct the first large-scale condition-constrained salient object detection dataset CSOD10K, comprising 10,000 pixel-level annotated images and over 100 categories of salient objects. 
+          This dataset is oriented towards the real environment and includes 8 real-world constrained scenes under 3 main constraint types, making it extremely challenging.
+          On the other hand, we abandon the paradigm of ``restoration before detection" and instead introduce a unified <b>end-to-end framework CSSAM </b>that fully explores scene attributes, eliminating the need for additional ground-truth restored images and reducing computational overhead.
+          Specifically, we design a Scene Prior-Guided Adapter (SPGA), which injects scene priors to enable the foundation model to better adapt to downstream constrained scenes.
+          To automatically decode salient objects, we propose a Hybrid Prompt Decoding Strategy (HPDS), which can effectively integrate multiple types of prompts to achieve adaptation to the SOD task.
+          Extensive experiments show that our model significantly outperforms state-of-the-art methods on both the CSOD10K dataset and existing standard SOD benchmarks.
+       </p>
         </p>
       </div>
-      <br/>
+      <br/> 
+
       <!--=================Teasers==========================-->
-      <div id="img_intro_examples" class="img_container">
-          <h2>Pipeline</h2>
+      <div id="examples" class="img_container">
+          <h2>CSOD10K Dataset</h2>
       <br>
       <center>
             <div class="leftView">
               <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/DAFNet_files/framework.png">
+              <img class="std" src="./project/CSOD_files/example.png">
             </div>
           </center>
         </div>
            <div class="section">
         <div style="text-align: justify; display: block; margin-right: auto;">
-        <p>The overall architecture of our proposed DAFNet, including the <b>Attention Fluid Guided Feature Encoding</b> and <b>Progressive Feature Decoding</b>. 
-          The feature encoder consists of: 1) an attention fluid where low-level attention maps flow into deeper layers to guide the generation of high-level attentions, 
-          and 2) a feature fluid that generates hierarchical feature representations with stronger discriminative ability by incorporating attention cues mined from the 
-          corresponding global context-aware attention modules. The feature decoder employs a progressive top-down feature fusion strategy to produce saliency predictions 
-          at different feature scales. Note that we do not use the top-most side outputs for deep supervision in that the feature resolution is very low and hinders the 
-          depiction of detailed object structures. The <b>FF</b> unit involves up-sampling the high-level feature map and performing channel alignment via 1X1 
-          convolutions, and then adding it to the low-level feature map. The <b>CB</b> unit is designed as a bottleneck convolution block with non-linearities to further 
-          integrate fusion feature information. The prediction layer consumes the decoded features to produce the corresponding saliency map.</p>
+        <p>This study introduces the CSOD10K dataset, a new large-scale benchmark explicitly designed for salient object detection in various constrained conditions, 
+          which enables us to train and evaluate state-of-the-art SOD methods. The above figure presents some images from the CSOD10K dataset along with their ground truth.</p>
+      </div>
+        </div>
+              <br/> 
+              <br/> 
+      <div id="img_intro_examples" class="img_container">
+      <center>
+            <div class="leftView">
+              <div class="mask" style="width:80px;height:80px"></div>
+              <img class="std" src="./project/CSOD_files/dataset.png">
+            </div>
+          </center>
+           <div class="section">
+        <div style="text-align: justify; display: block; margin-right: auto;">
+        <p>Statistics from the CSOD10K dataset. (a) Fine-grained classification of constrained scenes, where the bar length represents the number of images. 
+          (b) Number of images for each salient object category. (c) Image resolution distribution. (d) Distribution of the number of salient objects per image. 
+          (e) The comparison of the size of salient objects with other SOD datasets, where the horizontal axis refers to the proportion of salient objects mask to the total number of pixels in the image. 
+          (f) Comparison of CSOD10K and other datasets in color contrast.</p>
       </div>
         </div>
         <br/>  
-        
-      <!--  
-          <ol>
-        <center>
-          <div class="leftView">
-            <div class="mask" style="width:80px;height:80px"></div>
-            <img class="std" src="./project/DAFNet_files/framework.png">
-          </div>
-        </center>
-         </ol>
-      </div>
-      <div class="section">
-        <div style="text-align: justify; display: block; margin-right: auto;">
-       <ol>
-        <p>The overall architecture of our proposed DAFNet, including the <b>Attention Fluid Guided Feature Encoding</b> and <b>Progressive Feature Decoding</b>. 
-          The feature encoder consists of: 1) an attention fluid where low-level attention maps flow into deeper layers to guide the generation of high-level attentions, 
-          and 2) a feature fluid that generates hierarchical feature representations with stronger discriminative ability by incorporating attention cues mined from the 
-          corresponding global context-aware attention modules. The feature decoder employs a progressive top-down feature fusion strategy to produce saliency predictions 
-          at different feature scales. Note that we do not use the top-most side outputs for deep supervision in that the feature resolution is very low and hinders the 
-          depiction of detailed object structures. The <b>FF</b> unit involves up-sampling the high-level feature map and performing channel alignment via 1X1 
-          convolutions, and then adding it to the low-level feature map. The <b>CB</b> unit is designed as a bottleneck convolution block with non-linearities to further 
-          integrate fusion feature information. The prediction layer consumes the decoded features to produce the corresponding saliency map.</p>
-       </ol>
-      </div>
-        </div>
-      <br/>-->
-
-      <!--=================Teasers==========================-->
+      <!--=================Pipeline==========================-->
       <div id="img_intro_examples" class="img_container">
-          <h2>EORSSD Dataset</h2>
+          <h2>pipeline</h2>
       <br>
-        <p>
-          <div style="text-align: justify; display: block; margin-right: auto;">
-          <p>In literature [1], an optical remote sensing saliency detection (ORSSD) dataset with pixel-wise ground truth is built, including 600 training images and 200 testing images. This is the first publicly available dataset for the RSI SOD task,
-            which bridges the gap between theory and practice in SOD for optical RSIs, but the amount of data is still slightly insufficient to train a deep learning based model.
-            To enlarge the size and enrich the variety of the dataset, <b>we extend our ORSSD dataset to a larger one named Extended ORSSD (EORSSD) dataset with 2,000 images and
-            the corresponding pixel-wise ground truth, which includes many semantically meaningful but challenging images</b>. Based on the ORSSD dataset, we collect additional
-            1,200 optical remote sensing images from the free Google Earth software, covering more complicated scene types, more challenging object attributes, and more
-            comprehensive real-world circumstances. For clarity, the EORSSD dataset is divided into two parts, i.e., 1,400 images for training and 600 images for testing.<br/>
-            <br/>
-            [1] Chongyi Li, Runmin Cong, Junhui Hou, Sanyi Zhang, Yue Qian, and Sam Kwong, Nested network with two-stream pyramid for salient object detection in optical
-            remote sensing images, IEEE Transactions on Geoscience and Remote Sensing, vol. 57, no. 11, pp. 9156-9166, 2019. 
-            <a href="https://li-chongyi.github.io/proj_optical_saliency.html"  target="_blank"><font color="#FF5151">[----Project Page----]</font></a></p>
-        </p>
-      <br/>
-
-          <center>
+               <center>
             <div class="leftView">
               <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/DAFNet_files/dataset.png">
+              <img class="std" src="./project/CSOD_files/main.png">
             </div>
           </center>
-        </div>
+            <br>
+        <p>
            <div class="section">
-        <div style="text-align: justify; display: block; margin-right: auto;">
-        <p><b>Visualization of the more challenging EORSSD dataset.</b> The first row shows the optical RSI, and the second row exhibits the corresponding ground truth. 
-          (a) Challenge in the number of salient objects. (b) Challenge in small salient objects. (c) Challenge in new scenarios. (d) Challenge in interferences from imaging. 
-          (e) Challenge in specific circumstances.</p>
-      </div>
+          <div style="text-align: justify; display: block; margin-right: auto;">
+          <p>The overall framework of the proposed CSSAM. 
+            During the encoding stage, we freeze the parameters of the image encoder and incorporate the Scene Prior-Guided Adapter (SPGA) into the encoder for parameter-efficient fine-tuning to adapt to constrained scenes. 
+            In the decoding stage, we use Hybrid Prompt Decoding Strategy (HPDS) to adapt to the SOD task. First, we obtain four types of prompts through the Positive and Negative Prompt Generator. 
+            Second, the Prompt Integration Module (PIM) fuses multiple prompts. Finally, the mask decoder outputs the saliency mask.
+        </p></div>
+      <br/>
         </div>
-        <br/>
-        
-        
-        <!--<ol>
-        <center>
-          <div class="leftView">
-            <div class="mask" style="width:80px;height:80px"></div>
-            <img class="std" src="./project/DAFNet_files/dataset.png">
-          </div>
-        </center>
-         </ol>
-      </div>
-      <div class="section">
-        <div style="text-align: justify; display: block; margin-right: auto;">
-       <ol>
-        <p><b>Visualization of the more challenging EORSSD dataset.</b> The first row shows the optical RSI, and the second row exhibits the corresponding ground truth. 
-          (a) Challenge in the number of salient objects. (b) Challenge in small salient objects. (c) Challenge in new scenarios. (d) Challenge in interferences from imaging. 
-          (e) Challenge in specific circumstances.</p>
-       </ol>
-      </div>
-        </div>
-      <br/>-->
-      
       <!--=================Highlights==========================-->
      
       <div id="img_intro_examples" class="img_container">
@@ -292,10 +247,9 @@
         <br>
         <div style="text-align: justify; display: block; margin-right: auto;">
         <ol>
-          <li><p>An end-to-end <b>Dense Attention Fluid Network (DAFNet)</b> is proposed to achieve SOD in optical RSIs, equipped with a <b>Dense Attention Fluid (DAF) structure</b> that is decoupled from the backbone feature extractor and the <b>Global Context-aware Attention (GCA) mechanism</b>.</p></li>
-          <li><p><b>The DAF structure is designed to combine multi-level attention cues</b>, where shallow-layer attention cues flow into the attention units of deeper layers so that low-level attention cues could be propagated as guidance information to enhance the high-level attention maps.</p></li>
-          <li><p>The GCA mechanism is proposed to <b>model the global-context semantic relationships</b> through a global feature aggregation module, and further <b>tackle the scale variation problem</b> under a cascaded pyramid attention framework.</p></li>
-          <li><p>A large-scale benchmark dataset, named <b>EORSSD dataset</b>, containing <b>2,000</b> image samples and the corresponding pixel-wise annotations is constructed for the SOD task in optical RSIs. The proposed DAFNet consistently outperforms 15 state-of-the-art competitors in the experiments.</p></li>
+          <li><p>We launch a new task, <b>Condition-Constrained Salient Object Detection (CSOD)</b>, and provide solutions from the two dimensions of data and model, enabling intelligent systems to more reliably address complex visual challenges in real and open environments.</p></li>
+          <li><p>We construct a large-scale benchmark dataset <b>CSOD10K</b> for the CSOD task. It is the first SOD dataset covering diverse constrained conditions, with <b>10,000 images</b>, 3 main constraint types, 8 real-world scenes, 101 object categories, and pixel-level annotations, providing a rich experimental basis and exploration opportunities for the research community.</p></li>
+          <li><p>We propose <b>a unified end-to-end framework CSSAM</b> for the CSOD task. We design a <b>Scene Prior-Guided Adapter (SPGA)</b> to enable the foundation model to better adapt to downstream constrained scenes. We propose a <b>Hybrid Prompt Decoding Strategy (HPDS)</b> that effectively generates and integrates multiple types of prompts to achieve adaptation to the SOD task.</p></li>
         </ol>
       </div>
       <br/>
@@ -308,7 +262,7 @@
           <center>
             <div class="leftView">
               <div class="mask" style="width:80px;height:80px"></div>
-              <img class="std" src="./project/DAFNet_files/visual.png">
+              <img class="std" src="./project/CSOD_files/compare.png">
             </div>
           </center>
         </div>
@@ -320,42 +274,36 @@
         <br>
         <table width="100%" align="center" border="none" cellspacing="0" cellpadding="30">
           <tbody><tr>
-            <td width="20%">
+            <!-- <td width="20%">
               <center>
                 <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9292434" target="_blank" class="imageLink"><img src="./project/txt.png" ,="" width="40%"></a><br><br>
                 <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9292434" target="_blank">Paper</a>
               </center>
-            </td>
+            </td> -->
             <td width="20%">
               <center>
-                <a href="https://github.com/rmcong/EORSSD-dataset" target="_blank" class="imageLink"><img src="./project/icon_github.png" ,="" width="40%"></a><br><br>
-                <a href="https://github.com/rmcong/EORSSD-dataset" target="_blank">EORSSD Dataset</a>
+                <a href="https://github.com/ettof/CSOD" target="_blank" class="imageLink"><img src="./project/icon_github.png" ,="" width="40%"></a><br><br>
+                <a href="https://github.com/ettof/CSOD" target="_blank">CSOD Dataset</a>
               </center>
             </td>
             <td width="20%">
               <center>
-                <a href="https://github.com/rmcong/DAFNet_TIP20" target="_blank" class="imageLink"><img src="./project/icon_github.png" ,="" width="40%"></a><br><br>
-                <a href="https://github.com/rmcong/DAFNet_TIP20" target="_blank">Code and Model</a>
+                <a href="https://github.com/ettof/CSOD" target="_blank" class="imageLink"><img src="./project/icon_github.png" ,="" width="40%"></a><br><br>
+                <a href="https://github.com/ettof/CSOD" target="_blank">Code and Model</a>
               </center>
             </td>
-            <td width="20%">
-              <center>
-                <a href="https://www.bilibili.com/video/BV1Ry4y1m7WL/" target="_blank" class="imageLink"><img src="./project/talk.png" ,="" width="40%"></a><br><br>
-                <a href="https://www.bilibili.com/video/BV1Ry4y1m7WL/" target="_blank">Talk in JSAI2020</a>
-              </center>
-            </td>
-            <td width="20%">
+            <!-- <td width="20%">
               <center>
                 <a href="https://mp.weixin.qq.com/s/lMvytN0svKIaQPnmKXifKg" target="_blank" class="imageLink"><img src="./project/link.png" ,="" width="40%"></a><br><br>
                 <a href="https://mp.weixin.qq.com/s/lMvytN0svKIaQPnmKXifKg" target="_blank">Link in Chinese</a>
               </center>
-            </td>
+            </td> -->
           </tr>
         </tbody></table>
       </div>
           <br/>
       <!--=================Citation==========================<div class="section citation" ,="" id="citation">-->
-      <div class="img_container" ,="" id="citation">
+      <!-- <div class="img_container" ,="" id="citation">
         <h2>Citation</h2>
         <div class="section bibtex">
           <pre>@article{DAFNet,
@@ -370,12 +318,12 @@
           </pre>
         </div>
       </div>
-          <br/>
+          <br/> -->
       <!--=================Contact==========================<div class="section contact">-->
       <div id="img_intro_examples" class="img_container">
         <h2 id="contact">Contact</h2>
         <br>
-        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you have any questions, please contact Runmin Cong at <strong>rmcong@bjtu.edu.cn</strong>.</p> 
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If you have any questions, please contact Runmin Cong at <strong>rmcong@sdu.edu.cn</strong>.</p> 
       </div>
 
 
