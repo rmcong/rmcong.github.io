@@ -188,6 +188,19 @@
         .container:has(.pane.right:hover) .pane.center { width: var(--shrunk-width); opacity: 0.3; filter: blur(4px) grayscale(80%); }
         .container:has(.pane.right:hover) .pane.left { width: var(--shrunk-width); opacity: 0.1; }
 
+        /* 禁用hover效果的类 */
+        .container.disable-hover .pane { pointer-events: none !important; }
+        .container.disable-hover .pane.left,
+        .container.disable-hover .pane.center,
+        .container.disable-hover .pane.right {
+            width: var(--side-width) !important;
+            opacity: 1 !important;
+            filter: none !important;
+        }
+        .container.disable-hover .pane.center {
+            width: var(--center-width) !important;
+        }
+
         /* 标题区域 */
         .pane-header-area {
             height: 100vh;
@@ -1242,7 +1255,140 @@
                 filter: drop-shadow(0 0 20px var(--neon-blue));
             }
         }
+        .practice-videos-container {
+            display: flex;
+            gap: 20px;
+            justify-content: space-around;
+            margin-top: 25px;
+            padding: 0 20px;
+        }
 
+        .practice-video-item {
+            position: relative;
+            width: 45%;
+            cursor: pointer;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            border: 2px solid rgba(0, 243, 255, 0.3);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .practice-video-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-blue);
+            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.3);
+        }
+
+        .practice-video-preview {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .practice-video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .practice-video-item:hover .practice-video-overlay {
+            background: rgba(0, 0, 0, 0.75);
+        }
+
+        .practice-video-overlay i {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            color: var(--neon-blue);
+            transition: all 0.3s;
+        }
+
+        .practice-video-item:hover .practice-video-overlay i {
+            transform: scale(1.2);
+            text-shadow: 0 0 20px var(--neon-blue);
+        }
+
+        .practice-video-overlay p {
+            margin-top: 10px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        /* 视频播放模态框 */
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 999999;
+            align-items: center;
+            justify-content: center;
+            pointer-events: auto;
+        }
+
+        .video-modal.active {
+            display: flex;
+        }
+
+        .video-modal-content {
+            width: 85%;
+            max-width: 1400px;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            position: relative;
+            pointer-events: auto;
+            z-index: 1000000;
+        }
+
+        .video-modal video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* 关闭按钮 */
+        .video-modal-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--neon-blue);
+            color: var(--neon-blue);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            z-index: 1000001;
+            pointer-events: auto;
+        }
+        
+        .video-modal-close:hover {
+            background: var(--neon-blue);
+            color: #000;
+            transform: rotate(90deg);
+        }
         /* 响应式调整 */
         @media (max-width: 1200px) {
             .course-dual-columns {
@@ -2133,6 +2279,32 @@
                         </div>
                     </div>
                 </div>
+                <!-- 新增：课程实践视频模块 -->
+                <div class="theme-section">
+                    <div class="section-header">
+                        <i class="fas fa-laptop-code"></i> 课程实践视频
+                    </div>
+                    <div class="practice-videos-container">
+                        <div class="practice-video-item" onclick="openVideoModal('1.mp4')">
+                            <video class="practice-video-preview" preload="metadata">
+                                <source src="./AI_COURSE/videos/1.mp4" type="video/mp4">
+                            </video>
+                            <div class="practice-video-overlay">
+                                <i class="fas fa-play-circle"></i>
+                                <p>实践视频 1</p>
+                            </div>
+                        </div>
+                        <div class="practice-video-item" onclick="openVideoModal('2.mp4')">
+                            <video class="practice-video-preview" preload="metadata">
+                                <source src="./AI_COURSE/videos/2.mp4" type="video/mp4">
+                            </video>
+                            <div class="practice-video-overlay">
+                                <i class="fas fa-play-circle"></i>
+                                <p>实践视频 2</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -2759,6 +2931,20 @@
             </div>
         </div>
     </div>
+    </div> <!-- 关闭 pane right -->
+    </div> <!-- 关闭 container -->
+
+    <!-- 视频播放模态框 -->
+    <div id="videoModal" class="video-modal" onclick="closeVideoModal()">
+        <div class="video-modal-content" onclick="event.stopPropagation()">
+            <div class="video-modal-close" onclick="closeVideoModal()">
+                <i class="fas fa-times"></i>
+            </div>
+            <video id="modalVideo" controls controlsList="nodownload" preload="auto">
+                <source src="" type="video/mp4">
+            </video>
+        </div>
+    </div>
 
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <script>
@@ -2830,7 +3016,71 @@
             });
             requestAnimationFrame(animate);
         }
+        /* ============ 修复后的视频弹窗逻辑 (零延迟 + 强制居中) ============ */
 
+        function openVideoModal(videoSrc) {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('modalVideo');
+            const container = document.querySelector('.container');
+            
+            // 1. 【立即执行】处理背景页面的交互禁止
+            container.classList.add('disable-hover');
+            document.body.style.overflow = 'hidden'; // 禁止背景滚动
+
+            // 2. 【立即显示】强制设置模态框样式，确保它覆盖全屏且居中
+            // 即使 CSS 写了，这里再写一次作为双重保险
+            modal.style.display = 'flex'; // 只要这句执行，黑框就会立刻出来
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100vw';
+            modal.style.height = '100vh';
+            modal.style.zIndex = '999999';
+            modal.style.opacity = '1'; 
+            modal.classList.add('active');
+
+            // 3. 【加载视频】
+            // 只有框弹出来之后，我们才去设置视频源，这样用户感觉很快
+            video.src = './AI_COURSE/videos/' + videoSrc;
+            
+            // 尝试自动播放
+            // 注意：这里不需要很长的 timeout，给一点点缓冲让浏览器反应过来即可
+            video.play().catch(err => {
+                console.log('自动播放需用户交互');
+            });
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('modalVideo');
+            const container = document.querySelector('.container');
+            
+            // 1. 暂停视频
+            video.pause();
+            video.currentTime = 0;
+            video.src = ''; // 清空源，停止下载
+            
+            // 2. 隐藏模态框
+            modal.classList.remove('active');
+            modal.style.display = 'none';
+            
+            // 3. 恢复页面状态
+            document.body.style.overflow = '';
+            container.classList.remove('disable-hover');
+            
+            // 4. 强制重置一下所有分栏的宽度，防止卡顿
+            const panes = document.querySelectorAll('.pane');
+            panes.forEach(pane => {
+                pane.style.transition = ''; // 恢复 CSS 定义的动画
+            });
+        }
+        
+        // 添加键盘ESC关闭功能
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeVideoModal();
+            }
+        });
         init();
         animate();
     </script>
