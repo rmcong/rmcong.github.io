@@ -1,0 +1,2838 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>山东大学人工智能课程中心</title>
+    <meta name="referrer" content="no-referrer">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --left-base: rgba(5, 25, 45, 0.95);
+            --right-base: rgba(5, 25, 45, 0.95);
+            --center-base: rgba(10, 10, 10, 0.9);
+            
+            --neon-blue: #00f3ff;
+            --neon-purple: #00ff9d;
+            --neon-gold: #ffd700;
+            
+            --side-width: 35%;
+            --center-width: 30%;
+            --expanded-width: 65%;
+            --shrunk-width: 17.5%;
+            
+            --card-width: 220px; 
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            background: var(--bg-color); 
+            color: white; 
+            overflow: hidden; 
+            height: 100vh; 
+            font-family: 'Noto Sans SC', 'Segoe UI', sans-serif;
+        }
+
+        /* 背景粒子 */
+        #particle-canvas { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: 0; 
+            opacity: 0.4; 
+            pointer-events: none; 
+        }
+
+        /* 页面总标题 */
+        .main-header-fixed {
+            position: fixed; 
+            top: 20px; 
+            width: 100%; 
+            text-align: center; 
+            z-index: 100; 
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+        .main-header-fixed h1 {
+            font-size: 1.5rem; 
+            letter-spacing: 10px; 
+            text-transform: uppercase; 
+            color: rgba(255,255,255,0.3);
+            font-family: 'Orbitron', sans-serif;
+        }
+        .container:hover .main-header-fixed { opacity: 0; }
+        /* 当悬停左右栏时隐藏标题 */
+        .container:has(.pane.left:hover) .main-header-fixed,
+        .container:has(.pane.right:hover) .main-header-fixed { 
+            opacity: 0; 
+            visibility: hidden;
+        }
+
+        /* 主容器 */
+        .container { 
+            display: flex; 
+            width: 100vw; 
+            height: 100vh; 
+            position: relative; 
+            z-index: 10; 
+        }
+
+        /* 分栏基础 */
+        .pane {
+            transition: width 0.9s cubic-bezier(0.2, 0, 0.2, 1) 0s;
+            transition: width 0.6s cubic-bezier(0.2, 0, 0.2, 1);
+            position: relative;
+            border-right: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            overflow-x: hidden; 
+            overflow-y: auto;        
+        }
+        .container:has(.pane.left:hover) .pane,
+        .container:has(.pane.right:hover) .pane {
+            
+            /* 【核心修改】延迟 0.4秒 */
+            /* 只有鼠标停留超过 0.4秒，才会开始变宽。快速划过不会触发。 */
+            transition-delay: 0.25s; 
+        }
+
+        .pane:hover .scroll-hint { display: none; }
+        .pane:hover .header-sub-tag { 
+            opacity: 1; 
+            transform: translateY(0); 
+            position: relative; 
+            display: block;
+        }
+        .header-main-group {
+            display: flex;
+            flex-direction: column; /* 默认未展开时：上下排列 */
+            align-items: center;
+            transition: all 0.5s;
+        }
+        .pane:hover .header-main-group {
+            flex-direction: row; 
+            gap: 15px;          /* 图标和文字的间距 */
+            align-items: center;
+        }
+        /* 调整展开后的大小，使其协调 */
+        .pane:hover .header-main-group i {
+            font-size: 2.2rem; 
+            margin: 0;
+        }
+        .pane:hover .header-main-group h2 {
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        /* 3. 核心布局：控制标题组在顶部的【左右位置】 */
+        .pane:hover .pane-header-area {
+            padding: 0 50px; /* 给左右留点边距，不要贴着屏幕边缘 */
+        }
+
+        /* 【关键】左栏展开 -> 标题组靠左 */
+        .pane.left:hover .pane-header-area {
+            justify-content: flex-start; /* 靠左对齐 */
+        }
+
+        /* 【关键】右栏展开 -> 标题组靠右 */
+        .pane.right:hover .pane-header-area {
+            justify-content: flex-end;   /* 靠右对齐 */
+        }
+        
+        .pane::-webkit-scrollbar { width: 6px; }
+        .pane::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+        .pane::-webkit-scrollbar-thumb { 
+            background: rgba(255,255,255,0.2); 
+            border-radius: 3px; 
+        }
+        .pane.left::-webkit-scrollbar-thumb { background: var(--neon-blue); }
+        .pane.right::-webkit-scrollbar-thumb { background: var(--neon-purple); }
+  
+        .pane.left { 
+            width: var(--side-width); 
+            background: var(--left-base); 
+            border-right: 1px solid var(--neon-blue); 
+            direction: rtl;
+        }
+        .pane.left > * {
+            direction: ltr;
+        }
+        .pane.right { 
+            width: var(--side-width); 
+            background: var(--right-base); 
+            border-left: 1px solid var(--neon-purple); 
+        }
+        
+        /* 中间区 */
+        .pane.center {
+            width: var(--center-width); 
+            background: var(--center-base);
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center;
+            z-index: 20; 
+            box-shadow: 0 0 80px rgba(0,0,0,0.8);
+        }
+
+        /* 交互宽窄变化 */
+        .container:has(.pane.left:hover) .pane.left { width: var(--expanded-width); }
+        .container:has(.pane.left:hover) .pane.center { width: var(--shrunk-width); opacity: 0.3; filter: blur(4px) grayscale(80%); }
+        .container:has(.pane.left:hover) .pane.right { width: var(--shrunk-width); opacity: 0.1; }
+
+        .container:has(.pane.right:hover) .pane.right { width: var(--expanded-width); }
+        .container:has(.pane.right:hover) .pane.center { width: var(--shrunk-width); opacity: 0.3; filter: blur(4px) grayscale(80%); }
+        .container:has(.pane.right:hover) .pane.left { width: var(--shrunk-width); opacity: 0.1; }
+
+        /* 标题区域 */
+        .pane-header-area {
+            height: 100vh;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center;
+            transition: all 0.6s cubic-bezier(0.2, 0, 0.2, 1);
+            position: sticky; 
+            top: 0; 
+            z-index: 50;
+            transition: all 0.9s cubic-bezier(0.2, 0, 0.2, 1) 0s;
+        }
+        .pane-header-area i { 
+            font-size: 5rem; 
+            margin-bottom: 20px; 
+            transition: 0.6s; 
+        }
+        .pane-header-area h2 { 
+            font-size: 3rem; 
+            text-transform: uppercase; 
+            font-weight: 300; 
+            transition: 0.6s;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .scroll-hint { 
+            margin-top: 40px; 
+            transition: 0.3s; 
+            opacity: 0.7; 
+            animation: bounce 2s infinite; 
+        }
+
+        .pane:hover .pane-header-area {
+            height: 110px; 
+            flex-direction: row; 
+            justify-content: center;
+            align-items: center;
+            padding: 0 40px; 
+            background: linear-gradient(to bottom, rgba(0,0,0,0.95), transparent);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition-delay: 0.25s;
+        }
+        .pane:hover .pane-header-area i { font-size: 2rem; margin-bottom: 0; margin-right: 15px; }
+        .pane:hover .pane-header-area h2 { font-size: 1.5rem; letter-spacing: 2px; }
+        .pane:hover .scroll-hint { opacity: 0; width: 0; overflow: hidden; margin: 0; }
+
+        /* AI课程中心标签 */
+        .header-sub-tag {
+            font-family: 'Noto Sans SC', sans-serif;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        /* 内容流容器 */
+        .content-stream { 
+            padding: 40px 60px; 
+            opacity: 0; 
+            transform: translateY(50px); 
+            transition: 0.9s ease-out;
+            padding-bottom: 100px;
+        }
+        .pane:hover .content-stream { opacity: 1; transform: translateY(0);transition-delay: 0.35s; }
+
+        /* 仪表盘介绍 */
+        .intro-dashboard {
+            margin-bottom: 40px; 
+            padding: 25px; 
+            background: rgba(255,255,255,0.02);
+            border-left: 4px solid #fff; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between;
+            border-radius: 8px;
+        }
+        .pane.left .intro-dashboard { 
+            border-color: var(--neon-blue); 
+            background: linear-gradient(90deg, rgba(0, 243, 255, 0.05), transparent); 
+        }
+        .pane.right .intro-dashboard { 
+            border-color: var(--neon-purple); 
+            background: linear-gradient(90deg, rgba(188, 19, 254, 0.05), transparent); 
+        }
+        .intro-text h3 { 
+            font-size: 1.3rem; 
+            margin-bottom: 8px; 
+            color: #fff; 
+            font-weight: 500;
+        }
+        .intro-text p { 
+            font-size: 0.95rem; 
+            color: #aaa; 
+            max-width: 600px; 
+            line-height: 1.6;
+        }
+        .intro-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .intro-tags span {
+            display: inline-block; 
+            padding: 6px 14px; 
+            border: 1px solid rgba(255,255,255,0.2); 
+            border-radius: 20px; 
+            font-size: 0.8rem; 
+            color: #ccc; 
+            margin: 0;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        .pane.left .intro-tags span:hover {
+            border-color: var(--neon-blue);
+            color: var(--neon-blue);
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+        }
+        .pane.right .intro-tags span:hover {
+            border-color: var(--neon-purple);
+            color: var(--neon-purple);
+            box-shadow: 0 0 10px rgba(188, 19, 254, 0.3);
+        }
+
+        /* 主题区域 */
+        .theme-section { margin-bottom: 60px; }
+        .section-header {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+        .section-header i { 
+            margin-right: 12px; 
+            font-size: 1.2rem;
+        }
+        .pane.left .section-header { color: var(--neon-blue); }
+        .pane.right .section-header { color: var(--neon-purple); }
+
+        /* ============ 双栏课程滚动容器 ============ */
+        .course-dual-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .course-column {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.1);
+            transition: all 0.4s;
+        }
+        .course-column:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 243, 255, 0.2);
+            border-color: var(--neon-blue);
+        }
+
+        .course-column-header {
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), rgba(0, 243, 255, 0.05));
+            border-bottom: 1px solid rgba(0, 243, 255, 0.3);
+        }
+        .course-column-header h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--neon-blue);
+            font-weight: 600;
+        }
+        .course-column-header p {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.5;
+        }
+
+        .scroll-screen {
+            height: 500px;
+            overflow-y: auto;
+            padding: 20px;
+            background: rgba(10, 10, 10, 0.6);
+            position: relative;
+        }
+        .scroll-screen::-webkit-scrollbar { width: 8px; }
+        .scroll-screen::-webkit-scrollbar-track { 
+            background: rgba(255,255,255,0.05); 
+            border-radius: 4px;
+        }
+        .scroll-screen::-webkit-scrollbar-thumb { 
+            background: linear-gradient(180deg, var(--neon-blue), rgba(0, 243, 255, 0.5));
+            border-radius: 4px;
+        }
+
+        /* 课程讲次卡片 */
+        .lecture-card {
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .lecture-card:hover {
+            background: rgba(0, 243, 255, 0.08);
+            border-color: var(--neon-blue);
+            transform: translateX(5px);
+        }
+        .lecture-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .lecture-info h5 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: #fff;
+            font-weight: 500;
+        }
+        .lecture-meta {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .lecture-hours {
+            background: rgba(0, 243, 255, 0.2);
+            color: var(--neon-blue);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            border: 1px solid var(--neon-blue);
+        }
+        .lecture-hours-r {
+            background: rgba(53, 223, 11, 0.812);
+            color: var(--neon-purple);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            border: 1px solid var(--neon-purple);
+        }
+        .download-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .download-btn:hover {
+            background: var(--neon-blue);
+            color: #000;
+            border-color: var(--neon-blue);
+        }
+
+        /* ============ 教材展示 ============ */
+        .textbook-showcase {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* 减少内边距，让图能放得更大 */
+            padding: 60px 0; 
+            margin-bottom: 60px;
+            /* 背景光晕 */
+            background: radial-gradient(circle at center, rgba(30, 40, 60, 0.8) 0%, transparent 80%);
+            border-radius: 12px;
+        }
+
+        .textbook-frame {
+            position: relative;
+            /* 【核心修改】直接设为 100%，撑满整个区域 */
+            width: 100%; 
+            max-width: 100%; /* 移除像素限制 */
+            
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            perspective: 1500px;
+            
+            /* 稍微给点左右余地，防止紧贴着屏幕边缘不好看，如果想完全贴边可以删掉下面这行 */
+            padding: 0 20px; 
+        }
+
+        .textbook-frame:hover {
+            transform: scale(1.02); /* 悬停时整体轻微放大 */
+        }
+        .textbook-frame::before {
+            content: '';
+            position: absolute;
+            inset: -10px;
+            background: linear-gradient(135deg, var(--neon-gold), var(--neon-blue));
+            border-radius: 12px;
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(20px);
+            transition: all 0.5s;
+        }
+        .textbook-frame:hover::before {
+            opacity: 0.8;
+            filter: blur(30px);
+        }
+        .textbook-image {
+            width: 100%; /* 图片宽度跟随容器 */
+            height: auto; /* 高度自动，保持比例 */
+            border-radius: 12px;
+            
+            /* 深邃投影 */
+            box-shadow: 
+                0 30px 80px rgba(0,0,0,0.9),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            
+            /* 【醒目设计】加粗的半透明磨砂白边框 */
+            border: 12px solid rgba(255, 255, 255, 0.9); 
+            
+            background-color: #fff;
+            display: block;
+        }
+
+        /* 背后的光晕特效 */
+        .textbook-frame::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 90%;
+            height: 80%;
+            transform: translate(-50%, -50%);
+            background: var(--neon-blue);
+            filter: blur(100px); /* 巨大的光晕 */
+            opacity: 0.3;
+            z-index: -1;
+            transition: opacity 0.3s;
+        }
+        .textbook-frame:hover::after {
+            opacity: 0.6;
+            background: var(--neon-purple); /* 悬停变色 */
+        }
+
+        .textbook-caption {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 2rem; /* 字号极大 */
+            color: #fff;
+            font-weight: 800;
+            text-shadow: 0 5px 20px #000;
+            letter-spacing: 4px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* ============ 智慧课程预览 ============ */
+        .wisdom-course-preview {
+            position: relative;
+            background: rgba(0,0,0,0.5);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid rgba(0, 243, 255, 0.3);
+            transition: all 0.4s;
+            cursor: pointer;
+            margin-bottom: 40px;
+        }
+        .wisdom-course-preview:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 60px rgba(0, 243, 255, 0.4);
+            border-color: var(--neon-blue);
+        }
+        .browser-bar {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .browser-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff5f56;
+        }
+        .browser-dot:nth-child(2) { background: #ffbd2e; }
+        .browser-dot:nth-child(3) { background: #27c93f; }
+        .browser-title {
+            margin-left: 15px;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            font-family: 'Orbitron', sans-serif;
+            flex: 1;
+        }
+        .open-new-window {
+            margin-left: auto;
+            padding: 6px 12px;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 6px;
+            color: var(--neon-blue);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+        }
+        .open-new-window:hover {
+            background: var(--neon-blue);
+            color: #000;
+            border-color: var(--neon-blue);
+        }
+        .preview-content {
+            padding: 0;
+            background: #000;
+            min-height: 600px;
+            position: relative;
+            overflow: hidden;
+        }
+        .wisdom-iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            display: block;
+        }
+        .iframe-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s;
+            cursor: pointer;
+            pointer-events: none;
+        }
+        .wisdom-course-preview:hover .iframe-overlay {
+            opacity: 1;
+            background: rgba(0, 0, 0, 0.7);
+            pointer-events: all;
+        }
+        .overlay-hint {
+            background: linear-gradient(135deg, var(--neon-blue), rgba(0, 243, 255, 0.8));
+            padding: 20px 40px;
+            border-radius: 50px;
+            color: #000;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 40px rgba(0, 243, 255, 0.5);
+            transform: scale(0.9);
+            transition: all 0.3s;
+        }
+        .wisdom-course-preview:hover .overlay-hint {
+            transform: scale(1);
+        }
+        .overlay-hint i {
+            font-size: 1.3rem;
+            animation: bounce-hint 1.5s infinite;
+        }
+        .preview-icon {
+            font-size: 4rem;
+            color: var(--neon-blue);
+            margin-bottom: 20px;
+            animation: pulse-glow 2s infinite;
+        }
+        .preview-text h4 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--neon-blue);
+        }
+        .preview-text p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.95rem;
+        }
+        .click-hint {
+            margin-top: 20px;
+            padding: 10px 25px;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--neon-blue);
+            border-radius: 25px;
+            color: var(--neon-blue);
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            animation: bounce-hint 2s infinite;
+        }
+
+        /* ============ B站视频横向滚动 ============ */
+        .bilibili-carousel {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .carousel-wrapper {
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-behavior: smooth;
+            padding: 20px 0;
+            position: relative;
+        }
+        .carousel-wrapper::-webkit-scrollbar { height: 8px; }
+        .carousel-wrapper::-webkit-scrollbar-track { 
+            background: rgba(255,255,255,0.05); 
+            border-radius: 4px;
+        }
+        .carousel-wrapper::-webkit-scrollbar-thumb { 
+            background: linear-gradient(90deg, var(--neon-blue), rgba(0, 243, 255, 0.5));
+            border-radius: 4px;
+        }
+        .carousel-track {
+            display: flex;
+            gap: 20px;
+            padding: 0 20px;
+        }
+        .video-card-mini-l {
+            min-width: 280px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .video-card-mini-l:hover {
+            transform: translateY(-8px);
+            border-color: var(--neon-blue);
+            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.3);
+        }
+        .video-card-mini-r {
+            min-width: 280px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .video-card-mini-r:hover {
+            transform: translateY(-8px);
+            border-color: var(--neon-purple);
+            box-shadow: 0 10px 30px rgba(0, 255, 157, 0.3);
+        }
+        .video-thumb-mini {
+            width: 100%;
+            /* height: 160px;  <-- 【删除】这行，不要固定高度 */
+            
+            /* --- 【新增】以下两行 --- */
+            aspect-ratio: 16 / 9;  /* 强制锁定为视频标准比例 */
+            height: auto;          /* 高度自动适应 */
+
+            /* 原有代码保持不变 */
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .video-thumb-mini img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+        .video-thumb-mini::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+        .video-card-mini-l:hover .video-thumb-mini::after {
+            background: rgba(0, 243, 255, 0.2);
+        }
+        .video-card-mini-r:hover .video-thumb-mini::after {
+            background: rgba(21, 156, 77, 0.2);
+        }
+        .video-thumb-mini-r {
+            width: 100%;
+            /* height: 160px;  <-- 【删除】这行，不要固定高度 */
+            
+            /* --- 【新增】以下两行 --- */
+            aspect-ratio: 16 / 9;  /* 强制锁定为视频标准比例 */
+            height: auto;          /* 高度自动适应 */
+
+            /* 原有代码保持不变 */
+            background: linear-gradient(135deg, #01c375, #053703);
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .video-thumb-mini-r img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+        .video-thumb-mini-r::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: rgba(255,255,255,0.8);
+            z-index: 1;
+            transition: all 0.3s;
+        }
+        .video-card-mini-l:hover .play-icon {
+            color: var(--neon-blue);
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+        .video-card-mini-r:hover .play-icon {
+            color: var(--neon-purple);
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+        .video-info-mini {
+            padding: 15px;
+        }
+        .video-info-mini h5 {
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: #fff;
+            font-weight: 500;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .video-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.5);
+        }
+        .view-all-btn {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .view-all-btn a {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--neon-blue), rgba(0, 243, 255, 0.7));
+            color: #000;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0, 243, 255, 0.3);
+        }
+        .view-all-btn a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 243, 255, 0.5);
+        }
+        .view-all-btn-r {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .view-all-btn-r a {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--neon-blue), rgba(20, 186, 8, 0.7));
+            color: #000;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(5, 228, 9, 0.3);
+        }
+        .view-all-btn-r a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(37, 245, 10, 0.5);
+        }
+
+        /* ============ 右侧折叠章节 ============ */
+        .chapter-accordion {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            column-gap: 20px;
+            align-items: start;
+        }
+        .chapter-item {
+            margin-bottom: 0;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            height: auto;
+        }
+        .chapter-item.active {
+            border-color: var(--neon-purple);
+            box-shadow: 0 5px 20px rgba(188, 19, 254, 0.2);
+        }
+        .chapter-header {
+            padding: 18px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.02);
+            transition: all 0.3s;
+        }
+        .chapter-header:hover {
+            background: rgba(188, 19, 254, 0.1);
+        }
+        .chapter-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1rem;
+            color: #fff;
+            font-weight: 500;
+        }
+        .chapter-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--neon-purple), rgba(188, 19, 254, 0.6));
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        .toggle-icon {
+            transition: transform 0.3s;
+            color: var(--neon-purple);
+        }
+        .chapter-item.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+        .chapter-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            background: rgba(0,0,0,0.2);
+        }
+        .chapter-item.active .chapter-content {
+            max-height: 500px;
+        }
+        .chapter-body {
+            padding: 20px;
+        }
+        .chapter-details {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .chapter-meta {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .meta-tag {
+            padding: 6px 12px;
+            background: rgba(188, 19, 254, 0.2);
+            border: 1px solid var(--neon-purple);
+            border-radius: 15px;
+            font-size: 0.75rem;
+            color: var(--neon-purple);
+        }
+
+        /* ============ 中间教师信息卡 ============ */
+        .instructor-hub {
+            width: 90%;
+            max-width: 500px;
+            padding: 35px 35px 10px 35px;
+            background: rgba(10, 10, 10, 0.95);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 80px rgba(0,0,0,0.8);
+            position: relative;
+            overflow: hidden;
+            margin-top: 50px;
+        }
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-gold), transparent);
+            animation: scan 3s linear infinite;
+        }
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(500px); }
+        }
+
+        .avatar-wrap {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 30px;
+        }
+        .tech-ring {
+            position: absolute;
+            inset: -10px;
+            border: 2px solid var(--neon-gold);
+            border-radius: 50%;
+            animation: rotate 10s linear infinite;
+        }
+        .tech-ring::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background: var(--neon-gold);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--neon-gold);
+        }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .avatar-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            border: 3px solid rgba(255,255,255,0.2);
+        }
+
+        .info-container {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .name-row {
+            margin-bottom: 15px;
+        }
+        .name-label, .research-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            
+            /* 统一间距 */
+            margin-top: 10px;
+            margin-bottom: 15px;
+            padding: 12px 0; /* 高度加高，更有分量 */
+            
+            /* 统一字体 */
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 1.2rem; /* 字号加大 */
+            font-weight: 700;
+            letter-spacing: 3px;
+            
+            /* 【核心修改】全部改成金色，去掉那个丑蓝色 */
+            color: var(--neon-gold); 
+            
+            /* 统一的边框装饰：上下两条细金线 */
+            background: transparent;
+            border-top: 1px solid rgba(255, 215, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            
+            /* 统一发光效果 */
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+        }
+
+        /* 名字样式 (保持黄色高亮) */
+        .name-content {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 2.2rem; /* 名字极大 */
+            font-weight: 700;
+            color: var(--neon-gold);
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+        }
+
+        /* 头衔样式 (保持两行排版) */
+        .title-row {
+            display: flex;
+            flex-direction: column; /* 让两段话上下排列 */
+            gap: 12px;              /* 两段话之间的距离 */
+            
+            font-size: 1rem;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* 针对 title-row 里面的每一行文字进行设置 */
+        .title-row p {
+            margin: 0;
+            display: flex;          /* 【关键】启用弹性布局 */
+            align-items: center;    /* 【关键】让图标和文字垂直居中对齐 */
+            justify-content: center;/* 水平居中 */
+            gap: 8px;               /* 图标和文字之间的间距 */
+        }
+
+        /* 这里的图标颜色可以微调，比如设为淡金色 */
+        .title-row i {
+            color: var(--neon-gold);
+            opacity: 0.8;
+        }
+        .research-row {
+            margin-top: 20px;
+        }
+        .research-label {
+            display: block;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .research-tags {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .r-tag {
+            display: inline-block;       /* 确保能撑开宽高 */
+            padding: 8px 20px;           /* 增加内边距，让标签更饱满 */
+            margin: 5px;                 /* 增加标签之间的间距 */
+            
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid var(--neon-gold);
+            border-radius: 20px;         /* 圆角加大 */
+            
+            /* 【核心修改】字号加大 */
+            font-size: 1.1rem;           /* 原来是 0.75rem，现在加大到 1.1rem */
+            font-weight: 600;            /* 字体加粗 */
+            letter-spacing: 1px;         /* 增加字间距 */
+            color: var(--neon-gold);
+            
+            /* 增加一点微弱的发光，更有质感 */
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        /* 鼠标悬停时的特效 */
+        .r-tag:hover {
+            background: rgba(255, 215, 0, 0.2);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .visitor-panel {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #27c93f;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            box-shadow: 0 0 15px #27c93f;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .visitor-label {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .visitor-num {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neon-gold);
+            font-family: 'Orbitron', sans-serif;
+        }
+        .pane.right .video-card-mini:hover {
+            /* 边框变绿 */
+            border-color: #00ff9d !important; 
+            
+            /* 绿色光晕：最后这个 rgba(0, 255, 157, 0.5) 就是绿色 */
+            box-shadow: 0 10px 40px rgba(0, 255, 157, 0.5) !important;
+        }
+
+        /* 2. 强制修改右侧播放按钮的颜色 */
+        .pane.right .video-card-mini:hover .play-icon {
+            color: #00ff9d !important;
+            text-shadow: 0 0 20px #00ff9d !important;
+        }
+
+        /* 3. 强制修改右侧视频缩略图的遮罩层颜色 */
+        .pane.right .video-card-mini:hover .video-thumb-mini::after {
+            background: rgba(0, 255, 157, 0.2) !important;
+        }
+        .pane.right .carousel-wrapper::-webkit-scrollbar-thumb,
+        .pane.right .scroll-screen::-webkit-scrollbar-thumb {
+            /* 核心修改：这里定义了绿色的渐变 */
+            background: linear-gradient(90deg, #00ff9d, rgba(0, 255, 157, 0.5)) !important;
+            
+            /* 增加绿色发光效果 */
+            box-shadow: 0 0 8px rgba(0, 255, 157, 0.6);
+            border-radius: 4px;
+        }
+
+        /* 2. 滚动条的轨道背景 (可选，设为淡淡的绿色) */
+        .pane.right .carousel-wrapper::-webkit-scrollbar-track,
+        .pane.right .scroll-screen::-webkit-scrollbar-track {
+            background: rgba(0, 255, 157, 0.05) !important;
+        }
+        /* ============ 动画 ============ */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes bounce-hint {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { 
+                opacity: 1; 
+                filter: drop-shadow(0 0 10px var(--neon-blue));
+            }
+            50% { 
+                opacity: 0.7; 
+                filter: drop-shadow(0 0 20px var(--neon-blue));
+            }
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 1200px) {
+            .course-dual-columns {
+                grid-template-columns: 1fr;
+            }
+            .scroll-screen {
+                height: 400px;
+            }
+            .chapter-accordion {
+                grid-template-columns: 1fr;  /* 小屏幕恢复单列 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+    
+    <div class="main-header-fixed">
+        <h1>AI课程枢纽</h1>
+    </div>
+
+    <div class="container">
+        <!-- ========== 左侧：通识教育 ========== -->
+        <div class="pane left">
+            <div class="pane-header-area">
+                <div class="header-main-group">
+                    <i class="fas fa-graduation-cap" style="color: var(--neon-blue)"></i>
+                    <h2 style="color: var(--neon-blue)">通识教育</h2>
+                </div>
+                
+                <div class="scroll-hint">General Education</div>
+            </div>
+
+            <div class="content-stream">
+                <!-- 介绍卡片 -->
+                <div class="intro-dashboard">
+                    <div class="intro-text">
+                        <h3>人工智能通识</h3>
+                        <p>面向理、工、农、医、文、理、法、哲等各学科的人工智能通识课程</p>
+                    </div>
+                    <div class="intro-tags">
+                        <span>#零基础</span>
+                        <span>#通识教育</span>
+                        <span>#AI赋能</span>
+                    </div>
+                </div>
+
+                <!-- 课程模块 - 双栏 -->
+                <div class="theme-section">
+                    <div class="section-header">
+                        <i class="fas fa-book-open"></i> 课程模块
+                    </div>
+                    <div class="course-dual-columns">
+                        <!-- 左栏：人工智能通识 -->
+                        <div class="course-column">
+                            <div class="course-column-header">
+                                <h4>人工智能通识（科技素养）</h4>
+                                <p>本科生 · sd01714180 · 32学时</p>
+                            </div>
+                            <div class="scroll-screen" id="advanced-scroll">
+                                <!-- 11讲课程 -->
+                                <div class="lecture-card">
+                                    <div class="lecture-info">
+                                        <h5>第1讲 人工智能概述</h5>
+                                        <div class="lecture-meta">
+                                            <span class="lecture-hours">2学时</span>
+                                            <a href="./AI_COURSE/pdf/g/1.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                                <i class="fas fa-download"></i> 课件
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lecture-card" >
+                                    <div class="lecture-info">
+                                        <h5>第2讲 知识推理与问题求解</h5>
+                                        <div class="lecture-meta">
+                                            <span class="lecture-hours">2学时</span>
+                                            <a href="./AI_COURSE/pdf/g/2.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                                <i class="fas fa-download"></i> 课件
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lecture-card" >
+                                    <div class="lecture-info">
+                                        <h5>第3讲 机器学习基础</h5>
+                                        <div class="lecture-meta">
+                                            <span class="lecture-hours">2学时</span>
+                                            <a href="./AI_COURSE/pdf/g/3.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                                <i class="fas fa-download"></i> 课件
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lecture-card" >
+                                    <div class="lecture-info">
+                                        <h5>第4讲 深度学习</h5>
+                                        <div class="lecture-meta">
+                                            <span class="lecture-hours">3学时</span>
+                                            <a href="./AI_COURSE/pdf/g/4.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                                <i class="fas fa-download"></i> 课件
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lecture-card" >
+                                    <div class="lecture-info">
+                                        <h5>第5讲 强化学习</h5>
+                                        <div class="lecture-meta">
+                                            <span class="lecture-hours">3学时</span>
+                                            <a href="./AI_COURSE/pdf/g/5.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                                <i class="fas fa-download"></i> 课件
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lecture-card" >
+                                    <div class="lecture-info">
+                                        <h5>第6讲 智能之眼——视觉感知</h5>
+                                        <div class="lecture-meta">
+                                            <span class="lecture-hours">2+2学时</span>
+                                            <a href="./AI_COURSE/pdf/g/6.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                                <i class="fas fa-download"></i> 课件
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lecture-card" >
+                                    <div class="lecture-info">
+                                        <h5>第7讲 智能之躯——具身智能</h5>
+                                        <div class="lecture-meta">
+                                            <span class="lecture-hours">2+2学时</span>
+                                            <a href="./AI_COURSE/pdf/g/7.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                                <i class="fas fa-download"></i> 课件
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lecture-card" >
+                                    <div class="lecture-info">
+                                        <h5>第8讲 AI卫士——智慧医疗</h5>
+                                        <div class="lecture-meta">
+                                            <span class="lecture-hours">2+1学时</span>
+                                            <a href="./AI_COURSE/pdf/g/8.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                                <i class="fas fa-download"></i> 课件
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lecture-card" >
+                                    <div class="lecture-info">
+                                        <h5>第9讲 AI助手——智慧生活</h5>
+                                        <div class="lecture-meta">
+                                            <span class="lecture-hours">2+2学时</span>
+                                            <a href="./AI_COURSE/pdf/g/9.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                                <i class="fas fa-download"></i> 课件
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lecture-card" >
+                                    <div class="lecture-info">
+                                        <h5>第10讲 人工智能前沿</h5>
+                                        <div class="lecture-meta">
+                                            <span class="lecture-hours">2学时</span>
+                                            <a href="./AI_COURSE/pdf/g/10.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                                <i class="fas fa-download"></i> 课件
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lecture-card" >
+                                    <div class="lecture-info">
+                                        <h5>第11讲 人工智能思辨</h5>
+                                        <div class="lecture-meta">
+                                            <span class="lecture-hours">2学时</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 右栏：人工智能通识 -->
+                        <div class="course-column">
+                            <div class="course-column-header">
+                                <h4>人工智能基础与前沿</h4>
+                                <p>研究生 · 0440142 · 16学时</p>
+                            </div>
+                            <div class="scroll-screen" id="literacy-scroll">
+                                <!-- 7讲课程 -->
+                                <div class="lecture-card" >
+                                    <div class="lecture-info">
+                                        <h5>第1讲 人工智能概述</h5>
+                                        <div class="lecture-meta">
+                                            <span class="lecture-hours">2学时</span>
+                                            <a href="./AI_COURSE/pdf/p/1.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                                <i class="fas fa-download"></i> 课件
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lecture-card" >
+                                    <div class="lecture-info">
+                                        <h5>第2讲 知识推理与问题求解</h5>
+                                        <div class="lecture-meta">
+                                            <span class="lecture-hours">2学时</span>
+                                            <a href="./AI_COURSE/pdf/p/2.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                                <i class="fas fa-download"></i> 课件
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lecture-card" >
+                                    <div class="lecture-info">
+                                        <h5>第3讲 机器学习基础</h5>
+                                        <div class="lecture-meta">
+                                            <span class="lecture-hours">2学时</span>
+                                            <a href="./AI_COURSE/pdf/p/3.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                                <i class="fas fa-download"></i> 课件
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lecture-card" >
+                                    <div class="lecture-info">
+                                        <h5>第4讲 深度学习</h5>
+                                        <div class="lecture-meta">
+                                            <span class="lecture-hours">3学时</span>
+                                            <a href="./AI_COURSE/pdf/p/4.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                                <i class="fas fa-download"></i> 课件
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lecture-card" >
+                                    <div class="lecture-info">
+                                        <h5>第5讲 人工智能前沿技术</h5>
+                                        <div class="lecture-meta">
+                                            <span class="lecture-hours">2学时</span>
+                                            <a href="./AI_COURSE/pdf/p/5.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                                <i class="fas fa-download"></i> 课件
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lecture-card" >
+                                    <div class="lecture-info">
+                                        <h5>第6讲 人工智能技术应用</h5>
+                                        <div class="lecture-meta">
+                                            <span class="lecture-hours">3学时</span>
+                                            <a href="./AI_COURSE/pdf/p/6.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                                <i class="fas fa-download"></i> 课件
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="lecture-card" >
+                                    <div class="lecture-info">
+                                        <h5>第7讲 AI伦理与安全思辨</h5>
+                                        <div class="lecture-meta">
+                                            <span class="lecture-hours">2学时</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 课程教材 -->
+                <div class="theme-section">
+                    <div class="section-header">
+                        <i class="fas fa-book"></i> 课程教材
+                    </div>
+                    <div class="textbook-showcase">
+                        <div class="textbook-frame">
+                            <img src="./AI_COURSE/image/book.png" 
+                                 alt="人工智能教材" 
+                                 class="textbook-image">
+                            <div class="textbook-caption"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 智慧课程 -->
+                <div class="theme-section">
+                    <div class="section-header">
+                        <i class="fas fa-brain"></i> 智慧课程平台
+                    </div>
+                    <div class="wisdom-course-preview">
+                        <div class="browser-bar">
+                            <div class="browser-dot"></div>
+                            <div class="browser-dot"></div>
+                            <div class="browser-dot"></div>
+                            <div class="browser-title">智慧树在线课程平台</div>
+                            <a href="https://wisdomh5.zhihuishu.com/course/index/1952636124696817664?courseId=1000130304&mapVersion=1" 
+                               target="_blank" 
+                               class="open-new-window"
+                               title="在新窗口打开">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                        <div class="preview-content">
+                            <iframe 
+                                src="https://wisdomh5.zhihuishu.com/course/index/1952636124696817664?courseId=1000130304&mapVersion=1" 
+                                frameborder="0"
+                                allowfullscreen
+                                class="wisdom-iframe"
+                                loading="lazy">
+                            </iframe>
+                            <div class="iframe-overlay" onclick="window.open('https://wisdomh5.zhihuishu.com/course/index/1952636124696817664?courseId=1000130304&mapVersion=1', '_blank')">
+                                <div class="overlay-hint">
+                                    <i class="fas fa-mouse-pointer"></i>
+                                    <span>点击打开完整课程页面</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 知识点视频 -->
+                <div class="theme-section">
+                    <div class="section-header">
+                        <i class="fab fa-bilibili"></i> 知识点视频合集
+                    </div>
+                    <div class="bilibili-carousel">
+                        <div class="carousel-wrapper">
+                            <div class="carousel-track" id="video-track">
+                                <!-- 示例视频卡片（实际应该有50个） -->
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV17SzeBsEix/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/1.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>1. 什么是人工智能</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 10:09</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1jSzeBsEmo/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/2.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>2. 图灵测试</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 06:28</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1jSzeBsEXX/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/3.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>3. 人工智能发展史</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 09:39</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV17SzeBsEuo/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/4.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>4. ChatGPT：走向通用AI之路</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 06:21</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1EmzeBdEJu/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/5.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>5. 大模型时代下的人工智能</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 09:59</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1EmzeBdE4d/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/6.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>6. AI理解之基：知识表示</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 09:05</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1EmzeBdEEp/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/7.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>7. 寻根溯源之法：知识推理</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 08:55</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1RGzeBSEaE/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/8.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>8. 上下求索之刃：搜索求解</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 11:07</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1BmzeBdEVe/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/9.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>9. 田忌赛马的制胜启示：博弈论</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 10:36</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV15LzeBUEaW/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/10.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>10. 信任与背叛的无声较量：囚徒困境</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 09:55</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1eLzeBmEtu/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/11.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>11. 机器学习：数据与经验的转化大师</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 07:37</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1eLzeBmEhr/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/12.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>12. 模型“封神榜”</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 09:12</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1eLzeBmEFF/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/13.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>13. 织就认知的“深层脉络”：深度学习</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 11:06</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1vGzeBSEXX/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/14.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>14. 在试错中成长：强化学习</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 11:14</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1e5zeBEEhC/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/15.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>15. 打造数据的“社交圈”：图学习</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 10:37</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1e5zeBEExh/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/16.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>16. 数据孤岛的破局者：联邦学习</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 10:39</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1e5zeBEECw/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/17.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>17. 让模型举一反三：迁移学习</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 11:04</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1RGzeBSEid/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/18.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>18. 从感知机到深度神经网络</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 11:32</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1aEzeB1EHj/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/19.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>19. 神经网络训练的驱动者——反向传播算法</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 10:38</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1BMzeBpEFa/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/20.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>20. 图像的解析能手：卷积神经网络</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 10:32</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV17MzeBWEMD/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/21.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>21. 序列建模神器：循环神经网络</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 10:24</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV148zeBMERt/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/22.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>22. 注意力便是你所需要的一切：Transformer</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 12:21</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV148zeBME9J/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/23.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>23. 在博弈中学习：生成对抗网络</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 11:21</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1hHzeBCEvY/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/24.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>24. 马尔可夫决策过程——以井字棋游戏为例</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 10:18</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1DHzeBCEo9/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/25.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>25. 解密贝尔曼方程</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 10:50</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1QnzeB5EwJ/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/26.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>26. 当深度学习遇到强化学习</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 11:40</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1bszeBrEYP/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/27.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>27. 智能机器人与强化学习</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 12:01</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1bszeBrE6U/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/28.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>28. 智慧之眼——开启机器的超能力</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 11:23</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1bszeBrExx/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/29.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>29. 给画质开美颜：图像增强</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 11:08</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV18szeBkEbD/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/30.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>30. 机器鹰眼：细粒度分类</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 10:28</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1SWzeBGEYn/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/31.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>31. AI侦探：目标检测</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 11:29</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1VczqBREUH/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/32.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>32. 剪影艺术家：图像分割</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 10:12</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1DTzqBDEar/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/33.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>33. 揭秘阿凡达中的三维视觉</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 11:08</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1hTzqBDE8J/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/34.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>34. 让AI穿上机械战甲：具身智能</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 11:06</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV13TzqBDEFt/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/35.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>35. 从模仿中进化：模仿学习</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 10:20</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV13KzqBHErm/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/36.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>36. 让理想照进现实：仿真到真实的迁移</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 10:53</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1hKzqBHEp4/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/37.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>37. 看智能机器人如何花式干活</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 11:02</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV13KzqBHEmh/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/38.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>38. 医生的好帮手：智慧医疗</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 10:49</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1ugzqBUEuf/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/39.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>39. 跨越距离的守护：远程医疗</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 11:14</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1ugzqBUE61/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/40.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>40. AlphaFold：开启药物研发新纪元</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 12:08</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1ugzqBUEBr/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/41.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>41. “AI”上时尚</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 10:01</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1MgzqBUEk1/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/42.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>42. “AI”护盘中餐</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 10:05</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1guzqBJEWB/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/43.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>43. 家中管家</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 10:31</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1uuzqBJEq4/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/44.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>44. 萝卜快跑</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 12:00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1uuzqBJEtu/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/45.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>45. 以规模铸就优势：大模型的兴起与演进</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 11:39</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1uuzqBJEzh/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/46.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>46. AI新纪元的全能王者：多模态大模型</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 11:40</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1VczqBREEv/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/47.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>47. 大模型：从基础到垂域</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 11:25</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1eczqBREpc/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/48.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>48. “AI”上创作</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 12:32</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV1VFzqBxEoY/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/49.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>49. 全新科学发现新范式——AI for Science</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 12:03</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-card-mini-l" onclick="window.open('https://www.bilibili.com/video/BV15FzqBxEq3/?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                    <div class="video-thumb-mini" style="background-image: url('./AI_COURSE/image/50.jpg');">
+                                        <i class="fas fa-play-circle play-icon"></i>
+                                    </div>
+                                    <div class="video-info-mini">
+                                        <h5>50. 玩转大模型</h5>
+                                        <div class="video-stats">
+                                            <span><i class="fas fa-clock"></i> 13:15</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="view-all-btn">
+                            <a href="https://space.bilibili.com/1562372262/lists/7275234?type=season" target="_blank">
+                                <i class="fab fa-bilibili"></i>
+                                查看完整合集（50个视频）
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 中间：教师信息 ========== -->
+        <div class="pane center">
+            <div class="instructor-hub">
+                <div class="scan-line"></div>
+                
+                <div class="avatar-wrap">
+                    <div class="tech-ring"></div>
+                    <div class="avatar-inner" style="background-image: url('./AI_COURSE/image/R.png');"></div>
+                </div>
+                
+                <div class="info-container">
+    
+                    <div class="name-row">
+                        <div class="name-label">
+                            <i class="fas fa-user-tie" style="margin-right:8px;"></i> 课程负责人
+                        </div>
+                        
+                        <div class="name-content">丛润民</div>
+                    </div>
+                    
+                    <div class="title-row">
+                        <p>
+                            <i class="fas fa-id-badge"></i>
+                            教授、博导、教育部青年长江学者
+                        </p>
+                        
+                        <p>
+                            <i class="fas fa-university"></i>
+                            山东大学控制科学与工程学院
+                        </p>
+                    
+                        <p style="white-space: nowrap;">
+                            <i class="fas fa-user-tie"></i>
+                            研究方向：人工智能、具身感知、视觉计算等
+                        </p>
+                    </div>
+                    
+                
+                </div>
+            
+                <div class="visitor-panel">
+                    <div class="status-dot"></div>
+                    <div class="visitor-label">总浏览量 </div>
+                    <div class="visitor-num">
+                        <span id="busuanzi_value_site_pv">
+                            <i class="fas fa-spinner fa-spin" style="font-size:1rem;"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 右侧：专业教育 ========== -->
+        <div class="pane right">
+            <div class="pane-header-area">
+                <div class="header-main-group">
+                    <i class="fas fa-laptop-code" style="color: var(--neon-purple)"></i>
+                    <h2 style="color: var(--neon-purple)">专业教育</h2>
+                </div>
+                
+                <div class="scroll-hint">Professional Education</div>
+            </div>
+
+            <div class="content-stream">
+                <!-- 介绍卡片 -->
+                <div class="intro-dashboard">
+                    <div class="intro-text">
+                        <h3>人工智能基础与实践 (sd017341D0)</h3>
+                        <p>面向自动化、计算机、通信、电子等信息专业的人工智能专业课</p>
+                    </div>
+                    <div class="intro-tags">
+                        <span>#专业教育</span>
+                        <span>#AI理论</span>
+                        <span>#AI实践</span>
+                    </div>
+                </div>
+
+                <!-- 理论课程章节 -->
+                <div class="theme-section">
+                    <div class="section-header">
+                        <i class="fas fa-book-reader"></i> 理论课程大纲（16章）
+                    </div>
+                    <div class="chapter-accordion">
+                        <!-- 第1章 -->
+                        <div class="chapter-item">
+                            <div class="chapter-header" onclick="toggleChapter(this)">
+                                <div class="chapter-title">
+                                    <div class="chapter-icon">01</div>
+                                    <span>人工智能概论</span>
+                                </div>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </div>
+                            <div class="chapter-content">
+                                <div class="chapter-body">
+                                    <div class="chapter-details">
+                                        人工智能概述及深度学习简介
+                                    </div>
+                                    <div class="chapter-meta">
+                                        <span class="meta-tag">2学时</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第2章 -->
+                        <div class="chapter-item">
+                            <div class="chapter-header" onclick="toggleChapter(this)">
+                                <div class="chapter-title">
+                                    <div class="chapter-icon">02</div>
+                                    <span>机器学习基础</span>
+                                </div>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </div>
+                            <div class="chapter-content">
+                                <div class="chapter-body">
+                                    <div class="chapter-details">
+                                        机器学习方法及常用模型
+                                    </div>
+                                    <div class="chapter-meta">
+                                        <span class="meta-tag">2学时</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第3章 -->
+                        <div class="chapter-item">
+                            <div class="chapter-header" onclick="toggleChapter(this)">
+                                <div class="chapter-title">
+                                    <div class="chapter-icon">03</div>
+                                    <span>前馈神经网络</span>
+                                </div>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </div>
+                            <div class="chapter-content">
+                                <div class="chapter-body">
+                                    <div class="chapter-details">
+                                        神经网络结构及多层前馈网络
+                                    </div>
+                                    <div class="chapter-meta">
+                                        <span class="meta-tag">2学时</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第4章 -->
+                        <div class="chapter-item">
+                            <div class="chapter-header" onclick="toggleChapter(this)">
+                                <div class="chapter-title">
+                                    <div class="chapter-icon">04</div>
+                                    <span>神经网络优化</span>
+                                </div>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </div>
+                            <div class="chapter-content">
+                                <div class="chapter-body">
+                                    <div class="chapter-details">
+                                        反向传播与梯度计算、深度神经网络优化
+                                    </div>
+                                    <div class="chapter-meta">
+                                        <span class="meta-tag">2学时</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第5章 -->
+                        <div class="chapter-item">
+                            <div class="chapter-header" onclick="toggleChapter(this)">
+                                <div class="chapter-title">
+                                    <div class="chapter-icon">05</div>
+                                    <span>卷积神经网络 I</span>
+                                </div>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </div>
+                            <div class="chapter-content">
+                                <div class="chapter-body">
+                                    <div class="chapter-details">
+                                        卷积相关操作
+                                    </div>
+                                    <div class="chapter-meta">
+                                        <span class="meta-tag">2学时</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第6章 -->
+                        <div class="chapter-item">
+                            <div class="chapter-header" onclick="toggleChapter(this)">
+                                <div class="chapter-title">
+                                    <div class="chapter-icon">06</div>
+                                    <span>卷积神经网络 II</span>
+                                </div>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </div>
+                            <div class="chapter-content">
+                                <div class="chapter-body">
+                                    <div class="chapter-details">
+                                        经典卷积神经网络
+                                    </div>
+                                    <div class="chapter-meta">
+                                        <span class="meta-tag">2学时</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第7章 -->
+                        <div class="chapter-item">
+                            <div class="chapter-header" onclick="toggleChapter(this)">
+                                <div class="chapter-title">
+                                    <div class="chapter-icon">07</div>
+                                    <span>循环神经网络 I</span>
+                                </div>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </div>
+                            <div class="chapter-content">
+                                <div class="chapter-body">
+                                    <div class="chapter-details">
+                                        循环神经网络介绍
+                                    </div>
+                                    <div class="chapter-meta">
+                                        <span class="meta-tag">2学时</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第8章 -->
+                        <div class="chapter-item">
+                            <div class="chapter-header" onclick="toggleChapter(this)">
+                                <div class="chapter-title">
+                                    <div class="chapter-icon">08</div>
+                                    <span>循环神经网络 II</span>
+                                </div>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </div>
+                            <div class="chapter-content">
+                                <div class="chapter-body">
+                                    <div class="chapter-details">
+                                        长程依赖问题及LSTM、GRU
+                                    </div>
+                                    <div class="chapter-meta">
+                                        <span class="meta-tag">2学时</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第9章 -->
+                        <div class="chapter-item">
+                            <div class="chapter-header" onclick="toggleChapter(this)">
+                                <div class="chapter-title">
+                                    <div class="chapter-icon">09</div>
+                                    <span>强化学习 I</span>
+                                </div>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </div>
+                            <div class="chapter-content">
+                                <div class="chapter-body">
+                                    <div class="chapter-details">
+                                        马尔可夫决策过程、强化学习
+                                    </div>
+                                    <div class="chapter-meta">
+                                        <span class="meta-tag">2学时</span>
+                                        <span class="meta-tag">决策智能</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第10章 -->
+                        <div class="chapter-item">
+                            <div class="chapter-header" onclick="toggleChapter(this)">
+                                <div class="chapter-title">
+                                    <div class="chapter-icon">10</div>
+                                    <span>强化学习 II</span>
+                                </div>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </div>
+                            <div class="chapter-content">
+                                <div class="chapter-body">
+                                    <div class="chapter-details">
+                                        深度强化学习、大模型强化学习
+                                    </div>
+                                    <div class="chapter-meta">
+                                        <span class="meta-tag">2学时</span>
+                                        <span class="meta-tag">前沿技术</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第11章 -->
+                        <div class="chapter-item">
+                            <div class="chapter-header" onclick="toggleChapter(this)">
+                                <div class="chapter-title">
+                                    <div class="chapter-icon">11</div>
+                                    <span>先进神经网络架构</span>
+                                </div>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </div>
+                            <div class="chapter-content">
+                                <div class="chapter-body">
+                                    <div class="chapter-details">
+                                        Transformer架构及其变种、Mamba等
+                                    </div>
+                                    <div class="chapter-meta">
+                                        <span class="meta-tag">2学时</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第12章 -->
+                        <div class="chapter-item">
+                            <div class="chapter-header" onclick="toggleChapter(this)">
+                                <div class="chapter-title">
+                                    <div class="chapter-icon">12</div>
+                                    <span>生成式人工智能</span>
+                                </div>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </div>
+                            <div class="chapter-content">
+                                <div class="chapter-body">
+                                    <div class="chapter-details">
+                                        VAE、GAN、Diffusion等
+                                    </div>
+                                    <div class="chapter-meta">
+                                        <span class="meta-tag">2学时</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第13章 -->
+                        <div class="chapter-item">
+                            <div class="chapter-header" onclick="toggleChapter(this)">
+                                <div class="chapter-title">
+                                    <div class="chapter-icon">13</div>
+                                    <span>大模型原理与应用</span>
+                                </div>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </div>
+                            <div class="chapter-content">
+                                <div class="chapter-body">
+                                    <div class="chapter-details">
+                                        大模型演进历程、预训练与微调范式
+                                    </div>
+                                    <div class="chapter-meta">
+                                        <span class="meta-tag">2学时</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第14章 -->
+                        <div class="chapter-item">
+                            <div class="chapter-header" onclick="toggleChapter(this)">
+                                <div class="chapter-title">
+                                    <div class="chapter-icon">14</div>
+                                    <span>人工智能应用 I </span>
+                                </div>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </div>
+                            <div class="chapter-content">
+                                <div class="chapter-body">
+                                    <div class="chapter-details">
+                                        AI在视觉感知中的应用
+                                    </div>
+                                    <div class="chapter-meta">
+                                        <span class="meta-tag">2学时</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第15章 -->
+                        <div class="chapter-item">
+                            <div class="chapter-header" onclick="toggleChapter(this)">
+                                <div class="chapter-title">
+                                    <div class="chapter-icon">15</div>
+                                    <span>人工智能应用 II </span>
+                                </div>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </div>
+                            <div class="chapter-content">
+                                <div class="chapter-body">
+                                    <div class="chapter-details">
+                                        AI在机器人、具身智能中的应用
+                                    </div>
+                                    <div class="chapter-meta">
+                                        <span class="meta-tag">2学时</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第16章 -->
+                        <div class="chapter-item">
+                            <div class="chapter-header" onclick="toggleChapter(this)">
+                                <div class="chapter-title">
+                                    <div class="chapter-icon">16</div>
+                                    <span>人工智能应用 III </span>
+                                </div>
+                                <i class="fas fa-chevron-down toggle-icon"></i>
+                            </div>
+                            <div class="chapter-content">
+                                <div class="chapter-body">
+                                    <div class="chapter-details">
+                                        AI for Science、智慧医疗、智慧生活等
+                                    </div>
+                                    <div class="chapter-meta">
+                                        <span class="meta-tag">2学时</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 参考视频 -->
+                <div class="theme-section">
+                    <div class="theme-section">
+                        <div class="section-header">
+                            <i class="fab fa-bilibili"></i> 知识点视频合集
+                        </div>
+                        <div class="bilibili-carousel">
+                            <div class="carousel-wrapper">
+                                <div class="carousel-track" id="video-track">
+                                    <!-- 示例视频卡片（实际应该有50个） -->
+                                    <div class="video-card-mini-r" onclick="window.open('https://www.bilibili.com/video/BV1HN4y1g7g4?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                        <div class="video-thumb-mini-r" style="background-image: url('./AI_COURSE/image/pd/1.jpg');">
+                                            <i class="fas fa-play-circle play-icon"></i>
+                                        </div>
+                                        <div class="video-info-mini">
+                                            <h5>1. 绪论</h5>
+                                            <div class="video-stats">
+                                                <span><i class="fas fa-clock"></i> 01:35:49</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="video-card-mini-r" onclick="window.open('https://www.bilibili.com/video/BV1cZ4y1Y7eu?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                        <div class="video-thumb-mini-r" style="background-image: url('./AI_COURSE/image/pd/2.jpg');">
+                                            <i class="fas fa-play-circle play-icon"></i>
+                                        </div>
+                                        <div class="video-info-mini">
+                                            <h5>2. 基础知识</h5>
+                                            <div class="video-stats">
+                                                <span><i class="fas fa-clock"></i> 01:34:43</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="video-card-mini-r" onclick="window.open('https://www.bilibili.com/video/BV1FY4y177Lg?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                        <div class="video-thumb-mini-r" style="background-image: url('./AI_COURSE/image/pd/3.jpg');">
+                                            <i class="fas fa-play-circle play-icon"></i>
+                                        </div>
+                                        <div class="video-info-mini">
+                                            <h5>3. 深度学习框架简介及Pytorch入门</h5>
+                                            <div class="video-stats">
+                                                <span><i class="fas fa-clock"></i> 01:02:52</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="video-card-mini-r" onclick="window.open('https://www.bilibili.com/video/BV1nU4y1B7J3?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                        <div class="video-thumb-mini-r" style="background-image: url('./AI_COURSE/image/pd/4.jpg');">
+                                            <i class="fas fa-play-circle play-icon"></i>
+                                        </div>
+                                        <div class="video-info-mini">
+                                            <h5>4. 深度前馈网络</h5>
+                                            <div class="video-stats">
+                                                <span><i class="fas fa-clock"></i> 01:41:20</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="video-card-mini-r" onclick="window.open('https://www.bilibili.com/video/BV1YV4y1J7dz?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                        <div class="video-thumb-mini-r" style="background-image: url('./AI_COURSE/image/pd/5.jpg');">
+                                            <i class="fas fa-play-circle play-icon"></i>
+                                        </div>
+                                        <div class="video-info-mini">
+                                            <h5>5. 深度模型优化与正则化</h5>
+                                            <div class="video-stats">
+                                                <span><i class="fas fa-clock"></i> 01:39:07</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="video-card-mini-r" onclick="window.open('https://www.bilibili.com/video/BV1vF411P7PY?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                        <div class="video-thumb-mini-r" style="background-image: url('./AI_COURSE/image/pd/s1.jpg');">
+                                            <i class="fas fa-play-circle play-icon"></i>
+                                        </div>
+                                        <div class="video-info-mini">
+                                            <h5>实验1. Pytorch基本操作</h5>
+                                            <div class="video-stats">
+                                                <span><i class="fas fa-clock"></i> 01:07:13</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="video-card-mini-r" onclick="window.open('https://www.bilibili.com/video/BV1Dt4y1G7ib?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                        <div class="video-thumb-mini-r" style="background-image: url('./AI_COURSE/image/pd/s2.jpg');">
+                                            <i class="fas fa-play-circle play-icon"></i>
+                                        </div>
+                                        <div class="video-info-mini">
+                                            <h5>实验2. 前馈神经网络</h5>
+                                            <div class="video-stats">
+                                                <span><i class="fas fa-clock"></i> 01:25:28</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="video-card-mini-r" onclick="window.open('https://www.bilibili.com/video/BV1ja411S7jy?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                        <div class="video-thumb-mini-r" style="background-image: url('./AI_COURSE/image/pd/6.jpg');">
+                                            <i class="fas fa-play-circle play-icon"></i>
+                                        </div>
+                                        <div class="video-info-mini">
+                                            <h5>6. 卷积神经网络 I </h5>
+                                            <div class="video-stats">
+                                                <span><i class="fas fa-clock"></i> 01:31:15</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="video-card-mini-r" onclick="window.open('https://www.bilibili.com/video/BV16t4y1V71n?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                        <div class="video-thumb-mini-r" style="background-image: url('./AI_COURSE/image/pd/7.jpg');">
+                                            <i class="fas fa-play-circle play-icon"></i>
+                                        </div>
+                                        <div class="video-info-mini">
+                                            <h5>7. 卷积神经网络 II </h5>
+                                            <div class="video-stats">
+                                                <span><i class="fas fa-clock"></i> 01:45:25</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="video-card-mini-r" onclick="window.open('https://www.bilibili.com/video/BV14S4y147U6?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                        <div class="video-thumb-mini-r" style="background-image: url('./AI_COURSE/image/pd/s3.jpg');">
+                                            <i class="fas fa-play-circle play-icon"></i>
+                                        </div>
+                                        <div class="video-info-mini">
+                                            <h5>实验3. 卷积神经网络</h5>
+                                            <div class="video-stats">
+                                                <span><i class="fas fa-clock"></i> 01:40:39</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="video-card-mini-r" onclick="window.open('https://www.bilibili.com/video/BV1sa411o7AV?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                        <div class="video-thumb-mini-r" style="background-image: url('./AI_COURSE/image/pd/8.jpg');">
+                                            <i class="fas fa-play-circle play-icon"></i>
+                                        </div>
+                                        <div class="video-info-mini">
+                                            <h5>8. 循环神经网络 I </h5>
+                                            <div class="video-stats">
+                                                <span><i class="fas fa-clock"></i> 01:39:03</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="video-card-mini-r" onclick="window.open('https://www.bilibili.com/video/BV1DW4y1a7Jb?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                        <div class="video-thumb-mini-r" style="background-image: url('./AI_COURSE/image/pd/9.jpg');">
+                                            <i class="fas fa-play-circle play-icon"></i>
+                                        </div>
+                                        <div class="video-info-mini">
+                                            <h5>9. 循环神经网络 II </h5>
+                                            <div class="video-stats">
+                                                <span><i class="fas fa-clock"></i> 01:40:28</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="video-card-mini-r" onclick="window.open('https://www.bilibili.com/video/BV1Ag411C7mG?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                        <div class="video-thumb-mini-r" style="background-image: url('./AI_COURSE/image/pd/10.jpg');">
+                                            <i class="fas fa-play-circle play-icon"></i>
+                                        </div>
+                                        <div class="video-info-mini">
+                                            <h5>10. 无监督模型</h5>
+                                            <div class="video-stats">
+                                                <span><i class="fas fa-clock"></i> 01:41:44</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="video-card-mini-r" onclick="window.open('https://www.bilibili.com/video/BV1T14y1t7x4?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                        <div class="video-thumb-mini-r" style="background-image: url('./AI_COURSE/image/pd/s4.jpg');">
+                                            <i class="fas fa-play-circle play-icon"></i>
+                                        </div>
+                                        <div class="video-info-mini">
+                                            <h5>实验4. 循环神经网络</h5>
+                                            <div class="video-stats">
+                                                <span><i class="fas fa-clock"></i> 01:07:48</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                    
+                                    <div class="video-card-mini-r" onclick="window.open('https://www.bilibili.com/video/BV1jB4y157jd?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                        <div class="video-thumb-mini-r" style="background-image: url('./AI_COURSE/image/pd/11.jpg');">
+                                            <i class="fas fa-play-circle play-icon"></i>
+                                        </div>
+                                        <div class="video-info-mini">
+                                            <h5>11. 深度学习前沿与局限</h5>
+                                            <div class="video-stats">
+                                                <span><i class="fas fa-clock"></i> 08:55</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="video-card-mini-r" onclick="window.open('https://www.bilibili.com/video/BV1JU4y1k7js?spm_id_from=333.1387.collection.video_card.click', '_blank')">
+                                        <div class="video-thumb-mini-r" style="background-image: url('./AI_COURSE/image/pd/12.jpg');">
+                                            <i class="fas fa-play-circle play-icon"></i>
+                                        </div>
+                                        <div class="video-info-mini">
+                                            <h5>12. 深度学习应用</h5>
+                                            <div class="video-stats">
+                                                <span><i class="fas fa-clock"></i> 59:21</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    <div class="view-all-btn-r">
+                        <a href="https://space.bilibili.com/1562372262/lists/2571210?type=series" target="_blank">
+                            <i class="fab fa-bilibili"></i>
+                            查看完整合集（16个视频）
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <script>
+        // 章节折叠功能
+        function toggleChapter(header) {
+            const item = header.parentElement;
+            const allItems = document.querySelectorAll('.chapter-item');
+            
+            // 如果点击的是已激活的，就关闭它
+            if (item.classList.contains('active')) {
+                item.classList.remove('active');
+            } else {
+                // 关闭所有其他章节
+                allItems.forEach(i => i.classList.remove('active'));
+                // 打开当前章节
+                item.classList.add('active');
+            }
+        }
+
+        // 粒子背景
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                else if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                else if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            particles = [];
+            for(let i = 0; i < 80; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+    </script>
+</body>
+</html>
