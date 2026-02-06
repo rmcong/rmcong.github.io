@@ -1401,6 +1401,221 @@
                 grid-template-columns: 1fr;  /* 小屏幕恢复单列 */
             }
         }
+
+        /* ============ 教学团队样式 ============ */
+        .team-section {
+            margin: 40px 0 50px 0;
+        }
+
+        .team-section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .pane.left .team-section-header {
+            color: var(--neon-blue);
+            border-color: var(--neon-blue);
+        }
+
+        .pane.right .team-section-header {
+            color: var(--neon-purple);
+            border-color: var(--neon-purple);
+        }
+
+        .team-section-header i {
+            font-size: 1.3rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            padding: 10px;
+            justify-content: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .teacher-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 25px 20px;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .teacher-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .teacher-card:hover::before {
+            opacity: 1;
+            transform: translate(25%, 25%);
+        }
+
+        .teacher-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .pane.left .teacher-card:hover {
+            border-color: var(--neon-blue);
+            box-shadow: 0 15px 35px rgba(0,243,255,0.3);
+        }
+
+        .pane.right .teacher-card:hover {
+            border-color: var(--neon-purple);
+            box-shadow: 0 15px 35px rgba(0,255,157,0.3);
+        }
+
+        .teacher-photo {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            margin: 0 auto 18px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            background-color: #ffffff;
+            background-size: cover;
+            background-position: center 20%;
+            background-repeat: no-repeat;
+        }
+
+        /* 当没有背景图片时显示默认样式 */
+        .teacher-photo:not([style*="background-image"]) {
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+        }
+
+        .pane.left .teacher-photo:not([style*="background-image"]) {
+            background: linear-gradient(135deg, rgba(0,243,255,0.15), rgba(0,243,255,0.05));
+            color: var(--neon-blue);
+        }
+
+        .pane.right .teacher-photo:not([style*="background-image"]) {
+            background: linear-gradient(135deg, rgba(0,255,157,0.15), rgba(0,255,157,0.05));
+            color: var(--neon-purple);
+        }
+
+        /* 照片的光圈边框 - 已禁用 */
+        .teacher-photo::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            padding: 2px;
+            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        /* 移除悬停时的光圈动画 */
+        /* .teacher-card:hover .teacher-photo::before {
+            opacity: 1;
+            animation: rotate-border 3s linear infinite;
+        } */
+
+        @keyframes rotate-border {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 移除悬停时的缩放和旋转特效 */
+        /* .teacher-card:hover .teacher-photo {
+            transform: scale(1.1) rotate(5deg);
+        } */
+
+        /* 移除悬停时的阴影特效 */
+        /* .pane.left .teacher-card:hover .teacher-photo {
+            box-shadow: 0 0 25px rgba(0,243,255,0.5);
+        } */
+
+        /* 移除悬停时的阴影特效 */
+        /* .pane.right .teacher-card:hover .teacher-photo {
+            box-shadow: 0 0 25px rgba(0,255,157,0.5);
+        } */
+
+        /* 默认图标（当有图片时隐藏） */
+        .teacher-photo i {
+            position: relative;
+            z-index: 1;
+        }
+
+        .teacher-photo[style*="background-image"] i {
+            display: none;
+        }
+
+        .teacher-name {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.95);
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .pane.left .teacher-card:hover .teacher-name {
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px rgba(0,243,255,0.6);
+        }
+
+        .pane.right .teacher-card:hover .teacher-name {
+            color: var(--neon-purple);
+            text-shadow: 0 0 10px rgba(0,255,157,0.6);
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 1400px) {
+            .team-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 20px;
+                max-width: 750px;
+            }
+            .teacher-photo {
+                width: 85px;
+                height: 85px;
+            }
+            .teacher-photo:not([style*="background-image"]) {
+                font-size: 2.3rem;
+            }
+            .teacher-name {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 1000px) {
+            .team-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 15px;
+                max-width: 600px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1435,6 +1650,41 @@
                         <span>#AI赋能</span>
                     </div>
                 </div>
+
+                <!-- 教学团队板块 -->
+                <div class="team-section">
+                    <div class="team-section-header">
+                        <i class="fas fa-users"></i>
+                        <span>教学团队</span>
+                    </div>
+                    <div class="team-grid">
+                        <div class="teacher-card">
+                            <div class="teacher-photo" style="background-image: url('./AI_COURSE/photo/crm.png');">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="teacher-name">丛润民</div>
+                        </div>
+                        <div class="teacher-card">
+                            <div class="teacher-photo" style="background-image: url('./AI_COURSE/photo/sy.png');">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="teacher-name">史洋</div>
+                        </div>
+                        <div class="teacher-card">
+                            <div class="teacher-photo" style="background-image: url('./AI_COURSE/photo/zjl.jpg');">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="teacher-name">张敬林</div>
+                        </div>
+                        <div class="teacher-card">
+                            <div class="teacher-photo" style="background-image: url('./AI_COURSE/photo/jcy.png');">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="teacher-name">蒋超亚</div>
+                        </div>
+                    </div>
+                </div>
+
 
                 <!-- 课程模块 - 双栏 -->
                 <div class="theme-section">
@@ -2383,6 +2633,65 @@
                     </div>
                 </div>
 
+                <!-- 教学团队板块 -->
+                <div class="team-section">
+                    <div class="team-section-header">
+                        <i class="fas fa-users"></i>
+                        <span>教学团队</span>
+                    </div>
+                    <div class="team-grid">
+                        <div class="teacher-card">
+                            <div class="teacher-photo" style="background-image: url('./AI_COURSE/photo/crm.png');">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="teacher-name">丛润民</div>
+                        </div>
+                        <div class="teacher-card">
+                            <div class="teacher-photo" style="background-image: url('./AI_COURSE/photo/zjl.jpg');">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="teacher-name">张敬林</div>
+                        </div>
+                        <div class="teacher-card">
+                            <div class="teacher-photo" style="background-image: url('./AI_COURSE/photo/zc.jpg');">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="teacher-name">张聪</div>
+                        </div>
+                        <div class="teacher-card">
+                            <div class="teacher-photo" style="background-image: url('./AI_COURSE/photo/hwc.png');">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="teacher-name">韩文程</div>
+                        </div>
+                        <div class="teacher-card">
+                            <div class="teacher-photo" style="background-image: url('./AI_COURSE/photo/jx.png');">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="teacher-name">贾潇</div>
+                        </div>
+                        <div class="teacher-card">
+                            <div class="teacher-photo" style="background-image: url('./AI_COURSE/photo/jcy.png');">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="teacher-name">蒋超亚</div>
+                        </div>
+                        <div class="teacher-card">
+                            <div class="teacher-photo" style="background-image: url('./AI_COURSE/photo/cjy.png');">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="teacher-name">程吉禹</div>
+                        </div>
+                        <div class="teacher-card">
+                            <div class="teacher-photo" style="background-image: url('./AI_COURSE/photo/lzh.jpg');">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="teacher-name">李振华</div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <!-- 理论课程章节 -->
                 <div class="theme-section">
                     <div class="section-header">
@@ -2405,6 +2714,9 @@
                                     </div>
                                     <div class="chapter-meta">
                                         <span class="meta-tag">2学时</span>
+                                        <a href="./AI_COURSE/pdf/z/1.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                            <i class="fas fa-download"></i> 课件
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -2426,6 +2738,9 @@
                                     </div>
                                     <div class="chapter-meta">
                                         <span class="meta-tag">2学时</span>
+                                        <a href="./AI_COURSE/pdf/z/2.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                            <i class="fas fa-download"></i> 课件
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -2447,6 +2762,9 @@
                                     </div>
                                     <div class="chapter-meta">
                                         <span class="meta-tag">2学时</span>
+                                        <a href="./AI_COURSE/pdf/z/3.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                            <i class="fas fa-download"></i> 课件
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -2468,6 +2786,9 @@
                                     </div>
                                     <div class="chapter-meta">
                                         <span class="meta-tag">2学时</span>
+                                        <a href="./AI_COURSE/pdf/z/4.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                            <i class="fas fa-download"></i> 课件
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -2489,6 +2810,9 @@
                                     </div>
                                     <div class="chapter-meta">
                                         <span class="meta-tag">2学时</span>
+                                        <a href="./AI_COURSE/pdf/z/5.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                            <i class="fas fa-download"></i> 课件
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -2510,6 +2834,9 @@
                                     </div>
                                     <div class="chapter-meta">
                                         <span class="meta-tag">2学时</span>
+                                        <a href="./AI_COURSE/pdf/z/6.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                            <i class="fas fa-download"></i> 课件
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -2531,6 +2858,9 @@
                                     </div>
                                     <div class="chapter-meta">
                                         <span class="meta-tag">2学时</span>
+                                        <a href="./AI_COURSE/pdf/z/7.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                            <i class="fas fa-download"></i> 课件
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -2552,6 +2882,9 @@
                                     </div>
                                     <div class="chapter-meta">
                                         <span class="meta-tag">2学时</span>
+                                        <a href="./AI_COURSE/pdf/z/8.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                            <i class="fas fa-download"></i> 课件
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -2574,6 +2907,9 @@
                                     <div class="chapter-meta">
                                         <span class="meta-tag">2学时</span>
                                         <span class="meta-tag">决策智能</span>
+                                        <a href="./AI_COURSE/pdf/z/9.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                            <i class="fas fa-download"></i> 课件
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -2596,6 +2932,9 @@
                                     <div class="chapter-meta">
                                         <span class="meta-tag">2学时</span>
                                         <span class="meta-tag">前沿技术</span>
+                                        <a href="./AI_COURSE/pdf/z/10.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                            <i class="fas fa-download"></i> 课件
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -2617,6 +2956,9 @@
                                     </div>
                                     <div class="chapter-meta">
                                         <span class="meta-tag">2学时</span>
+                                        <a href="./AI_COURSE/pdf/z/11.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                            <i class="fas fa-download"></i> 课件
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -2638,6 +2980,9 @@
                                     </div>
                                     <div class="chapter-meta">
                                         <span class="meta-tag">2学时</span>
+                                        <a href="./AI_COURSE/pdf/z/12.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                            <i class="fas fa-download"></i> 课件
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -2659,6 +3004,9 @@
                                     </div>
                                     <div class="chapter-meta">
                                         <span class="meta-tag">2学时</span>
+                                        <a href="./AI_COURSE/pdf/z/13.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                            <i class="fas fa-download"></i> 课件
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -2680,6 +3028,9 @@
                                     </div>
                                     <div class="chapter-meta">
                                         <span class="meta-tag">2学时</span>
+                                        <a href="./AI_COURSE/pdf/z/14.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                            <i class="fas fa-download"></i> 课件
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -2701,6 +3052,9 @@
                                     </div>
                                     <div class="chapter-meta">
                                         <span class="meta-tag">2学时</span>
+                                        <a href="./AI_COURSE/pdf/z/15.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                            <i class="fas fa-download"></i> 课件
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -2722,6 +3076,9 @@
                                     </div>
                                     <div class="chapter-meta">
                                         <span class="meta-tag">2学时</span>
+                                        <a href="./AI_COURSE/pdf/z/16.pdf" class="download-btn" target="_blank" style="text-decoration: none;">
+                                            <i class="fas fa-download"></i> 课件
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -2733,7 +3090,7 @@
                 <div class="theme-section">
                     <div class="theme-section">
                         <div class="section-header">
-                            <i class="fab fa-bilibili"></i> 参考视频合集
+                            <i class="fab fa-bilibili"></i> 知识点视频合集
                         </div>
                         <div class="bilibili-carousel">
                             <div class="carousel-wrapper">
